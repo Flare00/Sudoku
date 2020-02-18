@@ -1,33 +1,26 @@
 #include "doc.h"
-#include "resolution_1.h"
+#include "resolution.h"
 
-int main(int argc, char * argv[]){
-	//Matrice representant un sudoku.
-	/*int8_t sudoku_ex_mat[9][9]={{0,2,0,3,1,7,0,0,0},
-								{0,0,0,0,0,9,8,2,1},
-								{5,4,0,0,0,0,0,3,0},
-								{0,0,9,0,6,2,4,0,3},
+
+int main(int argc, char *argv[]){
+
+	/*int8_t sudoku_ex_mat[9][9]={{0,2,0,3,1,7,0,0,0,
+								{0,0,0,0,0,9,8,2,1,
+								{5,4,0,0,0,0,0,3,0,
+								{0,0,9,0,6,2,4,0,3,
 								{0,0,0,1,3,0,0,0,6},
 								{0,0,7,0,8,4,1,0,2},
 								{8,1,0,0,0,0,0,7,0},
 								{0,0,0,0,0,1,2,4,8},
 								{0,6,0,4,7,8,0,0,0}};*/
-	//chaine de caractère representant le meme sudoku, [0] = N = format du sudoku (NxN); [1 -> 9*9] = valeur de la case correspondant a la coordonnée [(n-1)/9][(n-1)%9];
-	//char sudoku_ex_str1[81] = "020317000000009821540000030009062403000130006007084102810000070000001248060478000";
+    unsigned int entree[81] = {0,2,0,3,1,7,0,0,0,0,0,0,0,0,9,8,2,1,5,4,0,0,0,0,0,3,0,0,0,9,0,6,2,4,0,3,0,0,0,1,3,0,0,0,6,0,0,7,0,8,4,1,0,2,8,1,0,0,0,0,0,7,0,0,0,0,0,0,1,2,4,8,0,6,0,4,7,8,0,0,0};
+	size_t taille = DIMENSION*DIMENSION; /* Taille de la grille*/
 
-	//chaine 16*16
-	size_t n = 4;
-	size_t hauteur = n*n;
-	char sudoku_ex_str2[256] = "000000780ABCD00G00781234D00G0ABC0AB0000G12340078D00G0ABC0078123400436587A0CBEDGF658700400000A0CBA000000F00436587EDGFA0CB6587004334127800BC0A000078003412FGDEBC0ABC0AFGDE34127800FGDEBC0A78003412430087650000000087654300GFEDCBA00000GFED430080000000000087654300";
-	
-	//chaine 25*25
-	//char sudoku_ex_str3[625] = "100456789A0000000IJKLMN00000OP123456789ABCDEFGHIJKGHIJKLMNOP123456789ABCDEFBCDEFGHIJKLMNOP123456789A6789ABC000000000MNOP1234551234A6789FBCDEKGHIJP0000PLMNO51234A6789FBCDEKGHIJKGHIJPLM0000000A6789FBCDEFBCDEKGHIJPLMNO5100000089A6789FBCDE00000000NO512343450000067CDEFBIJK00000LMNOPLM3400000A67CDEF000000IJK00NOPLM3451000A67CDEFBCDEFBIJKGHNOPLM3451289A6789A67CDEFBIJKGHNO00034512EKJHI4A6B00000000000OPLMN251700000D4A6B8OPLMNEKJHI4000000000OPLMNEKJHI0000000GCDOPLMNEKJHI251734A6B80000000JHI9FGCD4A6B825173JIFK0D895673421H00000000000421HEBACD8956M0000J000GD805673421M0OPLJIFKGHEBACHEBACMNOPLJ0FKG03421089560000000FKGHEBACD000073421";
+	uint8_t** grille = (uint8_t **)creerGrille(entree, taille);
 
-	int8_t** grille = creer_grille(sudoku_ex_str2, hauteur);
+	afficherGrille(taille, grille);
 
-	afficherGrille(hauteur, grille);
-
-	detruire_grille(grille, hauteur);
+	detruireGrille(grille, taille);
 
 	return 0;
 }
