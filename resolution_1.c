@@ -14,14 +14,7 @@ int8_t **creer_grille(char *chaine, size_t hauteur)
 		for (size_t j = 0; j < hauteur; j++)
 		{
 			int8_t c = chaine[x+j];
-			if(c>=48 && c<=57) // ['0';'9']
-				grille[i][j] = c-48;
-			else if(c>=65 && c<=90) // ['A';'Z']
-				grille[i][j] = c-55;
-			else if(c>=97 && c<=122) // ['a';'z']
-				grille[i][j] = c-61;
-			else if(c>=62 && c<= 64) // {'>' ; '?' ; '@'}
-				grille[i][j] = c;
+			grille[i][j] = characterMap[c];
 			else
 			{
 				fprintf(stderr, "Modifiez le n du main ou la chaine utilisée pour la crétion de la grille\n");
@@ -32,7 +25,6 @@ int8_t **creer_grille(char *chaine, size_t hauteur)
 
 	return grille;
 }
-
 void detruire_grille(int8_t **grille, size_t hauteur)
 {
 	for (size_t i = 0; i < hauteur; i++)

@@ -6,6 +6,8 @@
 #include <stdlib.h>
 #include <assert.h>
 
+char characterMap[64]  =  "123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ>?@";
+
 /** @brief Creer une grille à partir d'une chaine de caractères
   * @param char* chaine : chaine de caractères à repartir dans la grille
   * @param size_t hauteur : nombre de case par ligne ou colonne de la grille
