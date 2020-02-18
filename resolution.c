@@ -9,6 +9,7 @@ void detruireGrille(uint8_t **grille, size_t taille)
 	}
 	free(grille);
 }
+
 uint8_t **creerGrille(int *chaine, size_t taille)
 {
 	uint8_t **grille = malloc(taille * sizeof(uint8_t*));
@@ -25,21 +26,18 @@ uint8_t **creerGrille(int *chaine, size_t taille)
                 {
                     uint8_t c = chaine[x+j];
                     grille[i][j] = c;
-
                 }
-
             }
-             else{
-                detruireGrille(grille,i);
+            else{
+                detruireGrille(grille, i);
                 printf("Erreur d'allocation de mémoire !\n");
-                exit(0);
-             }
+                exit(1);
+            }
         }
     }
     else{
-        free(grille);
         printf("Erreur d'allocation de mémoire !\n");
-        exit(0);
+        exit(1);
     }
 	return grille;
 }
@@ -67,5 +65,4 @@ void afficherGrille(size_t taille, uint8_t **grille)
 
 	}
 	printf("\n");
-
 }
