@@ -1,6 +1,6 @@
 #include "doc.h"
-// #include "resolution.h"
-#include "resoudre.h"
+#include "grille.h"
+#include "bitBoard.h"
 
 
 int main(int argc, char *argv[]){

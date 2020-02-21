@@ -1,4 +1,4 @@
-#include "resolution.h"
+#include "grille.h"
 
 
 void detruireGrille(uint8_t **grille, size_t taille)
@@ -43,12 +43,12 @@ uint8_t **creerGrille(int *chaine, size_t taille)
 }
 
 
-void afficherGrille(size_t taille, uint8_t **grille)
+void afficherGrille(size_t taille, size_t n, uint8_t **grille)
 {
 	printf("\n\nGrille : \n");
 	for(size_t i = 0; i < taille; i++)
 	{
-	    if(i%DIMENSION==0)
+	    if(i%n==0)
         {
             for(size_t k=0;k<12;k++)
                 printf(" - ");
@@ -57,7 +57,7 @@ void afficherGrille(size_t taille, uint8_t **grille)
 
 		for(size_t j = 0; j < taille; j++)
 		{
-		    if(j%DIMENSION==0)
+		    if(j%n==0)
                 printf(" | ");
             printf(" %d ", grille[i][j]);
 		}

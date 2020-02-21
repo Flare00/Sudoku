@@ -1,13 +1,10 @@
-#ifndef RESOLUTION_H
-#define RESOLUTION_H
+#ifndef GRILLE_H
+#define GRILLE_H
 
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
-
-#define DIMENSION 3
-
 
 /** @brief Creer une grille à partir d'un tableau d'entiers
   * @param int* chaine : tableau d'entiers à repartir dans la grille
@@ -20,6 +17,6 @@ uint8_t **creerGrille(int *chaine, size_t taille);
   * @param size_t taille : nombre de sous-tableau à libérer*/
 void detruireGrille(uint8_t **grille, size_t taille);
 
-void afficherGrille(size_t taille, uint8_t **grille);
+void afficherGrille(size_t taille, size_t n, uint8_t **grille);
 
 #endif
