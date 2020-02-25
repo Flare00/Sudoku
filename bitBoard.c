@@ -50,7 +50,7 @@ void afficherBit(uint64_t candidat, size_t taille)
     {
         // Si le bit de candidat à l'indice i match avec 1, alors on affiche 1
         // Sinon 0
-       printf("%ld ", (candidat>>i)&1);
+       printf("%ld ", (candidat>>(63-i))&1);
     }
     printf("\n");
 }
