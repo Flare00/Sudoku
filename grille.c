@@ -10,7 +10,7 @@ void detruireGrille(uint8_t **grille, size_t taille)
 	free(grille);
 }
 
-uint8_t **creerGrille(int *chaine, size_t taille)
+uint8_t **creerGrille(unsigned int *chaine, size_t taille)
 {
 	uint8_t **grille = malloc(taille * sizeof(uint8_t*));
 	if(grille != NULL)

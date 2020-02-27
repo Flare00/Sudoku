@@ -1,6 +1,7 @@
 #include "doc.h"
 #include "grille.h"
 #include "bitBoard.h"
+#include "liste.h"
 
 
 int main(int argc, char *argv[]){
@@ -20,7 +21,7 @@ int main(int argc, char *argv[]){
 	uint64_t* bbB = malloc(taille * sizeof(uint64_t));
 	assert(bbB != NULL);
 
-	initialiser_bitBoard(grille, taille, n, bbL, bbC, bbB);
+	initialiserBitBoard(grille, taille, n, bbL, bbC, bbB);
 
 	printf("\nBitBoard ligne : \n");
 	afficherBitBoard(taille, bbL);
@@ -31,10 +32,15 @@ int main(int argc, char *argv[]){
 	printf("\nBitBoard block : \n");
 	afficherBitBoard(taille, bbB);
 
+	Liste *liste = rechercheCandidat(taille, n, bbL, bbC, bbB, grille);
+
+	afficherListe(liste);
+
 	detruireGrille(grille, taille);
-	detruire_bitBoard(bbL);
-	detruire_bitBoard(bbC);
-	detruire_bitBoard(bbB);
+	detruireBitBoard(bbL);
+	detruireBitBoard(bbC);
+	detruireBitBoard(bbB);
+	detruireListe(liste);
 
 	return 0;
 }

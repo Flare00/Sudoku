@@ -7,10 +7,10 @@
 #include <assert.h>
 
 /** @brief Creer une grille à partir d'un tableau d'entiers
-  * @param int* chaine : tableau d'entiers à repartir dans la grille
+  * @param unsigned int* chaine : tableau d'entiers à repartir dans la grille
   * @param size_t taille : nombre de case par ligne ou colonne de la grille
   * @return int8_t** : un tableau de caractères non signés à 2 dimensions */
-uint8_t **creerGrille(int *chaine, size_t taille);
+uint8_t **creerGrille(unsigned int *chaine, size_t taille);
 
 /** @brief Destruction de la grille
   * @param int8_t **grille : grille à détruire

@@ -1,6 +1,6 @@
 #include "bitBoard.h"
 
-void initialiser_bitBoard(uint8_t **grille, size_t taille, size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB)
+void initialiserBitBoard(uint8_t **grille, size_t taille, size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB)
 {
     size_t a = 0;
     for(size_t i = 0; i < taille; i++)
@@ -39,27 +39,60 @@ void initialiser_bitBoard(uint8_t **grille, size_t taille, size_t n, uint64_t *b
     }
 }
 
-void detruire_bitBoard(uint64_t *bb)
+void detruireBitBoard(uint64_t *bb)
 {
     free(bb);
 }
 
-void afficherBit(uint64_t candidat, size_t taille)
+void afficherBit(uint64_t candidat)
 {
-    for(size_t i=0; i< taille; i++)
+    for(size_t i=0; i< DIMENSION*DIMENSION; i++)
     {
         // Si le bit de candidat à l'indice i match avec 1, alors on affiche 1
         // Sinon 0
-       printf("%ld ", (candidat>>(63-i))&1);
+       printf("%ld ", (candidat>>i)&1);
     }
     printf("\n");
 }
+void afficherBit_64(uint64_t candidat)
+{
+    for(size_t i=0; i< 64; i++)
+    {
+        // Si le bit de candidat à l'indice i match avec 1, alors on affiche 1
+        // Sinon 0
+       printf("%ld", (candidat>>(63-i))&1);
+    }
+    printf("\n");
+}
+
 
 void afficherBitBoard(size_t taille, uint64_t* bb)
 {
     for(size_t i = 0; i < taille; i++)
     {
-        afficherBit(bb[i], taille);
+        afficherBit(bb[i]);
     }
     return;
+}
+
+Liste* rechercheCandidat(size_t taille, size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, uint8_t** grille)
+{
+    Liste *liste = NULL;
+
+    for(size_t i = 0; i < taille; i++)
+    {
+        size_t tmp = (i/n)*n;
+        for(size_t j = 0; j < taille; j++)
+        {
+            if(!grille[i][j])
+            /* Si la valeur dans une case == 0, on ajoute une liste constituée des
+               des coordonnées de cette case ainsi que l'entier représentant les candidats */
+            {
+                uint64_t mask = pow(2,taille)-1;
+                liste = insertionListe(liste, mask&(~(bbL[i] | bbC[j] | bbB[tmp+j/n])), i, j);
+            }
+        }
+    }
+
+    return liste;
 }
