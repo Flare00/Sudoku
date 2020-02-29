@@ -35,6 +35,10 @@ int main(int argc, char *argv[]){
 	Liste *liste = rechercheCandidat(taille, n, bbL, bbC, bbB, grille);
 
 	afficherListe(liste);
+	res(taille,n,bbL,bbC,bbB,grille,&liste);
+	printf("\nNUMERO DOS\n\n");
+	afficherListe(liste);
+	afficherGrille(taille, n, grille);
 
 	detruireGrille(grille, taille);
 	detruireBitBoard(bbL);

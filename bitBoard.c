@@ -96,3 +96,46 @@ Liste* rechercheCandidat(size_t taille, size_t n, uint64_t *bbL, uint64_t *bbC, 
 
     return liste;
 }
+int insertionValide(uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, uint64_t candidat, uint64_t mask)
+{
+
+    if((mask|candidat&*bbL &*bbC &*bbB))
+    {
+        *bbL|=candidat;
+       *bbC|=candidat;
+        *bbB|=candidat;
+
+        return 1;
+
+    }
+    else
+        return -1;
+
+}
+void res(size_t taille, size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, uint8_t** grille, Liste** l1)
+{
+    uint64_t mask = pow(2,taille)-1;
+    Liste* lp = (*l1);
+
+    while(lp!=NULL)
+    {
+
+       if(lp->population==1)
+       {
+
+            if(insertionValide(&bbL[lp->i],&bbC[lp->j],&bbB[((lp->i)/n)*n+(lp->j)/n],lp->candidats,mask))
+            {
+                grille[lp->i][lp->j]+=1+log2(lp->candidats);
+
+                printf("candidat : %d\n", 1+(int)log2(lp->candidats));
+
+                (*l1)=rechercheCandidat( taille,  n,bbL, bbC, bbB,grille);
+                lp = (*l1);
+
+            }
+       }
+       else
+        lp=lp->next;
+    }
+
+}
