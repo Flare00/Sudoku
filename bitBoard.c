@@ -44,9 +44,9 @@ void detruireBitBoard(uint64_t *bb)
     free(bb);
 }
 
-void afficherBit(uint64_t candidat)
+void afficherBit(uint64_t candidat, size_t taille)
 {
-    for(size_t i=0; i< DIMENSION*DIMENSION; i++)
+    for(size_t i=0; i< taille; i++)
     {
         // Si le bit de candidat à l'indice i match avec 1, alors on affiche 1
         // Sinon 0
@@ -70,7 +70,7 @@ void afficherBitBoard(size_t taille, uint64_t* bb)
 {
     for(size_t i = 0; i < taille; i++)
     {
-        afficherBit(bb[i]);
+        afficherBit(bb[i], taille);
     }
     return;
 }
@@ -78,7 +78,7 @@ void afficherBitBoard(size_t taille, uint64_t* bb)
 Liste* rechercheCandidat(size_t taille, size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, uint8_t** grille)
 {
     Liste *liste = NULL;
-
+    uint64_t mask = (1<<taille)-1;
     for(size_t i = 0; i < taille; i++)
     {
         size_t tmp = (i/n)*n;
@@ -88,7 +88,6 @@ Liste* rechercheCandidat(size_t taille, size_t n, uint64_t *bbL, uint64_t *bbC, 
             /* Si la valeur dans une case == 0, on ajoute une liste constituée des
                des coordonnées de cette case ainsi que l'entier représentant les candidats */
             {
-                uint64_t mask = pow(2,taille)-1;
                 liste = insertionListe(liste, mask&(~(bbL[i] | bbC[j] | bbB[tmp+j/n])), i, j);
             }
         }

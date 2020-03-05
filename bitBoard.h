@@ -8,7 +8,7 @@
 #include <math.h>
 #include "liste.h"
 #include "grille.h"
-#define DIMENSION 3
+
 /** @brief Creer un bitBoard à partir d'une grille
   * @param uint8_t **grille : grille utilisée pour remplir le bitBoard
   * @param size_t taille : nombre de case par ligne ou colonne de la grille
@@ -22,7 +22,7 @@ void initialiserBitBoard(uint8_t **grille, size_t taille, size_t n, uint64_t *bb
   * @param uint64_t** bb : bitBoard à détruire*/
 void detruireBitBoard(uint64_t *bb);
 
-void afficherBit(uint64_t candidat);
+void afficherBit(uint64_t candidat, size_t taille);
 void afficherBit_64(uint64_t candidat);
 
 void afficherBitBoard(size_t taille, uint64_t* bb);
