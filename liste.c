@@ -1,48 +1,73 @@
 #include "bitBoard.h"
 
-uint64_t depilerListe(Liste *sl)
+uint64_t depilerListe(Liste *dl)
 {
     uint64_t candidats;
     Liste *tmp;
-    if(!sl) return -1;
+    if(!dl) return -1;
 
-    tmp = sl->next;
-    candidats = sl->candidats;
+    tmp = dl->next;
+    candidats = dl->candidats;
 
-    free(sl);
-    sl = tmp;
+    free(dl);
+    dl = tmp;
     return candidats;
 }
 
-Liste *insertionListe(Liste *sl, uint64_t candidats, size_t i, size_t j)// on passe la liste par référence
+Liste *insertionListe(Liste *dl, uint64_t candidats, size_t i, size_t j)// on passe la liste par référence
 {
-    Liste *tmp = NULL;
-    Liste *csl = sl;
     Liste *elem = malloc(sizeof(Liste));
     if(!elem) exit(EXIT_FAILURE);
-
     elem->candidats = candidats;
     elem->population = __builtin_popcountll(candidats);// __builtin_popcount directive de gcc qui compte le nombre de bit d'un mot
     elem->i=i;
     elem->j=j;
+    elem->next = NULL;
+    elem->back = NULL;
 
-    while(csl && csl->population < __builtin_popcountll(candidats))
+    if(!dl)
     {
-        tmp = csl;
-        csl = csl->next;
+        return elem;
     }
-    elem->next = csl;
-    if(tmp) tmp->next = elem;
-    else sl = elem;
-    return sl;
+
+    Liste *cdl = dl;
+    while(cdl->population < elem->population && cdl->next)
+    {
+        cdl = cdl->next;
+    }
+
+    if(cdl->population < elem->population)
+    {
+        Liste *cdlNext = cdl->next;
+        cdl->next = elem;
+        elem->back = cdl;
+        if(cdlNext)
+        {
+            elem->back = cdlNext;
+            cdlNext->next = elem;
+        }
+    }
+    else
+    {
+        Liste *cslBack = cdl->back;
+        cdl->back = elem;
+        elem->next = cdl;
+        if(cslBack)
+        {
+            elem->back = cslBack;
+            cslBack->next = elem;
+        }
+        else return elem;
+    }
+    return dl;
 }
 
-void detruireListe(Liste *sl)
+void detruireListe(Liste *dl)
 {
-    while(sl)
+    while(dl)
     {
-        Liste *aSup = sl;
-        sl = sl->next;
+        Liste *aSup = dl;
+        dl = dl->next;
         free(aSup);
     }
 }
