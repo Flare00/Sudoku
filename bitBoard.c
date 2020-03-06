@@ -1,5 +1,5 @@
 #include "bitBoard.h"
-
+#include <math.h>
 void initialiserBitBoard(uint8_t **grille, size_t taille, size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB)
 {
     size_t a = 0;
@@ -95,6 +95,7 @@ Liste* rechercheCandidat(size_t taille, size_t n, uint64_t *bbL, uint64_t *bbC, 
 
     return liste;
 }
+/*
 int insertionValide(uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, uint64_t candidat, uint64_t mask)
 {
 
@@ -111,6 +112,7 @@ int insertionValide(uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, uint64_t candid
         return -1;
 
 }
+/*
 void res(size_t taille, size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, uint8_t** grille, Liste** l1)
 {
     uint64_t mask = pow(2,taille)-1;
@@ -137,4 +139,4 @@ void res(size_t taille, size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, u
         lp=lp->next;
     }
 
-}
+}*/

@@ -8,6 +8,7 @@
 typedef struct Liste{ // __builtin_popcount renvoie un int
     size_t i,j; // i et j ou seulement i si on travaille sur un tableau unidimensionnel
     int population;
+    size_t *c;
     uint64_t candidats;
     struct Liste *next, *back;
 }Liste;
@@ -23,6 +24,8 @@ uint64_t depilerListe(Liste *dl);
   * @param  size_t i, size_t j : la position dans la grille
   */
 Liste *insertionListe(Liste *dl, uint64_t candidats, size_t i, size_t j);
+size_t nbElementListe(Liste *l1);
+size_t nbCandidatListe(Liste *l1);
 
 void detruireListe(Liste *dl);
 
