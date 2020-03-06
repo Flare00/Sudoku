@@ -17,7 +17,7 @@ bool resolu(uint8_t** grille, Liste *dl, size_t taille, size_t n, uint64_t *bbL,
     {
         uint8_t val = valeurBit(dl->candidats, k), indice1 = val-1;
         size_t b = ((dl->i/n)*n)+dl->j/n;
-        if(val && ((bbL[dl->i]>>indice1)&1) == 0 && ((bbC[dl->j]>>indice1)&1) == 0 && ((bbB[b]>>indice1)&1) == 0)
+       if( dl->population==1||(val && (( (bbL[dl->i] |bbC[dl->j] |bbB[b])>>indice1)&1) == 0))
         {
             grille[dl->i][dl->j] = val;
             bbL[dl->i] |= (1<<indice1);
