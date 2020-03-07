@@ -2,12 +2,13 @@
 #include <math.h>
 void initialiserBitBoard(uint8_t **grille, size_t taille, size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB)
 {
-    size_t a = 0;
+    size_t a=0;
     for(size_t i = 0; i < taille; i++)
     {
         bbL[i] = 0;
         bbC[i] = 0;
         size_t minI = (i/n)*n, maxI = minI+n;
+
         for(size_t j = 0; j < taille; j++)
         {
             if(grille[i][j])
@@ -20,7 +21,8 @@ void initialiserBitBoard(uint8_t **grille, size_t taille, size_t n, uint64_t *bb
                 bitBoard colonne (bbC) */
                 bbC[i] |= 1<<(grille[j][i]-1);
 
-            if(i%n == 0 && j%n == 0){
+
+           if(i%n == 0 && j%n == 0){
                 bbB[a] = 0;
                 size_t minJ = (j/n)*n, maxJ = minJ+n;
                 for (size_t k = minI; k < maxI; k++)
@@ -35,6 +37,8 @@ void initialiserBitBoard(uint8_t **grille, size_t taille, size_t n, uint64_t *bb
                 }
                 a++;
             }
+
+
         }
     }
 }
@@ -75,68 +79,23 @@ void afficherBitBoard(size_t taille, uint64_t* bb)
     return;
 }
 
-Liste* rechercheCandidat(size_t taille, size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, uint8_t** grille)
+Liste* rechercheCandidat(size_t taille, size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, uint8_t** grille, uint8_t** map)
 {
     Liste *liste = NULL;
     uint64_t mask = (1<<taille)-1;
     for(size_t i = 0; i < taille; i++)
     {
-        size_t tmp = (i/n)*n;
         for(size_t j = 0; j < taille; j++)
         {
             if(!grille[i][j])
             /* Si la valeur dans une case == 0, on ajoute une liste constituée des
                des coordonnées de cette case ainsi que l'entier représentant les candidats */
             {
-                liste = insertionListe(liste, mask&(~(bbL[i] | bbC[j] | bbB[tmp+j/n])), i, j);
+                liste = insertionListe(liste, mask&(~(bbL[i] | bbC[j] | bbB[map[i][j]])), i, j);
             }
         }
     }
 
     return liste;
 }
-/*
-int insertionValide(uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, uint64_t candidat, uint64_t mask)
-{
 
-    if((mask|candidat&*bbL &*bbC &*bbB))
-    {
-        *bbL|=candidat;
-       *bbC|=candidat;
-        *bbB|=candidat;
-
-        return 1;
-
-    }
-    else
-        return -1;
-
-}
-/*
-void res(size_t taille, size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, uint8_t** grille, Liste** l1)
-{
-    uint64_t mask = pow(2,taille)-1;
-    Liste* lp = (*l1);
-
-    while(lp!=NULL)
-    {
-
-       if(lp->population==1)
-       {
-
-            if(insertionValide(&bbL[lp->i],&bbC[lp->j],&bbB[((lp->i)/n)*n+(lp->j)/n],lp->candidats,mask))
-            {
-                grille[lp->i][lp->j]+=1+log2(lp->candidats);
-
-                printf("candidat : %d\n", 1+(int)log2(lp->candidats));
-
-                (*l1)=rechercheCandidat( taille,  n,bbL, bbC, bbB,grille);
-                lp = (*l1);
-
-            }
-       }
-       else
-        lp=lp->next;
-    }
-
-}*/

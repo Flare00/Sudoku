@@ -101,10 +101,11 @@ size_t nbElementListe(Liste *l1){
     return count;
 }
 size_t nbCandidatListe(Liste *l1){
-    size_t count=0;
+    size_t count=1;
     while(l1!=NULL)
     {
         count+=l1->population;
+
         l1=l1->next;
 
     }
@@ -112,17 +113,24 @@ size_t nbCandidatListe(Liste *l1){
 }
 void afficherListe(Liste* liste)
 {
+    size_t i=0;
     while(liste!=NULL)
     {
-        printf("%ld : %ld : pop : %d candidats : ", liste->j, liste->i, liste->population);
-
-        afficherBit_64(liste->candidats);
-        printf("(");
-        for(int i=0; i<liste->population;i++)
+        if(i>5)
         {
-            printf("%ld,", liste->c[i]);
+            printf("\n");
+            i=0;
+
         }
-        printf(")\n");
+        else{
+
+            printf("%ld : %ld : pop : %d \t", liste->j, liste->i, liste->population);
+            i++;
+
+        }
+
+
+
         liste=liste->next;
     }
 }
