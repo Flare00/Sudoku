@@ -50,7 +50,7 @@ void afficherGrille(size_t taille, size_t n, uint8_t **grille)
 	{
 	    if(i%n==0)
         {
-            for(size_t k=0;k<12;k++)
+            for(size_t k=0;k<(n+1)*n;k++)
                 printf(" - ");
             printf("\n");
         }
@@ -59,7 +59,11 @@ void afficherGrille(size_t taille, size_t n, uint8_t **grille)
 		{
 		    if(j%n==0)
                 printf(" | ");
-            printf(" %d ", grille[i][j]);
+
+            if(grille[i][j]>9)
+                printf("%d ", grille[i][j]);
+            else
+                printf(" %d ", grille[i][j]);
 		}
 		printf("\n");
 
