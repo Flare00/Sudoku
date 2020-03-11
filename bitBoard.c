@@ -1,9 +1,8 @@
 #include "bitBoard.h"
 #include <math.h>
-
-void initialiserBitBoard(uint8_t **grille, size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB)
+void initialiserBitBoard(uint8_t **grille, size_t taille, size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB)
 {
-    size_t a=0, taille = n*n;
+    size_t a=0;
     for(size_t i = 0; i < taille; i++)
     {
         bbL[i] = 0;
@@ -22,7 +21,8 @@ void initialiserBitBoard(uint8_t **grille, size_t n, uint64_t *bbL, uint64_t *bb
                 bitBoard colonne (bbC) */
                 bbC[i] |= 1<<(grille[j][i]-1);
 
-            if(i%n == 0 && j%n == 0){
+
+           if(i%n == 0 && j%n == 0){
                 bbB[a] = 0;
                 size_t minJ = (j/n)*n, maxJ = minJ+n;
                 for (size_t k = minI; k < maxI; k++)
@@ -37,6 +37,50 @@ void initialiserBitBoard(uint8_t **grille, size_t n, uint64_t *bbL, uint64_t *bb
                 }
                 a++;
             }
+
+
+        }
+    }
+}
+void initialiserBitBoard_32(uint8_t **grille, size_t taille, size_t n, uint32_t *bbL, uint32_t *bbC, uint32_t *bbB)
+{
+    size_t a=0;
+    for(size_t i = 0; i < taille; i++)
+    {
+        bbL[i] = 0;
+        bbC[i] = 0;
+        size_t minI = (i/n)*n, maxI = minI+n;
+
+        for(size_t j = 0; j < taille; j++)
+        {
+            if(grille[i][j])
+                /* On ajoute toutes les valeurs de la grille à la ligne i != 0 dans le
+                bitBoard ligne (bbL) */
+                bbL[i] |= 1<<(grille[i][j]-1);
+
+            if(grille[j][i])
+                /* On ajoute toutes les valeurs de la grille à la colonne j != 0 dans le
+                bitBoard colonne (bbC) */
+                bbC[i] |= 1<<(grille[j][i]-1);
+
+
+           if(i%n == 0 && j%n == 0){
+                bbB[a] = 0;
+                size_t minJ = (j/n)*n, maxJ = minJ+n;
+                for (size_t k = minI; k < maxI; k++)
+                {
+                    for (size_t l = minJ; l < maxJ; l++)
+                    {
+                        if(grille[k][l])
+                            /* On ajoute toutes les valeurs de la grille du block encadré
+                            dans le bitBoard block (bbB) */
+                            bbB[a] |= 1<<(grille[k][l]-1);
+                    }
+                }
+                a++;
+            }
+
+
         }
     }
 }
@@ -45,7 +89,10 @@ void detruireBitBoard(uint64_t *bb)
 {
     free(bb);
 }
-
+void detruireBitBoard_32(uint32_t *bb)
+{
+    free(bb);
+}
 void afficherBit(uint64_t candidat, size_t taille)
 {
     for(size_t i=0; i< taille; i++)
@@ -53,6 +100,16 @@ void afficherBit(uint64_t candidat, size_t taille)
         // Si le bit de candidat à l'indice i match avec 1, alors on affiche 1
         // Sinon 0
        printf("%ld ", (candidat>>i)&1);
+    }
+    printf("\n");
+}
+void afficherBit_32(uint32_t candidat)
+{
+    for(size_t i=0; i< 32; i++)
+    {
+        // Si le bit de candidat à l'indice i match avec 1, alors on affiche 1
+        // Sinon 0
+       printf("%d", (candidat>>(31-i))&1);
     }
     printf("\n");
 }
@@ -77,9 +134,8 @@ void afficherBitBoard(size_t taille, uint64_t* bb)
     return;
 }
 
-Liste* rechercheCandidat(size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, uint8_t** grille, uint8_t** map)
+Liste* rechercheCandidat(size_t taille, size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, uint8_t** grille, uint8_t** map)
 {
-    size_t taille = n*n;
     Liste *liste = NULL;
     uint64_t mask = (1<<taille)-1;
     for(size_t i = 0; i < taille; i++)
@@ -94,6 +150,28 @@ Liste* rechercheCandidat(size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, 
             }
         }
     }
+
     return liste;
 }
 
+Liste* rechercheCandidat_32(size_t taille, uint32_t *bbL, uint32_t *bbC, uint32_t *bbB, uint8_t** grille, uint8_t** map)
+{
+    Liste *liste = NULL;
+    uint32_t mask = (1<<taille)-1;
+    uint32_t candidats;
+
+    for(size_t i = 0; i < taille; i++)
+    {
+        for(size_t j = 0; j < taille; j++)
+        {
+            if(!grille[i][j])
+            /* Si la valeur dans une case == 0, on ajoute une liste constituée des
+               des coordonnées de cette case ainsi que l'entier représentant les candidats */
+            {
+                liste = insertionListe(liste, mask&(~(bbL[i] | bbC[j] | bbB[map[i][j]])), i, j);
+            }
+        }
+    }
+
+    return liste;
+}

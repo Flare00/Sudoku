@@ -9,33 +9,29 @@
 #include "liste.h"
 #include "grille.h"
 
-/** @brief Creer un tableau de bits à partir d'une grille
-  * @param uint8_t **grille : grille utilisée pour remplir le tableau de bits
+/** @brief Creer un bitBoard à partir d'une grille
+  * @param uint8_t **grille : grille utilisée pour remplir le bitBoard
+  * @param size_t taille : nombre de case par ligne ou colonne de la grille
   * @param size_t n : nombre de lignes ou colonnes de blocks
-  * @param uint64_t* bbL : tableau de bits ligne
-  * @param uint64_t* bbC : tableau de bits colonne
-  * @param uint64_t* bbB : tableau de bits block*/
-void initialiserBitBoard(uint8_t **grille, size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB);
+  * @param uint64_t* bbL : bitBoard ligne
+  * @param uint64_t* bbC : bitBoard colonne
+  * @param uint64_t* bbB : bitBoard block*/
+void initialiserBitBoard(uint8_t **grille, size_t taille, size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB);
+void initialiserBitBoard_32(uint8_t **grille, size_t taille, size_t n, uint32_t *bbL, uint32_t *bbC, uint32_t *bbB);
 
-/** @brief Destruction d'un tableau de bits
-  * @param uint64_t** bb : tableau de bits à détruire*/
+/** @brief Destruction d'un bitBoard
+  * @param uint64_t** bb : bitBoard à détruire*/
 void detruireBitBoard(uint64_t *bb);
+void detruireBitBoard_32(uint32_t *bb);
 
 void afficherBit(uint64_t candidat, size_t taille);
-
+void afficherBit_32(uint32_t candidat);
 void afficherBit_64(uint64_t candidat);
 
 void afficherBitBoard(size_t taille, uint64_t* bb);
 
-/** @brief Liste de candidats pour les cases vides
-  * @param uint8_t **grille : grille utilisée pour remplir le tableau de bits
-  * @param size_t n : nombre de lignes ou colonnes de blocks
-  * @param uint64_t* bbL : tableau de bits ligne
-  * @param uint64_t* bbC : tableau de bits colonne
-  * @param uint64_t* bbB : tableau de bits block
-  * @param uint8_t** map : tableau permettant de savoir les indices de block pour le tableau de bit.
-  * @return Liste* : le pointeur  sur la liste de candidat(s) solo
-  */
-Liste* rechercheCandidat(size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, uint8_t** grille, uint8_t** map);
+Liste* rechercheCandidat(size_t taille, size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, uint8_t** grille, uint8_t** map);
+Liste* rechercheCandidat_32(size_t taille, uint32_t *bbL, uint32_t *bbC, uint32_t *bbB, uint8_t** grille, uint8_t** map);
+
 
 #endif
