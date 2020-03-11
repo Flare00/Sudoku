@@ -24,21 +24,12 @@ void iterativeResolution(size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB,u
              if(insertionValide(&bbL[lp->i],&bbC[lp->j],&bbB[map[lp->i][lp->j]],lp->candidats,mask))
             {
                 grille[lp->i][lp->j]+=1+lp->c[0];
-                detruireListe((*l1));
                 (*l1)=rechercheCandidat(n,bbL, bbC, bbB,grille,map);
                 lp = (*l1);
             }
         }
         else lp=lp->suivante;
     }
-
-    // Liste *liste = rechercheCandidat(n,bbL, bbC, bbB,grille,map);
-    // if(liste && liste->population==1)
-    // {
-    //     grille[liste->i][liste->j]+=1+liste->c[0];
-    //     detruireListe(liste);
-    //     iterativeResolution(taille, n, bbL, bbC, bbB, grille, map);
-    // }
 }
 
 uint8_t** creerMap(size_t n)

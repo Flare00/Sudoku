@@ -51,14 +51,12 @@ int main(int argc, char **argv)
     printf("candidat en moyenne : %f  taille liste :%ld\n", (float)nbCandidatListe(liste)/nbElementListe(liste), nbElementListe(liste));
     clock_t start, end;
     start = clock();
-	iterativeResolution(n, bbL, bbC, bbB, grille,map, &liste);
+	iterativeResolution(n, bbL, bbC, bbB, grille, map, &liste);
 	end = clock();
     double time_taken = (double)(end - start) / (double)(CLOCKS_PER_SEC);
     printf("\nRésolution iterative terminé en %f sec\n", time_taken );
     afficherGrille(taille, n, grille);
 
-    detruireListe(liste);
-    liste = rechercheCandidat(n, bbL, bbC, bbB, grille,map);
     printf("\n Après itérative résolution : candidat en moyenne : %f  taille liste :%ld\n", (float)nbCandidatListe(liste)/nbElementListe(liste), nbElementListe(liste));
     //afficherListe(liste);
 
