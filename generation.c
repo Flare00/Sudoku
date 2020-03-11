@@ -1,6 +1,6 @@
 #include "generation.h"
 #include "difficulte.h"
-
+#include "grille.h"
 // A COMPLETER
 unsigned int *genererChaineSudoku(size_t taille, int level){
     int difficulte = 0;
@@ -31,10 +31,12 @@ unsigned int *genererChaineSudoku(size_t taille, int level){
 
 uint8_t **genererGrilleSudokuValide(int taille, int level){
     int difficulte = 0;
-    uint8_t ** grille = genererGrilleComplete(taille);
+    uint8_t ** grille = grilleComplete(taille);
+
+    
+
 
     int casesRestante = retirerCaseRandom(grille);
-
     do{
         uint8_t ** grilleTemp = grille; // faire une de la grille copie;
         casesRestante = retirerCaseRandomAvecCaseRestante(grilleTemp, taille);
@@ -93,9 +95,41 @@ uint8_t retirerCaseRandom(uint8_t ** grille, size_t taille){
 }
 
 
-uint8_t genererGrilleComplete(size_t taille){
-    // A FAIRE;
-    return 0;
+uint8_t ** grilleComplete(size_t taille){
+    uint8_t ** grille;
+    switch(taille){
+    	case 4:
+    		grille = creerGrille({},taille);
+    		break;
+    	case 9:
+    		grille = creerGrille({},taille);
+    		break;
+    	case 16:
+    		grille = creerGrille({},taille);
+    		break;
+    	case 25:
+    		grille = creerGrille({},taille);
+    		break;
+    	case 36:
+    		grille = creerGrille({},taille);
+    		break;
+    	case 49:
+    		grille = creerGrille({},taille);
+    		break;
+    	case 64:
+    		grille = creerGrille({},taille);
+    		break;
+    	default:
+    		free(grille);
+    		grille = NULL;
+    }
+
+
+    //Permutation / rotation       
+
+    
+
+    return grille;
 }
 
 uint8_t ** permutationLignes(uint8_t ** grille, size_t taille, size_t ligne1, size_t ligne2){

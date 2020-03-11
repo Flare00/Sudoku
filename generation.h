@@ -44,7 +44,7 @@ uint8_t ** retirerCaseRandom(uint8_t ** grille, size_t taille);
  * \param taille : taille de la grille.
  * \return grille de sudoku complete.
  */
-uint8_t genererGrilleComplete(size_t taille);
+uint8_t ** grilleComplete(size_t taille);
 
 /**
  * \brief permute deux lignes de la grille de sudoku donnée.
