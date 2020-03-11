@@ -1,8 +1,9 @@
 #include "bitBoard.h"
 #include <math.h>
-void initialiserBitBoard(uint8_t **grille, size_t taille, size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB)
+
+void initialiserBitBoard(uint8_t **grille, size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB)
 {
-    size_t a=0;
+    size_t a=0, taille = n*n;
     for(size_t i = 0; i < taille; i++)
     {
         bbL[i] = 0;
@@ -21,8 +22,7 @@ void initialiserBitBoard(uint8_t **grille, size_t taille, size_t n, uint64_t *bb
                 bitBoard colonne (bbC) */
                 bbC[i] |= 1<<(grille[j][i]-1);
 
-
-           if(i%n == 0 && j%n == 0){
+            if(i%n == 0 && j%n == 0){
                 bbB[a] = 0;
                 size_t minJ = (j/n)*n, maxJ = minJ+n;
                 for (size_t k = minI; k < maxI; k++)
@@ -37,8 +37,6 @@ void initialiserBitBoard(uint8_t **grille, size_t taille, size_t n, uint64_t *bb
                 }
                 a++;
             }
-
-
         }
     }
 }
@@ -79,8 +77,9 @@ void afficherBitBoard(size_t taille, uint64_t* bb)
     return;
 }
 
-Liste* rechercheCandidat(size_t taille, size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, uint8_t** grille, uint8_t** map)
+Liste* rechercheCandidat(size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, uint8_t** grille, uint8_t** map)
 {
+    size_t taille = n*n;
     Liste *liste = NULL;
     uint64_t mask = (1<<taille)-1;
     for(size_t i = 0; i < taille; i++)
@@ -95,7 +94,6 @@ Liste* rechercheCandidat(size_t taille, size_t n, uint64_t *bbL, uint64_t *bbC, 
             }
         }
     }
-
     return liste;
 }
 

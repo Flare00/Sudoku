@@ -23,27 +23,11 @@ int main(int argc, char **argv)
 	for(int k =0; k<625;k++)
         entree[k]=0;*/
 
-    uint8_t **map = malloc(taille * sizeof(uint8_t*));
-	if(map != NULL)
-    {
-        for (size_t i = 0; i < taille; i++)
-        {
-            map[i] = malloc(taille * sizeof(uint8_t));
-        }
-    }
 
-    for (size_t i = 0; i < taille; i++)
-        {
-            for (size_t j = 0; j < taille; j++)
-                {
-                    map[i][j] = block(i,j,n);
-                }
-        }
+    uint8_t **map = creerMap(n);
 
-	uint8_t **grille = creerGrille(entree, taille);
-
-	afficherGrille(taille, n, grille);
-
+    uint8_t **grille = creerGrille(entree, taille);
+    afficherGrille(taille, n, grille);
 
 	uint64_t* bbL = malloc(taille * sizeof(uint64_t));
 	assert(bbL != NULL);
@@ -52,38 +36,44 @@ int main(int argc, char **argv)
 	uint64_t* bbB = malloc(taille * sizeof(uint64_t));
 	assert(bbB != NULL);
 
-	initialiserBitBoard(grille, taille, n, bbL, bbC, bbB);
+	initialiserBitBoard(grille, n, bbL, bbC, bbB);
+    printf("BBL : \n\n");
+    afficherBitBoard(taille, bbL);
+    printf("BBC : \n\n");
+    afficherBitBoard(taille, bbC);
+    printf("BBB : \n\n");
+    afficherBitBoard(taille, bbB);
 
-	Liste *liste = rechercheCandidat(taille, n, bbL, bbC, bbB, grille,map);
+    afficherGrille(taille, n, grille);
 
+	Liste *liste = rechercheCandidat(n, bbL, bbC, bbB, grille,map);
 
     printf("candidat en moyenne : %f  taille liste :%ld\n", (float)nbCandidatListe(liste)/nbElementListe(liste), nbElementListe(liste));
-    clock_t start, end,end2;
+    clock_t start, end;
     start = clock();
-	iterativeResolution(taille,n, bbL, bbC, bbB, grille,map, &liste);
+	iterativeResolution(n, bbL, bbC, bbB, grille,map, &liste);
 	end = clock();
+    double time_taken = (double)(end - start) / (double)(CLOCKS_PER_SEC);
+    printf("\nRésolution iterative terminé en %f sec\n", time_taken );
+    afficherGrille(taille, n, grille);
 
+    detruireListe(liste);
+    liste = rechercheCandidat(n, bbL, bbC, bbB, grille,map);
+    printf("\n Après itérative résolution : candidat en moyenne : %f  taille liste :%ld\n", (float)nbCandidatListe(liste)/nbElementListe(liste), nbElementListe(liste));
+    //afficherListe(liste);
 
-     printf("\n Après itérative résolution : candidat en moyenne : %f  taille liste :%ld\n", (float)nbCandidatListe(liste)/nbElementListe(liste), nbElementListe(liste));
-     //afficherListe(liste);
-
-     double time_taken = (double)(end - start) / (double)(CLOCKS_PER_SEC);
-
-    printf( "Finished in %f sec\n", time_taken );
     if(liste)
     {
-        if(resolu(grille, liste, taille, n, bbL, bbC, bbB, map))
+        start = clock();
+        if(resolu(grille, liste, bbL, bbC, bbB, map))
         {
-            printf("Résolu par le backtrack ! \n");
+            end = clock();
+            time_taken = (double)(end - start) / (double)(CLOCKS_PER_SEC);
+            printf("Résolu par le backtrack en %f sec !\n", time_taken);
         }
         else printf("Erreur de résolution !\n");
     }
 
-    end2 = clock();
-
-    time_taken = (double)(end2 - start) / (double)(CLOCKS_PER_SEC);
-
-    printf( "Finished in %f sec\n", time_taken );
     afficherGrille(taille, n, grille);
 
 	detruireGrille(grille, taille);
@@ -91,6 +81,7 @@ int main(int argc, char **argv)
 	detruireBitBoard(bbC);
 	detruireBitBoard(bbB);
 	detruireListe(liste);
+    detruireMap(map, taille);
 
 	return 0;
 }
