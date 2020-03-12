@@ -1,16 +1,5 @@
 #include "grille.h"
-
-
-void detruireGrille(uint8_t **grille, size_t taille)
-{
-	for (size_t i = 0; i < taille; i++)
-	{
-		free(grille[i]);
-	}
-	free(grille);
-}
-
-uint8_t **creerGrille(unsigned int *chaine, size_t taille)
+uint8_t **creerGrille(uint8_t *chaine, size_t taille)
 {
 	uint8_t **grille = malloc(taille * sizeof(uint8_t*));
 	if(grille != NULL)
@@ -42,6 +31,14 @@ uint8_t **creerGrille(unsigned int *chaine, size_t taille)
 	return grille;
 }
 
+void detruireGrille(uint8_t **grille, size_t taille)
+{
+	for (size_t i = 0; i < taille; i++)
+	{
+		free(grille[i]);
+	}
+	free(grille);
+}
 
 void afficherGrille(size_t taille, size_t n, uint8_t **grille)
 {
@@ -69,4 +66,34 @@ void afficherGrille(size_t taille, size_t n, uint8_t **grille)
 
 	}
 	printf("\n");
+}
+uint8_t** creerMap(size_t n)
+{
+    size_t taille = n*n;
+    uint8_t **map = malloc(taille * sizeof(uint8_t*));
+    if(map != NULL)
+    {
+        for (size_t i = 0; i < taille; i++)
+        {
+            map[i] = malloc(taille * sizeof(uint8_t));
+        }
+    }
+    for (size_t i = 0; i < taille; i++)
+    {
+        for (size_t j = 0; j < taille; j++)
+        {
+            map[i][j] = block(i,j,n);
+        }
+    }
+
+    return map;
+}
+
+void detruireMap(uint8_t **map, size_t taille)
+{
+    for (int i = 0; i < taille; ++i)
+    {
+        free(map[i]);
+    }
+    free(map);
 }
