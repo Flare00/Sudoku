@@ -57,7 +57,7 @@ void heuristiqueUniqueCandidat(size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t 
 
 
 }
-void heuristiqueEnsembleCache(size_t taille,Liste *dl,uint64_t *bbL, uint64_t *bbC, uint64_t *bbB,uint8_t**map)
+void heuristiquePaireCachee(size_t taille,Liste *dl,uint64_t *bbL, uint64_t *bbC, uint64_t *bbB,uint8_t**map)
 {
 
     Liste * sl = dl;
@@ -77,7 +77,7 @@ void heuristiqueEnsembleCache(size_t taille,Liste *dl,uint64_t *bbL, uint64_t *b
 
         while(al!=NULL)
         {
-            if(pop==al->population&&(al->i == i||al->j==j||map[al->i][al->j]==b)&&candidats == al->candidats)
+            if(pop==al->population==2&&(al->i == i||al->j==j||map[al->i][al->j]==b)&&candidats == al->candidats)
             {
 
                 if(al->i == i && al->j!=j&&map[al->i][al->j]!=b)

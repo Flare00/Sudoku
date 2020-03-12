@@ -1,4 +1,4 @@
-#ifndef RESOLUTION_H
+﻿#ifndef RESOLUTION_H
 #define RESOLUTION_H
 
 #include "grille.h"
@@ -15,7 +15,7 @@
 Liste* adjonctionEnTete(Liste *liste, uint64_t candidats, size_t i, size_t j);
 Liste* creerListeUniqueCandidat(size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, uint8_t** grille);
 void heuristiqueUniqueCandidat(size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, uint8_t** grille);
-void heuristiqueEnsembleCache(size_t taille,Liste *dl,uint64_t *bbL, uint64_t *bbC, uint64_t *bbB,uint8_t**map);
+void heuristiquePaireCachee(size_t taille,Liste *dl,uint64_t *bbL, uint64_t *bbC, uint64_t *bbB,uint8_t**map);
 
 /** @brief Vérifie si la grille est résolu
   * @param Liste *dl : pointeur sur une liste
