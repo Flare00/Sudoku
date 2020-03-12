@@ -18,12 +18,23 @@ uint8_t **creerGrille(uint8_t *chaine, size_t taille);
   * @param size_t taille : nombre de sous-tableau à libérer*/
 void detruireGrille(uint8_t **grille, size_t taille);
 
+
+/** @brief Affiche la grille
+  * @param size_t taille : taille de la grille
+  * @param size_t n : taille des blocks de la grille
+  * @param uint8_t **grille : grille à détruire*/
+
 void afficherGrille(size_t taille, size_t n, uint8_t **grille);
 
 /** @brief Creer une map qui à partir des coordonnées des lignes et colonnes renvoit l'indice du block
   * @param size_t n : taille d'un block
   * @return uint8_t** : un tableau qui représente la map */
 uint8_t** creerMap(size_t n);
+
+
+/** @brief Détruit la map qui à partir des coordonnées des lignes et colonnes renvoit l'indice du block
+  * @param uint8_t** : un tableau qui représente la map
+  * @param size_t n : taille d'un block*/
 
 void detruireMap(uint8_t **map, size_t taille);
 

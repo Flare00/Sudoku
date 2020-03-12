@@ -22,15 +22,41 @@ void initialiserBitBoard(uint8_t **grille, size_t n, uint64_t *bbL, uint64_t *bb
   * @param uint64_t** bb : tableau de bits à détruire*/
 void detruireBitBoard(uint64_t *bb);
 
+/** @brief Affichage d'un entier dont on connaît la taille
+  * @param uint64_t candidats : l'entier non signé qui contient les candidats
+  * @param size_t taille : taille des bits pertinents
+  */
 void afficherBit(uint64_t candidat, size_t taille);
 
+/** @brief Affichage d'un entier 64 bits
+  */
 void afficherBit_64(uint64_t candidat);
 
+/** @brief Affichage d'un plateau de bit
+  * @param size_t taille : taille du plateau
+  * @param uint64_t* bb : tableau de bits du plateau
+  */
 void afficherBitBoard(size_t taille, uint64_t* bb);
+
+/** @brief Affichage de tous les plateau de bit ligne, colonne et block
+  * @param size_t taille : taille du plateau
+  * @param uint64_t* bbL : tableau de bits du plateau ligne
+  * @param uint64_t* bbC : tableau de bits du plateau colonne
+  * @param uint64_t* bbB : tableau de bits du plateau block
+  */
 void afficherTousBitBoard(size_t taille,uint64_t *bbL, uint64_t *bbC, uint64_t *bbB);
 
+
+/** @brief Crée un plateau d'entier non signé de 32 bits
+  * @param size_t taille : taille du plateau
+  * @return uint32_t* : tableau de bits du plateau
+  */
 uint32_t* creerBitboard_32(size_t taille);
 
+/** @brief Crée un plateau d'entier non signé de 64 bits
+  * @param size_t taille : taille du plateau
+  * @return uint64_t* : tableau de bits du plateau
+  */
 uint64_t* creerBitboard_64(size_t taille);
 
 #endif

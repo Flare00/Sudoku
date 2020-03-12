@@ -35,7 +35,10 @@ size_t nbCandidatListe(Liste *l1);
   */
 void detruireListe(Liste *dl);
 
+/** @brief Affiche la liste, coordonnées des cases, taille des candidats, et tableau des candidats
+  * @param Liste *l1 : un pointeur sur une liste*/
 void afficherListe(Liste* liste);
+
 /** @brief Liste de candidats pour les cases vides
   * @param uint8_t **grille : grille utilisée pour remplir le tableau de bits
   * @param size_t n : nombre de lignes ou colonnes de blocks
