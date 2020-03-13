@@ -9,7 +9,7 @@
 int main(int argc, char **argv)
 {
 	size_t n = 4, taille = n*n;
-	double time_taken=0;
+	double time_taken;
 	clock_t start, end;
 	// CHOIX :
     //     1    Grille 81 -> Facile
@@ -30,61 +30,64 @@ int main(int argc, char **argv)
     uint8_t  entree6[625] ={0,16,0,0,0,0,0,3,19,0,0,0,0,0,22,0,0,0,0,0,0,25,23,7,0,0,0,0,0,0,9,8,0,23,0,0,16,6,25,7,0,14,0,0,0,0,0,0,1,12,5,0,0,14,0,0,18,0,16,0,11,0,9,0,12,24,7,25,0,0,8,0,2,0,21,0,8,0,0,0,0,20,2,0,12,0,13,0,0,0,0,11,23,0,19,0,0,4,0,22,9,0,25,10,0,0,0,0,0,0,0,0,1,0,23,0,12,0,0,0,0,17,0,16,0,0,0,12,25,0,0,9,10,0,11,0,17,19,7,0,4,0,0,0,0,0,1,0,22,3,17,7,0,8,19,4,16,15,22,0,18,0,3,2,10,0,0,0,0,0,0,0,0,6,0,0,20,0,0,0,8,0,7,0,0,13,0,0,1,0,0,21,11,0,0,0,0,0,4,0,0,2,13,11,5,0,0,0,0,20,0,0,4,0,15,0,3,19,0,0,0,0,9,12,25,10,0,1,4,6,0,0,0,14,0,0,22,12,5,0,7,0,0,0,2,15,20,0,0,23,19,0,0,7,8,0,14,0,0,17,0,9,0,0,0,0,15,4,6,0,25,24,22,21,1,0,0,0,24,0,0,0,16,0,0,15,6,0,0,0,0,0,0,12,21,0,0,10,19,18,0,0,0,20,2,10,0,0,0,8,24,1,0,3,16,0,0,5,0,14,6,0,0,0,0,0,21,0,0,0,7,25,4,1,0,0,2,5,17,0,3,0,0,23,0,0,0,8,0,0,3,0,18,0,0,22,19,0,11,0,0,0,0,0,21,0,24,0,0,0,20,0,7,13,0,8,13,16,0,0,0,0,19,20,0,17,0,0,0,0,6,10,18,0,0,0,0,0,0,0,1,0,0,0,0,0,2,12,0,14,0,5,0,0,0,11,0,0,19,3,21,23,0,18,0,0,0,4,0,11,23,17,9,0,10,0,0,22,16,20,0,1,15,0,5,13,19,12,8,0,6,14,0,5,18,0,0,0,0,7,0,0,0,9,0,25,0,0,16,24,1,0,0,0,0,20,0,0,23,0,6,3,0,24,0,0,0,0,0,0,0,2,22,9,8,0,11,25,0,0,0,18,24,0,25,0,4,0,0,0,19,11,20,0,1,0,5,21,0,23,14,7,16,0,0,0,0,0,19,0,0,0,0,0,0,0,25,0,0,0,0,8,0,10,0,3,15,0,0,9,4,0,0,21,0,25,0,0,15,1,0,0,0,23,2,14,0,0,11,22,0,0,17,0,0,0,0,14,0,12,0,7,0,17,0,0,0,0,0,0,19,0,0,0,0,11,0,0,0,0,0,0,0,0,15,0,0,20,0,0,0,14,0,10,6,12,0,9,4,25,0,22,0,0,0};
 
     uint8_t *entree = entree3;
-    uint8_t **map = creerMap(n);
+    uint8_t **map = mapCreer(n);
 
-    uint8_t **grille = creerGrille(entree, taille);
+    uint8_t **grille = grilleCreer(entree, taille);
     afficherGrille(taille, n, grille);
 
-	uint64_t* bbL = creerBitboard_64(taille);
-	uint64_t* bbC = creerBitboard_64(taille);
-	uint64_t* bbB = creerBitboard_64(taille);
+	uint64_t* bbL = bitboard64Creer(taille);
+	uint64_t* bbC = bitboard64Creer(taille);
+	uint64_t* bbB = bitboard64Creer(taille);
 
-	initialiserBitBoard(grille, n, bbL, bbC, bbB);
+	bitBoardInitialiser(grille, n, bbL, bbC, bbB);
 
     afficherTousBitBoard(taille,bbL,bbC,bbB);
 
     afficherGrille(taille, n, grille);
 
 
-    start = clock();
+    /*start = clock();
     heuristiqueUniqueCandidat(n, bbL, bbC, bbB, grille);
-
+    end = clock();
+    time_taken = (double)(end - start) / (double)(CLOCKS_PER_SEC);
+    printf("L'élimination de candidats à partir de candidats solo a duré %f sec !\n\n", time_taken);*/
 
     printf("\n Heuristique unique candidat terminé");
-    //afficherGrille(taille, n, grille);
+    afficherGrille(taille, n, grille);
 
-    Liste *liste = rechercheCandidat(n, bbL, bbC, bbB, grille,map);
-    printf("\n Après heuristique unique candidat : Nombres de candidats : %ld  taille liste :%ld\n", nbCandidatListe(liste), nbElementListe(liste));
+    Liste *liste = rechercherCandidat(n, bbL, bbC, bbB, grille,map);
+    //detruireListe(liste);
+    printf("\n Après heuristique unique candidat : Nombres de candidats : %ld  taille liste :%ld\n", listeNbCandidat(liste), listeNbElement(liste));
 
-    heuristiqueEnsembleCache(taille,liste,bbL,bbC,bbB,map);
-    liste = rechercheCandidat(n, bbL, bbC, bbB, grille,map);
+    //heuristiqueEnsembleCache(taille,liste,bbL,bbC,bbB,map);
+    //heuristiquePaireCachee(taille,liste,bbL,bbC,bbB,map);
+    //liste = rechercheCandidat(n, bbL, bbC, bbB, grille,map);
 
-    printf("\n Après heuristique ensemble caché : Nombres de candidats : %ld  taille liste :%ld\n", nbCandidatListe(liste), nbElementListe(liste));
+    printf("\n Après heuristique ensemble caché : Nombres de candidats : %ld  taille liste :%ld\n", listeNbCandidat(liste), listeNbElement(liste));
 
-    //printf("\n Après itérative résolution : Nombres de candidats : %ld  taille liste :%ld\n", nbCandidatListe(liste), nbElementListe(liste));
-    afficherListe(liste);
-/*
+    //printf("\n Après itérative résolution : Nombres de candidats : %ld  taille liste :%ld\n", listeNbCandidat(liste), listeNbElement(liste));
+    //afficherListe(liste);
+
     if(liste)
     {
+        printf("Début résolution :\n");
         start = clock();
-        if(resolutionRecursive(grille, liste, bbL, bbC, bbB, map))
+        if(resoudreRecursivement(grille, liste, bbL, bbC, bbB, map))
         {
             end = clock();
             time_taken = (double)(end - start) / (double)(CLOCKS_PER_SEC);
-            printf("Résolu par le backtrack en %f sec !\n", time_taken);
+            printf("Résolu par le backtrack en %f sec !\n\n", time_taken);
+            afficherGrille(taille, n, grille);
         }
         else printf("Erreur de résolution !\n");
     }
-    */
-
-    afficherGrille(taille, n, grille);
-
-	detruireGrille(grille, taille);
-	detruireBitBoard(bbL);
-	detruireBitBoard(bbC);
-	detruireBitBoard(bbB);
-	detruireListe(liste);
-    detruireMap(map, taille);
+    
+	grilleDetruire(grille, taille);
+	bitBoardDetruire(bbL);
+	bitBoardDetruire(bbC);
+	bitBoardDetruire(bbB);
+	listeDetruire(liste);
+    mapDetruire(map, taille);
 
 	return 0;
 }

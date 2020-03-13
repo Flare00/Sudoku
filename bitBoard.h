@@ -5,7 +5,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
-#include <math.h>
 #include "liste.h"
 #include "grille.h"
 
@@ -16,11 +15,21 @@
   * @param uint64_t* bbL : tableau de bits ligne
   * @param uint64_t* bbC : tableau de bits colonne
   * @param uint64_t* bbB : tableau de bits block*/
-void initialiserBitBoard(uint8_t **grille, size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB);
+void bitBoardInitialiser(uint8_t **grille, size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB);
 
 /** @brief Destruction d'un tableau de bits
   * @param uint64_t** bb : tableau de bits à détruire*/
-void detruireBitBoard(uint64_t *bb);
+void bitBoardDetruire(uint64_t *bb);
+
+/** @brief Initialiser un tableau de bits sur 4 octets
+  * @param size_t taille : espace nécessaire à l'initialisation
+  * @return uint32_t* : pointeur sur un tableau de bits*/
+uint32_t* bitboard32Creer(size_t taille);
+
+/** @brief Initialiser un tableau de bits sur 8 octets
+  * @param size_t taille : espace nécessaire à l'initialisation
+  * @return uint64_t* : pointeur sur un tableau de bits*/
+uint64_t* bitboard64Creer(size_t taille);
 
 /** @brief Affichage d'un entier dont on connaît la taille
   * @param uint64_t candidats : l'entier non signé qui contient les candidats
@@ -45,18 +54,5 @@ void afficherBitBoard(size_t taille, uint64_t* bb);
   * @param uint64_t* bbB : tableau de bits du plateau block
   */
 void afficherTousBitBoard(size_t taille,uint64_t *bbL, uint64_t *bbC, uint64_t *bbB);
-
-
-/** @brief Crée un plateau d'entier non signé de 32 bits
-  * @param size_t taille : taille du plateau
-  * @return uint32_t* : tableau de bits du plateau
-  */
-uint32_t* creerBitboard_32(size_t taille);
-
-/** @brief Crée un plateau d'entier non signé de 64 bits
-  * @param size_t taille : taille du plateau
-  * @return uint64_t* : tableau de bits du plateau
-  */
-uint64_t* creerBitboard_64(size_t taille);
 
 #endif

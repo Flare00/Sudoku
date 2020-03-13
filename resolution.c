@@ -1,11 +1,11 @@
 #include "resolution.h"
 
-Liste* adjonctionEnTete(Liste *liste, uint64_t candidats, size_t i, size_t j)
+Liste* ajouterEnTete(Liste *liste, uint64_t candidats, size_t i, size_t j)
 {
     Liste *elem = malloc(sizeof(Liste));
     if(!elem) exit(EXIT_FAILURE);
     elem->candidats = candidats;
-    elem->population = __builtin_popcountll(candidats);// __builtin_popcount directive de gcc qui compte le nombre de bit d'un mot
+    elem->population = 1;
     elem->i=i;
     elem->j=j;
     elem->precedente = NULL;
@@ -18,15 +18,15 @@ Liste* creerListeUniqueCandidat(size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t
 {
     size_t taille = n*n;
     Liste *liste = NULL;
-    uint64_t mask = (1<<taille)-1;
+    uint64_t mask = (1<<taille)-1, cdt;
     for(size_t i = 0; i < taille; i++)
     {
         size_t tmp = (i/n)*n;
         for(size_t j = 0; j < taille; j++)
         {
-            if(!grille[i][j] && __builtin_popcountll(mask&(~(bbL[i] | bbC[j] | bbB[tmp+j/n]))) == 1)
+            if(!grille[i][j] && __builtin_popcountll((cdt=mask&(~(bbL[i] | bbC[j] | bbB[tmp+j/n])))) == 1)
             {
-                liste = adjonctionEnTete(liste, mask&(~(bbL[i] | bbC[j] | bbB[tmp+j/n])), i, j);
+                liste = ajouterEnTete(liste, cdt, i, j);
             }
         }
     }
@@ -35,8 +35,6 @@ Liste* creerListeUniqueCandidat(size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t
 
 void heuristiqueUniqueCandidat(size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, uint8_t** grille)
 {
-
-    size_t taille = n*n;
     Liste* liste = creerListeUniqueCandidat(n, bbL, bbC, bbB, grille);
 
     if(liste == NULL) return;
@@ -49,17 +47,14 @@ void heuristiqueUniqueCandidat(size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t 
         bbL[courante->i] |= (1<<indice1);
         bbC[courante->j] |= (1<<indice1);
         bbB[((courante->i/n)*n)+courante->j/n] |= (1<<indice1);
-        //printf("candidat : %d\n", grille[courante->i][courante->j]);
         courante = courante->suivante;
     }
-    detruireListe(liste);
+    listeDetruire(liste);
     heuristiqueUniqueCandidat(n, bbL, bbC, bbB, grille);
-
-
 }
+
 void heuristiquePaireCachee(size_t taille,Liste *dl,uint64_t *bbL, uint64_t *bbC, uint64_t *bbB,uint8_t**map)
 {
-
     Liste * sl = dl;
     Liste * al = dl;
     while(sl!=NULL)
@@ -70,14 +65,14 @@ void heuristiquePaireCachee(size_t taille,Liste *dl,uint64_t *bbL, uint64_t *bbC
         j=sl->j;
         b=map[sl->i][sl->j];
         int pop = sl->population;
-        uint32_t candidats = sl->candidats;
+        uint64_t candidats = sl->candidats;
 
-        uint32_t mask = (1<<taille)-1;
+        uint64_t mask = (1<<taille)-1;
 
 
         while(al!=NULL)
         {
-            if(pop==al->population==2&&(al->i == i||al->j==j||map[al->i][al->j]==b)&&candidats == al->candidats)
+            if(pop==al->population && al->population==2 && (al->i == i||al->j==j||map[al->i][al->j]==b) && candidats==al->candidats)
             {
 
                 if(al->i == i && al->j!=j&&map[al->i][al->j]!=b)
@@ -87,7 +82,7 @@ void heuristiquePaireCachee(size_t taille,Liste *dl,uint64_t *bbL, uint64_t *bbC
                    bbB[map[al->i][al->j]]|=mask&candidats;
                 }
 
-                if(al->i =! i && al->j==j&&map[al->i][al->j]!=b)
+                if(al->i != i && al->j==j && map[al->i][al->j]!=b)
                 {
 
                    bbL[i]|=mask&candidats;
@@ -106,7 +101,8 @@ void heuristiquePaireCachee(size_t taille,Liste *dl,uint64_t *bbL, uint64_t *bbC
         sl=sl->suivante;
     }
 }
-bool resolutionRecursive(uint8_t** grille, Liste *dl, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB,uint8_t **map)
+
+bool resoudreRecursivement(uint8_t** grille, Liste *dl, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB,uint8_t **map)
 {
     if(!dl)
         return true;
@@ -124,17 +120,20 @@ bool resolutionRecursive(uint8_t** grille, Liste *dl, uint64_t *bbL, uint64_t *b
             bbL[i] |= bitVal;
             bbC[j] |= bitVal;
             bbB[b] |= bitVal;
-            if(resolutionRecursive(grille, dl->suivante, bbL, bbC, bbB,map))
+            if(resoudreRecursivement(grille, dl->suivante, bbL, bbC, bbB,map))
 			{
 				return true;
 			}
         }
     }
-    size_t bi =dl->precedente->i , bj = dl->precedente->j;
-    uint8_t indice2 = grille[bi][bj]-1;
-    uint64_t bitVal2 = (1<<indice2);
-    bbL[bi] ^= bitVal2;
-    bbC[bj] ^= bitVal2;
-    bbB[map[bi][bj]] ^= bitVal2;
+    if(dl->precedente)
+    {
+        size_t bi =dl->precedente->i , bj = dl->precedente->j;
+        uint64_t bitVal2 = (1<<(grille[bi][bj]-1));
+        bbL[bi] ^= bitVal2;
+        bbC[bj] ^= bitVal2;
+        bbB[map[bi][bj]] ^= bitVal2;
+    }
+    grille[i][j] = 0;
     return false;
 }

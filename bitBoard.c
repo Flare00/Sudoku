@@ -1,7 +1,6 @@
 #include "bitBoard.h"
-#include <math.h>
 
-void initialiserBitBoard(uint8_t **grille, size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB)
+void bitBoardInitialiser(uint8_t **grille, size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB)
 {
     size_t a=0, taille = n*n;
     for(size_t i = 0; i < taille; i++)
@@ -41,7 +40,7 @@ void initialiserBitBoard(uint8_t **grille, size_t n, uint64_t *bbL, uint64_t *bb
     }
 }
 
-void detruireBitBoard(uint64_t *bb)
+void bitBoardDetruire(uint64_t *bb)
 {
     free(bb);
 }
@@ -56,6 +55,7 @@ void afficherBit(uint64_t candidat, size_t taille)
     }
     printf("\n");
 }
+
 void afficherBit_64(uint64_t candidat)
 {
     for(size_t i=0; i< 64; i++)
@@ -88,13 +88,14 @@ void afficherBitBoard(size_t taille, uint64_t* bb)
     return;
 }
 
-uint32_t* creerBitboard_32(size_t taille)
+uint32_t* bitboard32Creer(size_t taille)
 {
     uint32_t* bb = malloc(taille * sizeof(uint32_t));
 	assert(bb != NULL);
 	return bb;
 }
-uint64_t* creerBitboard_64(size_t taille)
+
+uint64_t* bitboard64Creer(size_t taille)
 {
     uint64_t* bb = malloc(taille * sizeof(uint64_t));
 	assert(bb != NULL);

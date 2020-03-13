@@ -1,5 +1,6 @@
 #include "grille.h"
-uint8_t **creerGrille(uint8_t *chaine, size_t taille)
+
+uint8_t **grilleCreer(uint8_t *chaine, size_t taille)
 {
 	uint8_t **grille = malloc(taille * sizeof(uint8_t*));
 	if(grille != NULL)
@@ -18,7 +19,7 @@ uint8_t **creerGrille(uint8_t *chaine, size_t taille)
                 }
             }
             else{
-                detruireGrille(grille, i);
+                grilleDetruire(grille, i);
                 printf("Erreur d'allocation de mémoire !\n");
                 exit(1);
             }
@@ -31,7 +32,7 @@ uint8_t **creerGrille(uint8_t *chaine, size_t taille)
 	return grille;
 }
 
-void detruireGrille(uint8_t **grille, size_t taille)
+void grilleDetruire(uint8_t **grille, size_t taille)
 {
 	for (size_t i = 0; i < taille; i++)
 	{
@@ -67,7 +68,8 @@ void afficherGrille(size_t taille, size_t n, uint8_t **grille)
 	}
 	printf("\n");
 }
-uint8_t** creerMap(size_t n)
+
+uint8_t** mapCreer(size_t n)
 {
     size_t taille = n*n;
     uint8_t **map = malloc(taille * sizeof(uint8_t*));
@@ -89,7 +91,7 @@ uint8_t** creerMap(size_t n)
     return map;
 }
 
-void detruireMap(uint8_t **map, size_t taille)
+void mapDetruire(uint8_t **map, size_t taille)
 {
     for (int i = 0; i < taille; ++i)
     {
