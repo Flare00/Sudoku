@@ -4,7 +4,7 @@
 #include <gtk/gtk.h>
 
 typedef struct menu {
-  GObject *fenetre;
+  GObject *grilleMenu;
   GObject *etiquetteTitre;
   GObject *boutonJouer;
   GObject *boutonRegles;
@@ -12,15 +12,17 @@ typedef struct menu {
   GObject *boutonQuitter;
 } f_Menu;
 
-/**
-* \brief Création de la fenêtre GTK Menu.
-*/
+/** @brief Creer l'interface menu GTK
+  * @param f_Menu* leMenu : structure contenant les widgets du menu
+  * @return void : affichage */
 static void menuCreer(f_Menu *leMenu);
 
-/**
-* \brief Création de la fenêtre GTK Menu.
-*/
-static void menuCacher(f_Menu *leMenu);
+/** @brief Cache l'interface menu GTK
+  * @param gpointer data : TODO
+  * @param GdkEventButton* event : TODO
+  * @param GtkWidget* button : TODO
+  * @return gboolean : TODO */
+gboolean menuCacher(GtkWidget *button, GdkEventButton *event, gpointer data);
 
 
 #endif
