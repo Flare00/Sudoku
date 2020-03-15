@@ -18,6 +18,7 @@
     </child>
   </object>
   <object class="GtkGrid" id="grilleMenu">
+    <property name="name">menu</property>
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="margin_left">5</property>
@@ -51,21 +52,6 @@
       </packing>
     </child>
     <child>
-      <object class="GtkLabel" id="etiquetteTitre">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="margin_top">40</property>
-        <property name="margin_bottom">50</property>
-        <property name="label" translatable="yes">Sudoku</property>
-      </object>
-      <packing>
-        <property name="left_attach">0</property>
-        <property name="top_attach">0</property>
-        <property name="width">3</property>
-        <property name="height">2</property>
-      </packing>
-    </child>
-    <child>
       <object class="GtkButton" id="boutonOptions">
         <property name="label" translatable="yes">Options</property>
         <property name="visible">True</property>
@@ -90,6 +76,33 @@
       </packing>
     </child>
     <child>
+      <object class="GtkLabel" id="etiquetteTitre">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="margin_top">40</property>
+        <property name="margin_bottom">50</property>
+        <property name="label" translatable="yes">Sudoku</property>
+      </object>
+      <packing>
+        <property name="left_attach">0</property>
+        <property name="top_attach">0</property>
+        <property name="width">3</property>
+        <property name="height">2</property>
+      </packing>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
       <placeholder/>
     </child>
     <child>
@@ -106,6 +119,58 @@
     </child>
     <child>
       <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+  </object>
+  <object class="GtkGrid" id="grilleRegles">
+    <property name="name">regles</property>
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="margin_bottom">15</property>
+    <property name="orientation">vertical</property>
+    <property name="row_homogeneous">True</property>
+    <property name="column_homogeneous">True</property>
+    <child>
+      <object class="GtkLabel" id="etiquetteTitreRegle">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="margin_top">40</property>
+        <property name="margin_bottom">50</property>
+        <property name="label" translatable="yes">Sudoku</property>
+      </object>
+      <packing>
+        <property name="left_attach">0</property>
+        <property name="top_attach">0</property>
+        <property name="width">3</property>
+        <property name="height">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="etiquetteRegles">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">LES REEEEEEEEEEEGLES</property>
+      </object>
+      <packing>
+        <property name="left_attach">0</property>
+        <property name="top_attach">3</property>
+        <property name="width">3</property>
+        <property name="height">3</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkButton" id="boutonRetourRegles">
+        <property name="label" translatable="yes">Retour</property>
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="receives_default">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="top_attach">6</property>
+      </packing>
     </child>
     <child>
       <placeholder/>
