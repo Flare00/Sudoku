@@ -7,24 +7,35 @@
 G_BEGIN_DECLS
 
 
-// Widgets GLOBAUX
+
+/**
+  * Widgets Globaux
+  */
 GtkBuilder *constructeur;
 GObject *fenetre;
 GObject *grilleMenu;
 GObject *grilleRegles;
+GObject *grilleOptions;
 GError *erreur;
+GtkCssProvider *gtkCSS;
 
 /**
-  * structure de données pour garder une trace des boutons du sudoku
+  * Structure de données pour garder une trace des boutons du sudoku
   */
 typedef struct boutonSudoku {
   // Menu
   GObject *boutonJouer;
+  GObject *boutonResolution;
   GObject *boutonRegles;
   GObject *boutonOptions;
   GObject *boutonQuitter;
   // Règles
   GObject *boutonRetourRegles;
+  // Options
+  GObject *switchResolution;
+  GObject *switchSurlignerNombre;
+  GObject *switchSurlignerZone;
+  GObject *boutonRetourOptions;
 } b_Sudoku;
 
 
@@ -43,18 +54,37 @@ void transitionMenuRegles();
 void transitionReglesMenu();
 
 
-/** @brief Creer l'interface menu GTK
+/** @brief Transition du menu aux options
+  * @return void : affichage
+  */
+void transitionMenuOptions();
+
+
+/** @brief Transition des options au menu
+  * @return void : affichage
+  */
+void transitionOptionsMenu();
+
+
+/** @brief Creer l'interface "menu" GTK
   * @param b_Sudoku* bouton_Struct : structure contenant les traces des boutons du sudoku
   * @return void : construction
   */
 void menuCreer(b_Sudoku *bouton_Struct);
 
 
-/** @brief Creer l'interface menu GTK
+/** @brief Creer l'interface "regles" GTK
   * @param b_Sudoku* bouton_Struct : structure contenant les traces des boutons du sudoku
   * @return void : construction
   */
 void reglesCreer(b_Sudoku *bouton_Struct);
+
+
+/** @brief Creer l'interface "options" GTK
+  * @param b_Sudoku* bouton_Struct : structure contenant les traces des boutons du sudoku
+  * @return void : construction
+  */
+void optionsCreer(b_Sudoku *bouton_Struct);
 
 
 G_END_DECLS

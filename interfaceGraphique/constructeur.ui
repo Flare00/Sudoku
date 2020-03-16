@@ -36,7 +36,7 @@
       </object>
       <packing>
         <property name="left_attach">1</property>
-        <property name="top_attach">4</property>
+        <property name="top_attach">5</property>
       </packing>
     </child>
     <child>
@@ -60,7 +60,7 @@
       </object>
       <packing>
         <property name="left_attach">1</property>
-        <property name="top_attach">5</property>
+        <property name="top_attach">6</property>
       </packing>
     </child>
     <child>
@@ -72,7 +72,7 @@
       </object>
       <packing>
         <property name="left_attach">1</property>
-        <property name="top_attach">6</property>
+        <property name="top_attach">7</property>
       </packing>
     </child>
     <child>
@@ -89,6 +89,178 @@
         <property name="width">3</property>
         <property name="height">2</property>
       </packing>
+    </child>
+    <child>
+      <object class="GtkButton" id="boutonResolution">
+        <property name="label" translatable="yes">Résolution</property>
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="receives_default">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="top_attach">4</property>
+      </packing>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+  </object>
+  <object class="GtkGrid" id="grilleOptions">
+    <property name="name">menu</property>
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="margin_bottom">15</property>
+    <property name="orientation">vertical</property>
+    <property name="row_homogeneous">True</property>
+    <property name="column_homogeneous">True</property>
+    <child>
+      <object class="GtkLabel" id="etiquetteTitreOptions">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="margin_top">40</property>
+        <property name="margin_bottom">50</property>
+        <property name="label" translatable="yes">Les Options</property>
+      </object>
+      <packing>
+        <property name="left_attach">0</property>
+        <property name="top_attach">0</property>
+        <property name="width">5</property>
+        <property name="height">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkSwitch" id="switchSurlignerNombre">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">3</property>
+        <property name="top_attach">4</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkSwitch" id="switchSurlignerZone">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">3</property>
+        <property name="top_attach">5</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="etiquetteSurlignerZone">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Surligner les zones</property>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="top_attach">4</property>
+        <property name="width">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="etiquetteSurlignerNombre">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Surligner les nombres</property>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="top_attach">5</property>
+        <property name="width">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkComboBoxText" id="switchResolution">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <items>
+          <item translatable="yes">800 x 600</item>
+          <item translatable="yes">1280 x 800</item>
+          <item translatable="yes">1440 x 900</item>
+          <item translatable="yes">1600 x 1000</item>
+          <item translatable="yes">1920 x 1080</item>
+        </items>
+      </object>
+      <packing>
+        <property name="left_attach">3</property>
+        <property name="top_attach">3</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="etiquetteResolution">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">Résolution</property>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="top_attach">3</property>
+        <property name="width">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkButton" id="boutonRetourOptions">
+        <property name="label" translatable="yes">Retour</property>
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="receives_default">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">2</property>
+        <property name="top_attach">6</property>
+      </packing>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
     </child>
     <child>
       <placeholder/>
@@ -133,31 +305,18 @@
     <property name="row_homogeneous">True</property>
     <property name="column_homogeneous">True</property>
     <child>
-      <object class="GtkLabel" id="etiquetteTitreRegle">
+      <object class="GtkLabel" id="etiquetteTitreRegles">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="margin_top">40</property>
         <property name="margin_bottom">50</property>
-        <property name="label" translatable="yes">Sudoku</property>
+        <property name="label" translatable="yes">Les règles du Sudoku</property>
       </object>
       <packing>
         <property name="left_attach">0</property>
         <property name="top_attach">0</property>
         <property name="width">3</property>
         <property name="height">2</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkLabel" id="etiquetteRegles">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">LES REEEEEEEEEEEGLES</property>
-      </object>
-      <packing>
-        <property name="left_attach">0</property>
-        <property name="top_attach">3</property>
-        <property name="width">3</property>
-        <property name="height">3</property>
       </packing>
     </child>
     <child>
@@ -170,6 +329,37 @@
       <packing>
         <property name="left_attach">1</property>
         <property name="top_attach">6</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkScrolledWindow" id="scrollRegles">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="shadow_type">in</property>
+        <child>
+          <object class="GtkViewport" id="viewportRegles">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <child>
+              <object class="GtkLabel" id="etiquetteRegles">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Le but du jeu dans le cas d'un sudoku classique, est de remplir ces cases avec des chiffres allant de 1 à 9 en veillant toujours à ce qu'un même chiffre ne figure qu'une seule fois par colonne, une seule fois par ligne, et une seule fois par carré de neuf cases.
+
+Au début du jeu, des chiffres sont déjà placés et il vous reste à trouver les autres. En effet, une grille initiale de sudoku correctement constituée ne peut aboutir qu'à une et une seule solution. Pour trouver les chiffres manquants, tout est une question de logique et d'observation.
+
+Un sudoku classique contient neuf lignes et neuf colonnes, donc 81 cases au total. Mais il existe de nombreuses variantes au sudoku classique (aussi appelé 9x9), ne serait-ce qu'en modifiant le nombre de lignes et de colonnes. Vous pouvez ainsi trouver sur Le Sudoku toute la combinaison des grilles en allant du sudoku enfant 4x4 au sudoku géant 12x12.</property>
+                <property name="wrap">True</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+      <packing>
+        <property name="left_attach">0</property>
+        <property name="top_attach">3</property>
+        <property name="width">3</property>
+        <property name="height">3</property>
       </packing>
     </child>
     <child>
