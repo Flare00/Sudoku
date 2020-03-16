@@ -3,8 +3,16 @@
 
 #include <gtk/gtk.h>
 
+
 G_BEGIN_DECLS
 
+
+// Widgets GLOBAUX
+GtkBuilder *constructeur;
+GObject *fenetre;
+GObject *grilleMenu;
+GObject *grilleRegles;
+GError *erreur;
 
 /**
   * structure de données pour garder une trace des boutons du sudoku
@@ -20,33 +28,33 @@ typedef struct boutonSudoku {
 } b_Sudoku;
 
 
-static void print_hello (GtkWidget *widget, gpointer data);
+void print_hello (GtkWidget *widget, gpointer data);
 
 
 /** @brief Transition du menu aux règles
   * @return void : affichage
   */
-static void transitionMenuRegles();
+void transitionMenuRegles();
 
 
 /** @brief Transition des règles au menu
   * @return void : affichage
   */
-static void transitionReglesMenu();
+void transitionReglesMenu();
 
 
 /** @brief Creer l'interface menu GTK
   * @param b_Sudoku* bouton_Struct : structure contenant les traces des boutons du sudoku
   * @return void : construction
   */
-static void menuCreer(b_Sudoku *bouton_Struct);
+void menuCreer(b_Sudoku *bouton_Struct);
 
 
 /** @brief Creer l'interface menu GTK
   * @param b_Sudoku* bouton_Struct : structure contenant les traces des boutons du sudoku
   * @return void : construction
   */
-static void reglesCreer(b_Sudoku *bouton_Struct);
+void reglesCreer(b_Sudoku *bouton_Struct);
 
 
 G_END_DECLS
