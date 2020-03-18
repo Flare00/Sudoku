@@ -5,6 +5,8 @@
 
 G_BEGIN_DECLS
 
+void transitionTEST();
+
 
 /**
   * Widgets Globaux (Fenetre, Grilles, Constructeurs, Erreurs)

@@ -280,7 +280,7 @@
         <property name="can_focus">False</property>
         <property name="margin_top">40</property>
         <property name="margin_bottom">50</property>
-        <property name="label" translatable="yes">Les Options</property>
+        <property name="label" translatable="yes">Options</property>
       </object>
       <packing>
         <property name="left_attach">0</property>
@@ -437,7 +437,7 @@
         <property name="can_focus">False</property>
         <property name="margin_top">40</property>
         <property name="margin_bottom">50</property>
-        <property name="label" translatable="yes">Les règles du Sudoku</property>
+        <property name="label" translatable="yes">Règles du Sudoku</property>
       </object>
       <packing>
         <property name="left_attach">0</property>
