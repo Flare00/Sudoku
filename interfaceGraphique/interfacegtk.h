@@ -3,17 +3,16 @@
 
 #include <gtk/gtk.h>
 
-
 G_BEGIN_DECLS
 
 
-
 /**
-  * Widgets Globaux
+  * Widgets Globaux (Fenetre, Grilles, Constructeurs, Erreurs)
   */
 GtkBuilder *constructeur;
 GObject *fenetre;
 GObject *grilleMenu;
+GObject *grilleDifficulte;
 GObject *grilleRegles;
 GObject *grilleOptions;
 GError *erreur;
@@ -21,6 +20,7 @@ GtkCssProvider *gtkCSS;
 
 /**
   * Structure de données pour garder une trace des boutons du sudoku
+  * et permettre l'assignement des signaux via constructeur XML.
   */
 typedef struct boutonSudoku {
   // Menu
@@ -29,6 +29,12 @@ typedef struct boutonSudoku {
   GObject *boutonRegles;
   GObject *boutonOptions;
   GObject *boutonQuitter;
+  //Difficulte
+  GObject *boutonFacileDifficulte;
+  GObject *boutonNormalDifficulte;
+  GObject *boutonDifficileDifficulte;
+  GObject *boutonExpertDifficulte;
+  GObject *boutonRetourDifficulte;
   // Règles
   GObject *boutonRetourRegles;
   // Options
@@ -37,9 +43,6 @@ typedef struct boutonSudoku {
   GObject *switchSurlignerZone;
   GObject *boutonRetourOptions;
 } b_Sudoku;
-
-
-void print_hello (GtkWidget *widget, gpointer data);
 
 
 /** @brief Transition du menu aux règles
@@ -66,6 +69,25 @@ void transitionMenuOptions();
 void transitionOptionsMenu();
 
 
+/** @brief Transition du menu à la difficulte
+  * @return void : affichage
+  */
+void transitionMenuDifficulte();
+
+
+/** @brief Transition de la difficulte au menu
+  * @return void : affichage
+  */
+void transitionDifficulteMenu();
+
+
+/** @brief Changement de Résolution de la fenetre
+  * @param GtkComboBox *widget, gpointer user_data : widget appelant
+  * @return void : redimension
+  */
+void changementResolution(GtkComboBox *widget, gpointer user_data);
+
+
 /** @brief Creer l'interface "menu" GTK
   * @param b_Sudoku* bouton_Struct : structure contenant les traces des boutons du sudoku
   * @return void : construction
@@ -85,6 +107,13 @@ void reglesCreer(b_Sudoku *bouton_Struct);
   * @return void : construction
   */
 void optionsCreer(b_Sudoku *bouton_Struct);
+
+/** @brief Creer l'interface "difficulte" GTK
+  * @param b_Sudoku* bouton_Struct : structure contenant les traces des boutons du sudoku
+  * @return void : construction
+  */
+void difficulteCreer(b_Sudoku *bouton_Struct);
+
 
 
 G_END_DECLS

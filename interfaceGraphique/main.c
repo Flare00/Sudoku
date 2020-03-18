@@ -32,11 +32,14 @@ int main (int argc, char *argv[]){
   // Initialisation de la Structure
   b_Sudoku *bouton_Struct = (b_Sudoku*) malloc (sizeof (b_Sudoku));
   grilleMenu = gtk_builder_get_object (constructeur, "grilleMenu");
+  grilleDifficulte = gtk_builder_get_object (constructeur, "grilleDifficulte");
   grilleRegles = gtk_builder_get_object (constructeur, "grilleRegles");
   grilleOptions = gtk_builder_get_object (constructeur, "grilleOptions");
 
+
   // Création des différentes parties du Menu
   menuCreer(bouton_Struct);
+  difficulteCreer(bouton_Struct);
   reglesCreer(bouton_Struct);
   optionsCreer(bouton_Struct);
 
