@@ -2,6 +2,7 @@
 #define __SUDOKUGTK_H__
 
 #include <gtk/gtk.h>
+#include <math.h>
 
 G_BEGIN_DECLS
 
@@ -9,13 +10,10 @@ G_BEGIN_DECLS
 /**
   * Widgets Global
   */
+GtkWidget *grilleBoutonJeu;
 GtkWidget *grilleSudoku;
 
 
-/** @brief Fonction HelloWorld
-  * @param GtkWidget *widget, gpointer data : widget appelant
-  * @return void : affichage
-  */
 void print_hello (GtkWidget *widget, gpointer data);
 
 
@@ -23,7 +21,7 @@ void print_hello (GtkWidget *widget, gpointer data);
   * @param GtkWidget *widget, GtkWidget *entry : widget appelant, contenue de l'entrée
   * @return static void : affichage
   */
-static void enter_callback(GtkWidget *widget, GtkWidget *entry);
+void enter_callback(GtkWidget *widget, GtkWidget *entry);
 
 
 /** @brief Creer l'interface "Sudoku" GTK

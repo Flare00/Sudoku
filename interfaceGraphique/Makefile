@@ -3,7 +3,7 @@ OPTIONS  = -Wall
 FLAGSGTK = `pkg-config --cflags --libs gtk+-3.0`
 
 exe: interfacegtk.o main.o sudokugtk.o
-	$(CC) $(OPTIONS) *.o $(FLAGSGTK) -o exe
+	$(CC) $(OPTIONS) *.o $(FLAGSGTK) -o exe -lm
 	rm -f *.o
 	@echo "Excécutable prêt !"
 

@@ -2,58 +2,25 @@
 #include "sudokugtk.h"
 
 
-/** Fonction transition du menu aux règles **/
-void transitionMenuRegles(){
+/** Fonction transition à partir du menu à la data pointée **/
+void transitionMenu(GtkWidget *widget, gpointer data){
   gtk_container_remove (GTK_CONTAINER (fenetre), GTK_WIDGET (grilleMenu));
-  gtk_container_add (GTK_CONTAINER (fenetre), GTK_WIDGET (grilleRegles));
+  gtk_container_add (GTK_CONTAINER (fenetre), GTK_WIDGET (data));
   gtk_widget_show_all(GTK_WIDGET (fenetre));
 }
 
-
-/** Fonction transition des règles au menu **/
-void transitionReglesMenu(){
-  gtk_container_remove (GTK_CONTAINER (fenetre), GTK_WIDGET (grilleRegles));
+/** Fonction transition à partir de la data pointée au menu **/
+void transitionGrille(GtkWidget *widget, gpointer data){
+  gtk_container_remove (GTK_CONTAINER (fenetre), GTK_WIDGET (data));
   gtk_container_add (GTK_CONTAINER (fenetre), GTK_WIDGET (grilleMenu));
   gtk_widget_show_all(GTK_WIDGET (fenetre));
 }
 
-
-/** Fonction transition du menu aux options **/
-void transitionMenuOptions(){
-  gtk_container_remove (GTK_CONTAINER (fenetre), GTK_WIDGET (grilleMenu));
-  gtk_container_add (GTK_CONTAINER (fenetre), GTK_WIDGET (grilleOptions));
-  gtk_widget_show_all(GTK_WIDGET (fenetre));
-}
-
-
-/** Fonction transition des options au menu **/
-void transitionOptionsMenu(){
-  gtk_container_remove (GTK_CONTAINER (fenetre), GTK_WIDGET (grilleOptions));
-  gtk_container_add (GTK_CONTAINER (fenetre), GTK_WIDGET (grilleMenu));
-  gtk_widget_show_all(GTK_WIDGET (fenetre));
-}
-
-
-/** Fonction transition de la difficulte au menu **/
-void transitionDifficulteMenu(){
-  gtk_container_remove (GTK_CONTAINER (fenetre), GTK_WIDGET (grilleDifficulte));
-  gtk_container_add (GTK_CONTAINER (fenetre), GTK_WIDGET (grilleMenu));
-  gtk_widget_show_all(GTK_WIDGET (fenetre));
-}
-
-
-/** Fonction transition du menu à la difficulte **/
-void transitionMenuDifficulte(){
-  gtk_container_remove (GTK_CONTAINER (fenetre), GTK_WIDGET (grilleMenu));
-  gtk_container_add (GTK_CONTAINER (fenetre), GTK_WIDGET (grilleDifficulte));
-  gtk_widget_show_all(GTK_WIDGET (fenetre));
-}
 
 /** Fonction transition du menu à la résolution TESTING... **/
 void transitionTEST(){
   gtk_container_remove (GTK_CONTAINER (fenetre), GTK_WIDGET (grilleMenu));
   sudokuCreer(9);
-  gtk_container_add (GTK_CONTAINER (fenetre), GTK_WIDGET (grilleSudoku));
   gtk_widget_show_all(GTK_WIDGET (fenetre));
 }
 
@@ -102,7 +69,7 @@ void reglesCreer(b_Sudoku *bouton_Struct){
 
   // Déclarations et Signaux des boutons
   bouton_Struct->boutonRetourRegles = gtk_builder_get_object (constructeur, "boutonRetourRegles");
-  g_signal_connect (bouton_Struct->boutonRetourRegles, "clicked", G_CALLBACK (transitionReglesMenu), NULL);
+  g_signal_connect (bouton_Struct->boutonRetourRegles, "clicked", G_CALLBACK (transitionGrille), grilleRegles);
 }
 
 
@@ -117,7 +84,7 @@ void optionsCreer(b_Sudoku *bouton_Struct){
   g_signal_connect (bouton_Struct->switchResolution, "changed", G_CALLBACK (changementResolution), NULL);
   g_signal_connect (bouton_Struct->switchSurlignerNombre, "notify::active", G_CALLBACK (changementSurligner), NULL);
   g_signal_connect (bouton_Struct->switchSurlignerZone, "notify::active", G_CALLBACK (changementSurligner), NULL);
-  g_signal_connect (bouton_Struct->boutonRetourOptions, "clicked", G_CALLBACK (transitionOptionsMenu), NULL);
+  g_signal_connect (bouton_Struct->boutonRetourOptions, "clicked", G_CALLBACK (transitionGrille), grilleOptions);
 }
 
 
@@ -134,7 +101,7 @@ void difficulteCreer(b_Sudoku *bouton_Struct){
   g_signal_connect (bouton_Struct->boutonNormalDifficulte, "clicked", G_CALLBACK (print_hello), NULL);
   g_signal_connect (bouton_Struct->boutonDifficileDifficulte, "clicked", G_CALLBACK (print_hello), NULL);
   g_signal_connect (bouton_Struct->boutonExpertDifficulte, "clicked", G_CALLBACK (print_hello), NULL);
-  g_signal_connect (bouton_Struct->boutonRetourDifficulte, "clicked", G_CALLBACK (transitionDifficulteMenu), NULL);
+  g_signal_connect (bouton_Struct->boutonRetourDifficulte, "clicked", G_CALLBACK (transitionGrille), grilleDifficulte);
 }
 
 
@@ -147,9 +114,9 @@ void menuCreer(b_Sudoku *bouton_Struct){
   bouton_Struct->boutonRegles = gtk_builder_get_object (constructeur, "boutonRegles");
   bouton_Struct->boutonOptions = gtk_builder_get_object (constructeur, "boutonOptions");
   bouton_Struct->boutonQuitter = gtk_builder_get_object (constructeur, "boutonQuitter");
-  g_signal_connect (bouton_Struct->boutonJouer, "clicked", G_CALLBACK (transitionMenuDifficulte), NULL);
+  g_signal_connect (bouton_Struct->boutonJouer, "clicked", G_CALLBACK (transitionMenu), grilleDifficulte);
   g_signal_connect (bouton_Struct->boutonResolution, "clicked", G_CALLBACK (transitionTEST), NULL);
-  g_signal_connect (bouton_Struct->boutonRegles, "clicked", G_CALLBACK (transitionMenuRegles), NULL);
-  g_signal_connect (bouton_Struct->boutonOptions, "clicked", G_CALLBACK (transitionMenuOptions), NULL);
+  g_signal_connect (bouton_Struct->boutonRegles, "clicked", G_CALLBACK (transitionMenu), grilleRegles);
+  g_signal_connect (bouton_Struct->boutonOptions, "clicked", G_CALLBACK (transitionMenu), grilleOptions);
   g_signal_connect (bouton_Struct->boutonQuitter, "clicked", G_CALLBACK (gtk_main_quit), NULL);
 }

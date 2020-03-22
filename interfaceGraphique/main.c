@@ -2,6 +2,8 @@
 
 /** Fonction main() **/
 int main (int argc, char *argv[]){
+  GError *erreur;
+  // GtkCssProvider *gtkCSS;
 
   // Initialisation GTK
   gtk_init (&argc, &argv);
