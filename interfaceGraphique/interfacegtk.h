@@ -8,20 +8,22 @@ G_BEGIN_DECLS
 
 
 /**
-  * Widgets Globaux (Fenetre, Grilles, Constructeurs, Erreurs)
+  * Widgets Globaux (Fenetre, Grilles).
   */
-GtkBuilder *constructeur;
 GObject *fenetre;
 GObject *grilleMenu;
 GObject *grilleDifficulte;
 GObject *grilleRegles;
 GObject *grilleOptions;
 
+
 /**
-  * Structure de données pour garder une trace des boutons du sudoku
-  * et permettre l'assignement des signaux via constructeur XML.
+  * Structure de données permettant de garder une trace des boutons du sudoku
+  * et ainsi permettre l'assignement des signaux via constructeur XML.
   */
 typedef struct boutonSudoku {
+  // Constructeur
+  GtkBuilder *constructeur;
   // Menu
   GObject *boutonJouer;
   GObject *boutonResolution;
@@ -47,25 +49,23 @@ typedef struct boutonSudoku {
 void transitionTEST();
 
 
-/** @brief Transition du menu à une grille
-  * @param GtkWidget *widget, gpointer user_data : widget appelant, pointeur envoyé
-  * @return void : affichage
-  */
-void transitionMenu(GtkWidget *widget, gpointer data);
+/**
+ * @brief Transitions entre les différentes interfaces possibles.
+ *
+ * @param widget        Bouton appelant.
+ * @param grille        Grille à afficher.
+ * @return void
+ */
+void transitionInterface(GtkWidget *widget, gpointer grille);
 
 
-/** @brief Transition d'une grille au menu
-  * @param GtkWidget *widget, gpointer user_data : widget appelant, pointeur envoyé
-  * @return void : affichage
-  */
-void transitionGrille(GtkWidget *widget, gpointer data);
-
-
-/** @brief Changement de Résolution de la fenetre
-  * @param GtkComboBox *widget, gpointer user_data : widget appelant, pointeur envoyé
-  * @return void : redimension
-  */
-void changementResolution(GtkComboBox *widget, gpointer user_data);
+/**
+ * @brief Changement de résolution de la fenêtre principale.
+ *
+ * @param widget        Liste appelante.
+ * @return void
+ */
+void changementResolution(GtkComboBox *widget);
 
 
 /** @brief Creer l'interface "menu" GTK

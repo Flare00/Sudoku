@@ -11,18 +11,25 @@ G_BEGIN_DECLS
 void print_hello (GtkWidget *widget, gpointer data);
 
 
-/** @brief Vérification du contenu de l'entrée
-  * @param GtkWidget *widget, GtkWidget *entry : widget appelant, contenue de l'entrée
-  * @return static void : affichage
-  */
-void enter_callback(GtkEntry *widget, GdkEvent *event, gpointer data);
+/**
+ * @brief Vérification du contenu des cases du Sudoku.
+ *
+ * @param widget        Case du Sudoku appelante.
+ * @param event         Événement déclenchant le signal.
+ * @param tailleSudoku  Taille du Sudoku.
+ * @return void
+ */
+void enter_callback(GtkEntry *widget, GdkEvent *event, gpointer tailleSudoku);
 
 
-/** @brief Creer l'interface "Sudoku" GTK
-  * @param int taille : Taille du sudoku
-  * @return void : affichage
-  */
+/**
+ * @brief Création de l'interface Sudoku.
+ *
+ * @param taille        Taille du Sudoku.
+ * @return void
+ */
 void sudokuCreer(int taille);
+
 
 
 G_END_DECLS

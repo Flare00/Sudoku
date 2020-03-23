@@ -7,12 +7,12 @@ void print_hello (GtkWidget *widget, gpointer data){
 }
 
 /** Fonction vérification des entrées **/
-void enter_callback(GtkEntry *widget, GdkEvent *event, gpointer data){
+void enter_callback(GtkEntry *widget, GdkEvent *event, gpointer tailleSudoku){
   GtkEntry *entry_widget = widget;
   const gchar *entry_text;
   const char *caracDispo[64] = {"1","2","3","4","5","6","7","8","9","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","@","&","+"};
   char trouve = 0; // bool optimisé
-  int taille = GPOINTER_TO_INT(data);
+  int taille = GPOINTER_TO_INT(tailleSudoku);
 
   entry_text = gtk_entry_get_text (GTK_ENTRY (entry_widget));
   for(int i = 0 ; i<taille && trouve == 0 ; i++){
@@ -43,7 +43,7 @@ void sudokuCreer(int taille){
   gtk_grid_attach (GTK_GRID (grilleBoutonJeu), GTK_WIDGET (jeuEtiquetteTitre), 0, 0, 5, 1);
 
   jeuRetour = gtk_button_new_with_label ("Retour Menu");
-  g_signal_connect (jeuRetour, "clicked", G_CALLBACK (transitionGrille), grilleBoutonJeu);
+  g_signal_connect (jeuRetour, "clicked", G_CALLBACK (transitionInterface), grilleMenu);
   gtk_grid_attach (GTK_GRID (grilleBoutonJeu), GTK_WIDGET (jeuRetour), 0, 3, 1, 1);
 
   jeuVerification = gtk_button_new_with_label ("Vérification");

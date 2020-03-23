@@ -1,6 +1,6 @@
 #include "interfacegtk.h"
 
-/** Fonction main() **/
+
 int main (int argc, char *argv[]){
   GError *erreur;
   // GtkCssProvider *gtkCSS;
@@ -8,13 +8,22 @@ int main (int argc, char *argv[]){
   // Initialisation GTK
   gtk_init (&argc, &argv);
 
+  // Initialisation de la Structure
+  b_Sudoku *bouton_Struct = (b_Sudoku*) malloc (sizeof (b_Sudoku));
+
   // Vérification du constructeur
-  constructeur = gtk_builder_new ();
-  if (gtk_builder_add_from_file (constructeur, "constructeur.ui", &erreur) == 0){
+  bouton_Struct->constructeur = gtk_builder_new ();
+  if (gtk_builder_add_from_file (bouton_Struct->constructeur, "constructeur.ui", &erreur) == 0){
     g_printerr ("Erreur : chargement du constructeur: %s\n", erreur->message);
     g_clear_error (&erreur);
     return 1;
   }
+
+  // Affectation de la structure
+  grilleMenu = gtk_builder_get_object (bouton_Struct->constructeur, "grilleMenu");
+  grilleDifficulte = gtk_builder_get_object (bouton_Struct->constructeur, "grilleDifficulte");
+  grilleRegles = gtk_builder_get_object (bouton_Struct->constructeur, "grilleRegles");
+  grilleOptions = gtk_builder_get_object (bouton_Struct->constructeur, "grilleOptions");
 
   /** -- CSS PROBLEM --
   // Vérification du gtkCSS
@@ -28,15 +37,8 @@ int main (int argc, char *argv[]){
   **/
 
   // Initialisation de la fenetre principale
-  fenetre = gtk_builder_get_object (constructeur, "fenetre");
+  fenetre = gtk_builder_get_object (bouton_Struct->constructeur, "fenetre");
   g_signal_connect (fenetre, "destroy", G_CALLBACK (gtk_main_quit), NULL);
-
-  // Initialisation de la Structure
-  b_Sudoku *bouton_Struct = (b_Sudoku*) malloc (sizeof (b_Sudoku));
-  grilleMenu = gtk_builder_get_object (constructeur, "grilleMenu");
-  grilleDifficulte = gtk_builder_get_object (constructeur, "grilleDifficulte");
-  grilleRegles = gtk_builder_get_object (constructeur, "grilleRegles");
-  grilleOptions = gtk_builder_get_object (constructeur, "grilleOptions");
 
 
   // Création des différentes parties du Menu
