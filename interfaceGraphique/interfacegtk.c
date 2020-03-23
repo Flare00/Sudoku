@@ -20,7 +20,7 @@ void transitionGrille(GtkWidget *widget, gpointer data){
 /** Fonction transition du menu à la résolution TESTING... **/
 void transitionTEST(){
   gtk_container_remove (GTK_CONTAINER (fenetre), GTK_WIDGET (grilleMenu));
-  sudokuCreer(9);
+  sudokuCreer(12);
   gtk_widget_show_all(GTK_WIDGET (fenetre));
 }
 

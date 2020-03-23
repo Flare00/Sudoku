@@ -29,26 +29,39 @@ void sudokuCreer(int taille){
   GtkWidget *grilleBoutonJeu;
   GtkWidget *grilleSudoku;
   GtkWidget *caseSudoku[taille][taille];
+  GtkWidget *scrollSudoku;
   GtkWidget *jeuRetour;
   GtkWidget *jeuVerification;
+  GtkWidget *jeuEtiquetteTitre;
 
   // Grille des Boutons du Jeu
   grilleBoutonJeu = gtk_grid_new();
   gtk_container_add (GTK_CONTAINER (fenetre), GTK_WIDGET (grilleBoutonJeu));
 
   // Boutons exemples
+  jeuEtiquetteTitre = gtk_label_new ("Entrez le Sudoku à résoudre");
+  gtk_grid_attach (GTK_GRID (grilleBoutonJeu), GTK_WIDGET (jeuEtiquetteTitre), 0, 0, 5, 1);
+
   jeuRetour = gtk_button_new_with_label ("Retour Menu");
   g_signal_connect (jeuRetour, "clicked", G_CALLBACK (transitionGrille), grilleBoutonJeu);
-  gtk_grid_attach (GTK_GRID (grilleBoutonJeu), GTK_WIDGET (jeuRetour), 0, 2, 1, 1);
+  gtk_grid_attach (GTK_GRID (grilleBoutonJeu), GTK_WIDGET (jeuRetour), 0, 3, 1, 1);
 
   jeuVerification = gtk_button_new_with_label ("Vérification");
   g_signal_connect (jeuVerification, "clicked", G_CALLBACK (print_hello), NULL);
   g_signal_connect_swapped (jeuVerification, "clicked", G_CALLBACK (gtk_widget_destroy), fenetre);
-  gtk_grid_attach (GTK_GRID (grilleBoutonJeu), GTK_WIDGET (jeuVerification), 2, 2, 2, 1);
+  gtk_grid_attach (GTK_GRID (grilleBoutonJeu), GTK_WIDGET (jeuVerification), 4, 3, 1, 1);
+
+  // Scroll du SUDOKU
+  scrollSudoku = gtk_scrolled_window_new (NULL, NULL);
+  gtk_container_set_border_width (GTK_CONTAINER (scrollSudoku), 20);
+  gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrollSudoku), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+  gtk_widget_set_vexpand (GTK_WIDGET (scrollSudoku), TRUE);
+  gtk_widget_set_hexpand (GTK_WIDGET (scrollSudoku), TRUE);
+  gtk_grid_attach (GTK_GRID (grilleBoutonJeu), GTK_WIDGET (scrollSudoku), 0, 1, 5, 2);
 
   // Grille du SUDOKU
   grilleSudoku = gtk_grid_new();
-  gtk_grid_attach (GTK_GRID (grilleBoutonJeu), GTK_WIDGET (grilleSudoku), 0, 0, 4, 2);
+  gtk_container_add (GTK_CONTAINER (scrollSudoku), grilleSudoku);
 
   // Construction des cases du Sudoku dans la grille
   for (int i = 0; i < taille; i++){
