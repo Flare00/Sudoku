@@ -7,12 +7,6 @@
 G_BEGIN_DECLS
 
 
-/**
-  * Widgets Global
-  */
-GtkWidget *grilleBoutonJeu;
-GtkWidget *grilleSudoku;
-
 
 void print_hello (GtkWidget *widget, gpointer data);
 
@@ -21,7 +15,7 @@ void print_hello (GtkWidget *widget, gpointer data);
   * @param GtkWidget *widget, GtkWidget *entry : widget appelant, contenue de l'entrée
   * @return static void : affichage
   */
-void enter_callback(GtkWidget *widget, GtkWidget *entry);
+void enter_callback(GtkEntry *widget, GdkEvent *event, gpointer data);
 
 
 /** @brief Creer l'interface "Sudoku" GTK
