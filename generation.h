@@ -15,7 +15,7 @@
 * \param level int : le niveau de difficulté nécéssaire pour la grille
 * \return uint8_t ** : la grille de sudoku.
 */
-uint8_t ** genererGrilleSudokuValide(size_t taille, int niveau);
+uint8_t ** genererGrilleSudokuValide(size_t taille, int niveauDemander);
 
 /**
  * \brief retire une case, parmi les cases non vide, de la grille de façon aléatoire.
@@ -30,6 +30,12 @@ uint8_t ** genererGrilleSudokuValide(size_t taille, int niveau);
  */ 
 void retirerCaseRandom(uint8_t ** grille, size_t taille);
 
+/**
+ * \brief retire une case, parmi les cases non vide, de la grille de façon aléatoire et son symétrique selon le centre du sudoku.
+ * \param grille : grille du sudoku 
+ * \return int : nombre de case retirer (1 ou 2);
+ */ 
+int retirerCaseSymetrie(uint8_t ** grille, size_t taille);
 /**
  * \brief genere une grille de sudoku complete.
  * \param taille : taille de la grille.

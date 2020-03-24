@@ -2,22 +2,25 @@
 #include "generation.h"
 //#include "difficulte.h"
 
-uint8_t** genererGrilleSudokuValide(size_t taille, int level)
+uint8_t **genererGrilleSudokuValide(size_t taille, int niveauDemander)
 {
+	printf("niveauDemander : %i\n", niveauDemander);
     int difficulte = 0;
     srand(time(NULL));
-    uint8_t ** grille = genererGrilleComplete(taille);
+    uint8_t **grille = genererGrilleComplete(taille);
     //affichage(grille, taille);
-    int casesRestante = taille*taille;
-    retirerCaseRandom(grille, taille);
-    casesRestante-=1;
+    int nbCasesTotal = taille*taille;
+    int casesRestantes = nbCasesTotal;
+
+    printf("Passe 1 \n");
+
     do
     {
-        uint8_t ** grilleTemp = grille; // faire une de la grille copie;
-		retirerCaseRandom(grilleTemp, taille);
-		casesRestante-=1;
+        uint8_t **grilleTemp = grille; // faire une de la grille copie;
+        int retrait = retirerCaseSymetrie(grilleTemp, taille);
+        casesRestantes -= retrait;
         difficulte = 1;
-        //difficulte = validiterEtDifficulter(grilleTemp, taille, level);
+        //difficulte = validiterEtDifficulter(grilleTemp, taille, niveauDemander);
         //La difficulté 5 permet a l'algorithme de renvoyer la derniere grille, car la nouvelle ne correspond plus au niveau souhaiter.
         //La difficulté 0 (erreur) ne remplace pas grille par grille_temp et permet donc de changer la case retirer aléatoirement.
         if (difficulte != 5 && difficulte != 0)
@@ -26,12 +29,27 @@ uint8_t** genererGrilleSudokuValide(size_t taille, int level)
             grille = grilleTemp;
         }
 
-        //si le nombre de cases restante est inferieur a 20, termine la boucle.
-        if (casesRestante < 20)
+        if(niveauDemander == 1 && casesRestantes < (nbCasesTotal/3) + taille){
+        	printf("case voulu : %i | cases eu : %i\n", (nbCasesTotal/3) + taille, casesRestantes);
+        	difficulte = 5;
+        } else if(niveauDemander == 2 && casesRestantes < (nbCasesTotal/3) + (taille/2)){
+        	printf("case voulu : %i | cases eu : %i\n", (nbCasesTotal/3) + (taille/2), casesRestantes);
+			difficulte = 5;
+        } else if(niveauDemander == 3 && casesRestantes < (nbCasesTotal/4) + taille){
+        	printf("case voulu : %i | cases eu : %i\n", (nbCasesTotal/4) + taille, casesRestantes);
+			difficulte = 5;
+        } else if(niveauDemander == 4 && casesRestantes < (nbCasesTotal/4) + (taille/2)){
+        	printf("case voulu : %i | cases eu : %i\n", (nbCasesTotal/4) + (taille/2), casesRestantes);
+			difficulte = 5;
+        }
+
+        //si le nombre de cases restante est inferieur a nbCasesTotal/4+1, termine la boucle.
+        if (casesRestantes < nbCasesTotal/4 + 1)
         {
             difficulte = 5;
         }
     } while (difficulte != 5);
+    printf("Passe Final \n");
 
     return grille;
 }
@@ -62,13 +80,13 @@ uint8_t** genererGrilleSudokuValide(size_t taille, int level)
 
 void retirerCaseRandom(uint8_t **grille, size_t taille)
 {
-    
+
     int reussi = 0;
 
     while (reussi == 0)
     {
-    	size_t ligne = rand() % taille;
-    	size_t colonne = rand() % taille;
+        size_t ligne = rand() % taille;
+        size_t colonne = rand() % taille;
         if (grille[colonne][ligne] != 0)
         {
             grille[colonne][ligne] = 0;
@@ -77,98 +95,158 @@ void retirerCaseRandom(uint8_t **grille, size_t taille)
     }
 }
 
-uint8_t ** genererGrilleComplete(size_t taille)
+int retirerCaseSymetrie(uint8_t **grille, size_t taille)
 {
-    uint8_t ** retour = malloc(taille * sizeof(uint8_t*));
-    for(int i = 0; i < taille; i++){
-    	retour[i] = malloc(taille * sizeof(uint8_t));
-    }
-    size_t taille_bloc = (size_t)sqrt(taille);
 
+    int reussi = 0;
+
+    while (reussi == 0)
+    {
+        size_t ligne = rand() % taille;
+        size_t colonne = rand() % taille;
+        size_t symLigne = taille-ligne-1;
+		size_t symColonne = taille-colonne-1;
+        if (grille[colonne][ligne] != 0)
+        {
+            grille[colonne][ligne] = 0;
+
+            reussi = 1;
+            if(grille[symColonne][symLigne] != 0){
+        		grille[symColonne][symLigne] = 0;
+            	reussi = 2;
+			}
+        }
+    }
+    return reussi;
+}
+
+uint8_t **genererGrilleComplete(size_t taille)
+{
+    uint8_t **retour = malloc(taille * sizeof(uint8_t *));
+    for (int i = 0; i < taille; i++)
+    {
+        retour[i] = malloc(taille * sizeof(uint8_t));
+    }
+    size_t tailleBloc = (size_t)sqrt(taille);
+
+    //Creer une liste valeurMelange pour mélanger les valeurs lors de la génération;
+    uint8_t *valeurMelange = malloc(taille);
+    for (int i = 0; i < taille; i++)
+    {
+        valeurMelange[i] = i + 1;
+    }
+    for (int i = 0; i < taille * 2;i++)
+    {
+        //choisie aléatoirement deux case a echangeé
+        int base = rand() % taille;
+        int echange = rand() % taille;
+        //les echange dans la liste
+        uint8_t temp = valeurMelange[base];
+        valeurMelange[base] = valeurMelange[echange];
+        valeurMelange[echange] = temp;
+    }
     for (int i = 0; i < taille; i++)
     {
         for (int j = 0; j < taille; j++)
         {
-            //Formule pour generer, selon i, j,la taille de la grille, et taille_bloc la taille d'un bloc de la grille.
-            //Genere une grille complete valide ayant pour premiere ligne {1,2,3,4,5,6,7,8,9}
-            retour[i][j] = (((taille_bloc * i) + (((j + (i / taille_bloc)) % taille_bloc) + (taille_bloc * (j / taille_bloc)))) % (taille)) + 1;
+            //Formule pour generer, selon i, j,la taille de la grille, et tailleBloc la taille d'un bloc de la grille.
+            //Genere une grille complete valide ayant pour premiere ligne le tableau valeurMelange;
+        	retour[i][j] = valeurMelange[(((tailleBloc * i) + (((j % tailleBloc) + (i/tailleBloc)) + (tailleBloc * (j / tailleBloc)))) % (taille))];
         }
     }
 
     //Permutation / rotation
 
-    for(int i = 0; i < taille*4; i++){
+    for (int i = 0; i < taille * 4; i++)
+    {
         int x = rand() % taille;
         int y = rand() % taille;
-        while(x == y){
-           y = rand() % taille;
+
+        while (x == y)
+        {
+            y = rand() % taille;
         }
+
         permuterLignes(retour, taille);
 
         permuterColonnes(retour, taille);
 
         //retour = rotation(retour, taille);
     }
+
+    affichage(retour, taille);
     return retour;
 }
 
 void permuterLignes(uint8_t **grille, size_t taille)
 {
-	size_t tailleBloc = sqrt(taille);
-	//permutation des lignes d'une bande
+    size_t tailleBloc = sqrt(taille);
+    //permutation des lignes d'une bande
 
-    for(int i = 0; i < taille*taille; i++){
-    	int v1 = (rand() %tailleBloc) + (tailleBloc*(i%tailleBloc));
-    	int v2 = (rand() %tailleBloc) + (tailleBloc*(i%tailleBloc));
-    	while(v1 == v2){
-    		v2 = (rand() %tailleBloc) + (tailleBloc*(i%tailleBloc));
-    	}
-    	echangerLignes(grille, taille, v1, v2);
+    for (int i = 0; i < taille*2; i++)
+    {
+        int v1 = (rand() % tailleBloc) + (tailleBloc * (i % tailleBloc));
+        int v2 = (rand() % tailleBloc) + (tailleBloc * (i % tailleBloc));
+        while (v1 == v2)
+        {
+            v2 = (rand() % tailleBloc) + (tailleBloc * (i % tailleBloc));
+        }
+        echangerLignes(grille, taille, v1, v2);
     }
 
     //permutation des bandes
-    for(int i = 0; i < taille; i++){
-    	int v1 = rand() %tailleBloc;
-    	int v2 = rand() %tailleBloc;
-    	while(v1 == v2){
-    		v2 = rand() %tailleBloc;
-    	}
-    	echangerLignes(grille, taille, v1*tailleBloc, v2*tailleBloc);
-    	echangerLignes(grille, taille, (v1*tailleBloc)+1, (v2*tailleBloc)+1);
-    	echangerLignes(grille, taille, (v1*tailleBloc)+2, (v2*tailleBloc)+2);
+    for (int i = 0; i < taille; i++)
+    {
+        int v1 = rand() % tailleBloc;
+        int v2 = rand() % tailleBloc;
+        while (v1 == v2)
+        {
+            v2 = rand() % tailleBloc;
+        }
+        for(int i = 0; i < tailleBloc;i++){
+        	echangerLignes(grille, taille, (v1 * tailleBloc)+i, (v2 * tailleBloc) + i);
+        }
     }
-
 }
 
 void permuterColonnes(uint8_t **grille, size_t taille)
 {
 
-	size_t tailleBloc = sqrt(taille);
+    size_t tailleBloc = sqrt(taille);
 
-	//permutation des colonne d'une pile
-    for(int i = 0; i < taille*taille; i++){
-    	int v1 = (rand() %tailleBloc) + (tailleBloc*(i%tailleBloc));
-    	int v2 = (rand() %tailleBloc) + (tailleBloc*(i%tailleBloc));
-    	while(v1 == v2){
-    		v2 = (rand() %tailleBloc) + (tailleBloc*(i%tailleBloc));
-    	}
-    	echangerColonnes(grille, taille, v1, v2);
+    //permutation des colonne d'une pile
+    for (int i = 0; i < taille * 2; i++)
+    {
+        int v1 = (rand() % tailleBloc) + (tailleBloc * (i % tailleBloc));
+        int v2 = (rand() % tailleBloc) + (tailleBloc * (i % tailleBloc));
+        while (v1 == v2)
+        {
+            v2 = (rand() % tailleBloc) + (tailleBloc * (i % tailleBloc));
+        }
+        echangerColonnes(grille, taille, v1, v2);
     }
+
     //permutation des piles
-    for(int i = 0; i < taille; i++){
-    	int v1 = rand() %tailleBloc;
-    	int v2 = rand() %tailleBloc;
-    	while(v1 == v2){
-    		v2 = rand() %tailleBloc;
-    	}
-    	echangerColonnes(grille, taille, v1*tailleBloc, v2*tailleBloc);
-    	echangerColonnes(grille, taille, (v1*tailleBloc)+1, (v2*tailleBloc)+1);
-    	echangerColonnes(grille, taille, (v1*tailleBloc)+2, (v2*tailleBloc)+2);
+    for (int i = 0; i < taille; i++)
+    {
+        int v1 = rand() % tailleBloc;
+        int v2 = rand() % tailleBloc;
+
+        while (v1 == v2)
+        {
+            v2 = rand() % tailleBloc;
+        }
+
+		for(int i = 0; i < tailleBloc;i++){
+        	echangerColonnes(grille, taille, (v1 * tailleBloc)+i, (v2 * tailleBloc) + i);
+        }
     }
+
 }
 
-void echangerLignes(uint8_t ** grille, size_t taille, size_t ligne1, size_t ligne2){
-	for (int i = 0; i < taille; i++)
+void echangerLignes(uint8_t **grille, size_t taille, size_t ligne1, size_t ligne2)
+{
+    for (int i = 0; i < taille; i++)
     {
         int8_t temp = grille[i][ligne1];
         grille[i][ligne1] = grille[i][ligne2];
@@ -176,8 +254,9 @@ void echangerLignes(uint8_t ** grille, size_t taille, size_t ligne1, size_t lign
     }
 }
 
-void echangerColonnes(uint8_t ** grille, size_t taille, size_t colonne1, size_t colonne2){
-	for (int i = 0; i < taille; i++)
+void echangerColonnes(uint8_t **grille, size_t taille, size_t colonne1, size_t colonne2)
+{
+    for (int i = 0; i < taille; i++)
     {
         int8_t temp = grille[colonne1][i];
         grille[colonne1][i] = grille[colonne2][i];
