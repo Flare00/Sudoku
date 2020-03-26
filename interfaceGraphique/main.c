@@ -24,6 +24,7 @@ int main (int argc, char *argv[]){
   grilleDifficulte = gtk_builder_get_object (bouton_Struct->constructeur, "grilleDifficulte");
   grilleRegles = gtk_builder_get_object (bouton_Struct->constructeur, "grilleRegles");
   grilleOptions = gtk_builder_get_object (bouton_Struct->constructeur, "grilleOptions");
+  grilleResoudre = gtk_builder_get_object (bouton_Struct->constructeur, "grilleResoudre");
 
   /** -- CSS PROBLEM --
   // Vérification du gtkCSS
@@ -46,6 +47,8 @@ int main (int argc, char *argv[]){
   difficulteCreer(bouton_Struct);
   reglesCreer(bouton_Struct);
   optionsCreer(bouton_Struct);
+  resoudreCreer(bouton_Struct);
+
 
   // On envoie le menu en premier
   gtk_container_add (GTK_CONTAINER (fenetre), GTK_WIDGET (grilleMenu));

@@ -86,7 +86,7 @@ void sortieCase(GtkEntry *widget, GdkEvent *evenement, gpointer donnee);
  * @brief Création de l'interface Sudoku.
  *
  * @param taille        Taille du Sudoku.
- * @return void
+ * @return void         Affichage
  */
 void sudokuCreer(int taille);
 

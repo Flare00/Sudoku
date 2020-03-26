@@ -2,6 +2,94 @@
 <!-- Generated with glade 3.22.1 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
+  <object class="GtkAdjustment" id="adjustment">
+    <property name="lower">1</property>
+    <property name="upper">7</property>
+    <property name="value">1</property>
+    <property name="step_increment">1</property>
+  </object>
+  <object class="GtkGrid" id="grilleResoudre">
+    <property name="name">menu</property>
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="margin_bottom">15</property>
+    <property name="orientation">vertical</property>
+    <property name="row_homogeneous">True</property>
+    <property name="column_homogeneous">True</property>
+    <child>
+      <object class="GtkLabel" id="etiquetteTitreResoudre">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="margin_top">40</property>
+        <property name="margin_bottom">50</property>
+        <property name="label" translatable="yes">Choisissez la taille du Sudoku</property>
+      </object>
+      <packing>
+        <property name="left_attach">0</property>
+        <property name="top_attach">0</property>
+        <property name="width">4</property>
+        <property name="height">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkButton" id="boutonRetourResoudre">
+        <property name="label" translatable="yes">Retour</property>
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="receives_default">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">0</property>
+        <property name="top_attach">4</property>
+        <property name="width">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkButton" id="boutonValiderResoudre">
+        <property name="label" translatable="yes">Valider</property>
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="receives_default">True</property>
+      </object>
+      <packing>
+        <property name="left_attach">2</property>
+        <property name="top_attach">4</property>
+        <property name="width">2</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkScale" id="scaleSudokuResoudre">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="margin_left">30</property>
+        <property name="margin_right">30</property>
+        <property name="margin_top">30</property>
+        <property name="margin_bottom">30</property>
+        <property name="adjustment">adjustment</property>
+        <property name="fill_level">7</property>
+        <property name="round_digits">1</property>
+        <property name="digits">0</property>
+        <property name="value_pos">right</property>
+      </object>
+      <packing>
+        <property name="left_attach">0</property>
+        <property name="top_attach">3</property>
+        <property name="width">4</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="etiquetteTraductionResoudre">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label" translatable="yes">4 x 4</property>
+      </object>
+      <packing>
+        <property name="left_attach">0</property>
+        <property name="top_attach">2</property>
+        <property name="width">4</property>
+      </packing>
+    </child>
+  </object>
   <object class="GtkWindow" id="fenetre">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
@@ -34,7 +122,7 @@
       </object>
       <packing>
         <property name="left_attach">1</property>
-        <property name="top_attach">5</property>
+        <property name="top_attach">4</property>
       </packing>
     </child>
     <child>
@@ -46,7 +134,7 @@
       </object>
       <packing>
         <property name="left_attach">1</property>
-        <property name="top_attach">3</property>
+        <property name="top_attach">2</property>
       </packing>
     </child>
     <child>
@@ -58,7 +146,7 @@
       </object>
       <packing>
         <property name="left_attach">1</property>
-        <property name="top_attach">6</property>
+        <property name="top_attach">5</property>
       </packing>
     </child>
     <child>
@@ -85,7 +173,7 @@
       </object>
       <packing>
         <property name="left_attach">1</property>
-        <property name="top_attach">4</property>
+        <property name="top_attach">3</property>
       </packing>
     </child>
     <child>
@@ -97,17 +185,8 @@
       </object>
       <packing>
         <property name="left_attach">1</property>
-        <property name="top_attach">7</property>
+        <property name="top_attach">6</property>
       </packing>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
     </child>
     <child>
       <placeholder/>
@@ -159,7 +238,7 @@
       </object>
       <packing>
         <property name="left_attach">1</property>
-        <property name="top_attach">5</property>
+        <property name="top_attach">4</property>
       </packing>
     </child>
     <child>
@@ -171,7 +250,7 @@
       </object>
       <packing>
         <property name="left_attach">1</property>
-        <property name="top_attach">3</property>
+        <property name="top_attach">2</property>
       </packing>
     </child>
     <child>
@@ -183,7 +262,7 @@
       </object>
       <packing>
         <property name="left_attach">1</property>
-        <property name="top_attach">6</property>
+        <property name="top_attach">5</property>
       </packing>
     </child>
     <child>
@@ -195,7 +274,7 @@
       </object>
       <packing>
         <property name="left_attach">1</property>
-        <property name="top_attach">7</property>
+        <property name="top_attach">6</property>
       </packing>
     </child>
     <child>
@@ -222,17 +301,8 @@
       </object>
       <packing>
         <property name="left_attach">1</property>
-        <property name="top_attach">4</property>
+        <property name="top_attach">3</property>
       </packing>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
     </child>
     <child>
       <placeholder/>
@@ -296,7 +366,7 @@
       </object>
       <packing>
         <property name="left_attach">3</property>
-        <property name="top_attach">4</property>
+        <property name="top_attach">3</property>
       </packing>
     </child>
     <child>
@@ -307,7 +377,7 @@
       </object>
       <packing>
         <property name="left_attach">3</property>
-        <property name="top_attach">5</property>
+        <property name="top_attach">4</property>
       </packing>
     </child>
     <child>
@@ -318,7 +388,7 @@
       </object>
       <packing>
         <property name="left_attach">1</property>
-        <property name="top_attach">4</property>
+        <property name="top_attach">3</property>
         <property name="width">2</property>
       </packing>
     </child>
@@ -330,7 +400,7 @@
       </object>
       <packing>
         <property name="left_attach">1</property>
-        <property name="top_attach">5</property>
+        <property name="top_attach">4</property>
         <property name="width">2</property>
       </packing>
     </child>
@@ -342,7 +412,7 @@
       </object>
       <packing>
         <property name="left_attach">1</property>
-        <property name="top_attach">3</property>
+        <property name="top_attach">2</property>
         <property name="width">2</property>
       </packing>
     </child>
@@ -355,7 +425,7 @@
       </object>
       <packing>
         <property name="left_attach">2</property>
-        <property name="top_attach">6</property>
+        <property name="top_attach">5</property>
       </packing>
     </child>
     <child>
@@ -373,23 +443,8 @@
       </object>
       <packing>
         <property name="left_attach">3</property>
-        <property name="top_attach">3</property>
+        <property name="top_attach">2</property>
       </packing>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
     </child>
     <child>
       <placeholder/>
@@ -483,19 +538,10 @@ Un sudoku classique contient neuf lignes et neuf colonnes, donc 81 cases au tota
       </object>
       <packing>
         <property name="left_attach">0</property>
-        <property name="top_attach">3</property>
+        <property name="top_attach">2</property>
         <property name="width">3</property>
-        <property name="height">3</property>
+        <property name="height">4</property>
       </packing>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
     </child>
     <child>
       <placeholder/>
