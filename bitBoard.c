@@ -91,14 +91,14 @@ void afficherBitBoard(size_t taille, uint64_t* bb)
 uint32_t* bitboard32Creer(size_t taille)
 {
     uint32_t* bb = malloc(taille * sizeof(uint32_t));
-	assert(bb != NULL);
+	if(!bb) return NULL;
 	return bb;
 }
 
 uint64_t* bitboard64Creer(size_t taille)
 {
     uint64_t* bb = malloc(taille * sizeof(uint64_t));
-	assert(bb != NULL);
+	if(!bb) return NULL;
 	return bb;
 }
 

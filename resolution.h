@@ -58,4 +58,11 @@ void heuristiquePaireCachee(size_t taille,Liste *dl,uint64_t *bbL, uint64_t *bbC
   */
 bool resoudreRecursivement(uint8_t** grille, Liste *dl, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB,uint8_t **map);
 
+/** @brief Résoudre la grille
+  * @param uint8_t* entree : les informations de la grille ligne par ligne
+  * @param size_t n : la racine de la taille de la grille
+  * @return bool : true si le problème est résolu, false sinon
+  */
+bool resoudre(uint8_t *entree, size_t n);
+
 #endif

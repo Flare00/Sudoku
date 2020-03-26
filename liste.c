@@ -3,6 +3,11 @@
 Liste *listeInsertionOrdonnee(Liste *dl, uint64_t candidats, size_t i, size_t j)// on passe la liste par référence
 {
     Liste *elem = malloc(sizeof(Liste));
+    if(!elem)
+    {
+        listeDetruire(dl);
+        return NULL;
+    }
 
     if(!elem) exit(EXIT_FAILURE);
     elem->candidats = candidats;

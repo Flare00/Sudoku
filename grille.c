@@ -20,14 +20,14 @@ uint8_t **grilleCreer(uint8_t *chaine, size_t taille)
             }
             else{
                 grilleDetruire(grille, i);
-                printf("Erreur d'allocation de mémoire !\n");
-                exit(1);
+                //printf("Erreur d'allocation de mémoire !\n");
+                return NULL;
             }
         }
     }
     else{
-        printf("Erreur d'allocation de mémoire !\n");
-        exit(1);
+        //printf("Erreur d'allocation de mémoire !\n");
+        return NULL;
     }
 	return grille;
 }
@@ -73,11 +73,14 @@ uint8_t** mapCreer(size_t n)
 {
     size_t taille = n*n;
     uint8_t **map = malloc(taille * sizeof(uint8_t*));
-    if(map != NULL)
+    if(!map) return NULL;
+    for (size_t i = 0; i < taille; i++)
     {
-        for (size_t i = 0; i < taille; i++)
+        map[i] = malloc(taille * sizeof(uint8_t));
+        if(!map[i])
         {
-            map[i] = malloc(taille * sizeof(uint8_t));
+            grilleDetruire(map, i); //puisque map est de la même dimension que grille, on peut utiliser grilleDetruire
+            return NULL;
         }
     }
     for (size_t i = 0; i < taille; i++)

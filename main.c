@@ -6,7 +6,7 @@
 #include <time.h>
 
 
-int main(int argc, char **argv)
+/*int main(int argc, char **argv)
 {
 	size_t n = 4, taille = n*n;
 	double time_taken;
@@ -46,11 +46,11 @@ int main(int argc, char **argv)
     afficherGrille(taille, n, grille);
 
 
-    /*start = clock();
-    heuristiqueUniqueCandidat(n, bbL, bbC, bbB, grille);
-    end = clock();
-    time_taken = (double)(end - start) / (double)(CLOCKS_PER_SEC);
-    printf("L'élimination de candidats à partir de candidats solo a duré %f sec !\n\n", time_taken);*/
+    // start = clock();
+    // heuristiqueUniqueCandidat(n, bbL, bbC, bbB, grille);
+    // end = clock();
+    // time_taken = (double)(end - start) / (double)(CLOCKS_PER_SEC);
+    // printf("L'élimination de candidats à partir de candidats solo a duré %f sec !\n\n", time_taken);
 
     printf("\n Heuristique unique candidat terminé");
     afficherGrille(taille, n, grille);
@@ -90,4 +90,25 @@ int main(int argc, char **argv)
     mapDetruire(map, taille);
 
 	return 0;
+}*/
+
+int main(int argc, char const *argv[])
+{
+    /*uint8_t entree[81] = {0,2,0,3,1,7,0,0,0,0,0,0,0,0,9,8,2,1,5,4,0,0,0,0,0,3,0,0,0,9,0,6,2,4,0,3,0,0,0,1,3,0,0,0,6,0,0,7,0,8,4,1,0,2,8,1,0,0,0,0,0,7,0,0,0,0,0,0,1,2,4,8,0,6,0,4,7,8,0,0,0};
+    size_t n = 3, n2 = n*n, n4 = n2*n2;*/
+
+    //uint8_t entree[256] = {0,0,0,0,0,0,7,8,0,10,11,12,13,0,0,16,0,0,7,8,1,2,3,4,13,0,0,16,0,10,11,12,0,10,11,0,0,0,0,16,1,2,3,4,0,0,7,8,13,0,0,16,0,10,11,12,0,0,7,8,1,2,3,4,0,0,4,3,6,5,8,7,10,0,12,11,14,13,16,15,6,5,8,7,0,0,4,0,0,0,0,0,10,0,12,11,10,0,0,0,0,0,0,15,0,0,4,3,6,5,8,7,14,13,16,15,10,0,12,11,6,5,8,7,0,0,4,3,3,4,1,2,7,8,0,0,11,12,0,10,0,0,0,0,7,8,0,0,3,4,1,2,15,16,13,14,11,12,0,10,11,12,0,10,15,16,13,14,3,4,1,2,7,8,0,0,15,16,13,14,11,12,0,10,7,8,0,0,3,4,1,2,4,3,0,0,8,7,6,5,0,0,0,0,0,0,0,0,8,7,6,5,4,3,0,0,16,15,14,13,12,11,10,0,0,0};
+    uint8_t entree[256] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+    size_t n = 4, n2 = n*n, n4 = n2*n2;
+
+    resoudre(entree, n);
+
+    for (int i = 0; i < n4; ++i)
+    {
+        if(i%n2 == 0) printf("\n");
+        printf(entree[i]<10 ? "%d  " : "%d ", entree[i]);
+    }
+    printf("\n");
+
+    return 0;
 }
