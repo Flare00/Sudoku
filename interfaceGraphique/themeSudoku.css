@@ -1,13 +1,6 @@
-.button:hover {
-	color: yellowgreen;
-	background-color: green;
-	opacity: 0.95;
-	text-decoration: underline;
-	background-image:  -gtk-gradient (linear,
-		left top,
-		left bottom,
-		color-stop(0.0,rgba(34,97,70,1)),
-		color-stop(0.30,rgba(56,145,118,0.9)),
-		color-stop(0.81,rgba(34,131,116,0.9)),
-		color-stop(1.00,rgba(104,191,134,1)));
+.button{
+    background: #669999;
+    text-shadow: 1px 1px 5px red;
+    border-radius: 3px;
+    box-shadow: 0px 0px 5px red;
 }
