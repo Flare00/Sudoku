@@ -3,7 +3,7 @@
 
 int main (int argc, char *argv[]){
   GError *erreur;
-  // GtkCssProvider *gtkCSS;
+  //** GtkCssProvider *gtkCSS; **//
 
   // Initialisation GTK
   gtk_init (&argc, &argv);

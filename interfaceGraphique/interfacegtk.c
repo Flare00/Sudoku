@@ -2,6 +2,7 @@
 #include "sudokugtk.h"
 
 
+// ---- !!! ---- A OPTIMISER  ---- !!! ---- //
 void transitionTEST(){
   gtk_container_remove (GTK_CONTAINER (fenetre), GTK_WIDGET (grilleMenu));
   sudokuCreer(9);
@@ -45,7 +46,7 @@ void changementResolution(GtkComboBox *widget){
 }
 
 
-/** TO DO **/
+// ---- !!! ---- A OPTIMISER  ---- !!! ---- //
 void changementSurligner(GObject *switcher, GParamSpec *pspec, gpointer user_data){
   if (gtk_switch_get_active (GTK_SWITCH (switcher))){
     g_print("yes!");
@@ -56,6 +57,7 @@ void changementSurligner(GObject *switcher, GParamSpec *pspec, gpointer user_dat
 }
 
 
+// ---- !!! ---- A OPTIMISER  ---- !!! ---- //
 /** Fonction Création Règles **/
 void reglesCreer(b_Sudoku *bouton_Struct){
 
@@ -65,6 +67,7 @@ void reglesCreer(b_Sudoku *bouton_Struct){
 }
 
 
+// ---- !!! ---- A OPTIMISER  ---- !!! ---- //
 /** Fonction Création Options **/
 void optionsCreer(b_Sudoku *bouton_Struct){
 
@@ -80,6 +83,7 @@ void optionsCreer(b_Sudoku *bouton_Struct){
 }
 
 
+// ---- !!! ---- A OPTIMISER  ---- !!! ---- //
 /** Fonction Création Difficulte **/
 void difficulteCreer(b_Sudoku *bouton_Struct){
 
@@ -97,6 +101,7 @@ void difficulteCreer(b_Sudoku *bouton_Struct){
 }
 
 
+// ---- !!! ---- A OPTIMISER  ---- !!! ---- //
 /** Fonction Création Menu **/
 void menuCreer(b_Sudoku *bouton_Struct){
 

@@ -7,19 +7,79 @@
 G_BEGIN_DECLS
 
 
-
+// Test
 void print_hello (GtkWidget *widget, gpointer data);
+
+// ---- !!! ---- A OPTIMISER  ---- !!! ---- //
+GtkWidget *caseSudoku[64][64];
 
 
 /**
- * @brief Vérification du contenu des cases du Sudoku.
+ * @brief Création des tableaux des coordonnées de chaque case du Sudoku.
+ *
+ * @param t             Taille du Sudoku.
+ * @param x             Ligne de la case du Sudoku appelante.
+ * @param y             Colonne de la case du Sudoku appelante.
+ * @return int*         Tableau contenant les coordonnées (x,y) ainsi que la taille.
+ */
+int* envoiCoords(int t, int x, int y);
+
+
+/**
+ * @brief Vérification de la ligne qui contient la case du Sudoku appelante.
+ *
+ * @param t             Taille du Sudoku.
+ * @param l             Ligne de la case du Sudoku appelante.
+ * @param c             Colonne de la case du Sudoku appelante.
+ * @param val           Valeur de la case du Sudoku appelante.
+ * @return char         Booléen simplifié, renvoie VRAI si la val existe déjà dans la ligne.
+ */
+char verifLigne(int t, int l, int c, const char *val);
+
+
+/**
+ * @brief Vérification de la colonne qui contient la case du Sudoku appelante.
+ *
+ * @param t             Taille du Sudoku.
+ * @param l             Ligne de la case du Sudoku appelante.
+ * @param c             Colonne de la case du Sudoku appelante.
+ * @param val           Valeur de la case du Sudoku appelante.
+ * @return char         Booléen simplifié, renvoie VRAI si la val existe déjà dans la colonne.
+ */
+char verifColonne(int t, int l, int c, const char *val);
+
+
+/**
+ * @brief Vérification du carré qui contient la case du Sudoku appelante.
+ *
+ * @param t             Taille du Sudoku.
+ * @param l             Ligne de la case du Sudoku appelante.
+ * @param c             Colonne de la case du Sudoku appelante.
+ * @param val           Valeur de la case du Sudoku appelante.
+ * @return char         Booléen simplifié, renvoie VRAI si la val existe déjà dans le carré.
+ */
+char verifCarre(int t, int l, int c, const char *val);
+
+
+/**
+ * @brief Vérification du contenu de la case du Sudoku appelante.
+ *
+ * @param t             Taille du Sudoku.
+ * @param val           Valeur de la case du Sudoku appelante.
+ * @return char         Booléen simplifié, renvoie VRAI si la val est comprise dans la liste caracDispo.
+ */
+char verifChar(int t, const char *val);
+
+
+/**
+ * @brief Fonction contenant les fonctions de vérification du contenu des cases du Sudoku.
  *
  * @param widget        Case du Sudoku appelante.
- * @param event         Événement déclenchant le signal.
- * @param tailleSudoku  Taille du Sudoku.
- * @return void
+ * @param evenement     Événement déclenchant le signal.
+ * @param donnee        Tableau de coordonnées (x,y) avec la taille du Sudoku.
+ * @return void         En fonction des vérifications, le contenu de la case peut être supprimé.
  */
-void enter_callback(GtkEntry *widget, GdkEvent *event, gpointer tailleSudoku);
+void sortieCase(GtkEntry *widget, GdkEvent *evenement, gpointer donnee);
 
 
 /**

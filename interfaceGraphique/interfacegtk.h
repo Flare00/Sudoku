@@ -17,6 +17,7 @@ GObject *grilleRegles;
 GObject *grilleOptions;
 
 
+// ---- !!! ---- A OPTIMISER  ---- !!! ---- //
 /**
   * Structure de données permettant de garder une trace des boutons du sudoku
   * et ainsi permettre l'assignement des signaux via constructeur XML.
@@ -72,26 +73,10 @@ void changementResolution(GtkComboBox *widget);
   * @param b_Sudoku* bouton_Struct : structure contenant les traces des boutons du sudoku
   * @return void : construction
   */
+// ---- !!! ---- A OPTIMISER  ---- !!! ---- //
 void menuCreer(b_Sudoku *bouton_Struct);
-
-
-/** @brief Creer l'interface "regles" GTK
-  * @param b_Sudoku* bouton_Struct : structure contenant les traces des boutons du sudoku
-  * @return void : construction
-  */
 void reglesCreer(b_Sudoku *bouton_Struct);
-
-
-/** @brief Creer l'interface "options" GTK
-  * @param b_Sudoku* bouton_Struct : structure contenant les traces des boutons du sudoku
-  * @return void : construction
-  */
 void optionsCreer(b_Sudoku *bouton_Struct);
-
-/** @brief Creer l'interface "difficulte" GTK
-  * @param b_Sudoku* bouton_Struct : structure contenant les traces des boutons du sudoku
-  * @return void : construction
-  */
 void difficulteCreer(b_Sudoku *bouton_Struct);
 
 
