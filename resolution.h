@@ -16,6 +16,7 @@
   * @return Liste* : la tête de la liste
   */
 Liste* ajouterEnTete(Liste *liste, uint64_t candidats, size_t i, size_t j);
+Liste32* ajouterEnTete32(Liste32 *liste, uint32_t candidats, size_t i, size_t j);
 
 /** @brief Créer une liste pour les case à 1 élément
   * @param size_t n : la racine de la hauteur de la grille
@@ -26,6 +27,7 @@ Liste* ajouterEnTete(Liste *liste, uint64_t candidats, size_t i, size_t j);
   * @return Liste* : la tête de la liste
   */
 Liste* creerListeUniqueCandidat(size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, uint8_t** grille);
+Liste32* creerListeUniqueCandidat32(size_t n, uint32_t *bbL, uint32_t *bbC, uint32_t *bbB, uint8_t** grille);
 
 /** @brief Remplir directement les cases à 1 candidat
   * @param size_t n : la racine de la hauteur de la grille
@@ -35,6 +37,7 @@ Liste* creerListeUniqueCandidat(size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t
   * @param uint8_t** grille : pointeur sur la grille
   */
 void heuristiqueUniqueCandidat(size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, uint8_t** grille);
+void heuristiqueUniqueCandidat32(size_t n, uint32_t *bbL, uint32_t *bbC, uint32_t *bbB, uint8_t** grille);
 
 /** @brief Heuristique de résolution basé sur la technique de paire cachée, si 2 cases contiennent la même paire de valeur, on peut
   * @param size_t taille : nombre de valeurs par régions
@@ -46,6 +49,7 @@ void heuristiqueUniqueCandidat(size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t 
   * @param uint8_t** map : tableau contenant les indices de région pour le tableau de bits block (bbB)
   */
 void heuristiquePaireCachee(size_t taille,Liste *dl,uint64_t *bbL, uint64_t *bbC, uint64_t *bbB,uint8_t**map);
+void heuristiquePaireCachee32(size_t taille,Liste32 *dl,uint32_t *bbL, uint32_t *bbC, uint32_t *bbB,uint8_t**map);
 
 /** @brief Vérifie si la grille est résolu
   * @param uint8_t** grille : pointeur sur la grille
@@ -57,6 +61,7 @@ void heuristiquePaireCachee(size_t taille,Liste *dl,uint64_t *bbL, uint64_t *bbC
   * @return bool : true si la grille est résolu, false sinon
   */
 bool resoudreRecursivement(uint8_t** grille, Liste *dl, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB,uint8_t **map);
+bool resoudreRecursivement32(uint8_t** grille, Liste32 *dl, uint32_t *bbL, uint32_t *bbC, uint32_t *bbB,uint8_t **map);
 
 /** @brief Résoudre la grille
   * @param uint8_t* entree : les informations de la grille ligne par ligne

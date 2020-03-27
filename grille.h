@@ -4,7 +4,6 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <assert.h>
 #define block(a, b,n)    (((a/n)*n)+b/n)
 
 /** @brief Creer une grille à partir d'un tableau d'entiers
