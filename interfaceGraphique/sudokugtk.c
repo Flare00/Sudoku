@@ -1,6 +1,5 @@
-#include "sudokugtk.h"
 #include "interfacegtk.h"
-
+#include "sudokugtk.h"
 
 /** Fonction HelloWorld Test **/
 void print_hello (GtkWidget *widget, gpointer data){
@@ -114,28 +113,31 @@ void sudokuCreer(int taille){
   grilleBoutonJeu = gtk_grid_new();
   gtk_container_add (GTK_CONTAINER (fenetre), GTK_WIDGET (grilleBoutonJeu));
 
-  // Titre
+  // Widgets
   jeuEtiquetteTitre = gtk_label_new ("Entrez le Sudoku à résoudre");
-  gtk_grid_attach (GTK_GRID (grilleBoutonJeu), GTK_WIDGET (jeuEtiquetteTitre), 0, 0, 5, 1);
-
-  // Bouton Retour
-  jeuRetour = gtk_button_new_with_label ("Retour Menu");
-  g_signal_connect (jeuRetour, "clicked", G_CALLBACK (transitionInterface), grilleMenu);
-  gtk_grid_attach (GTK_GRID (grilleBoutonJeu), GTK_WIDGET (jeuRetour), 0, 3, 1, 1);
-
-  // Bouton Vérification
-  jeuVerification = gtk_button_new_with_label ("Vérification");
-  g_signal_connect (jeuVerification, "clicked", G_CALLBACK (print_hello), NULL);
-  g_signal_connect_swapped (jeuVerification, "clicked", G_CALLBACK (gtk_widget_destroy), fenetre);
-  gtk_grid_attach (GTK_GRID (grilleBoutonJeu), GTK_WIDGET (jeuVerification), 4, 3, 1, 1);
-
-  // Scroll du SUDOKU
   scrollSudoku = gtk_scrolled_window_new (NULL, NULL);
+  jeuVerification = gtk_button_new_with_label ("Vérification");
+  jeuRetour = gtk_button_new_with_label ("Retour Menu");
+
+  gtk_widget_set_name(grilleBoutonJeu, "fenetre");
+  gtk_widget_set_name(jeuEtiquetteTitre, "titre");
+  gtk_widget_set_name(jeuVerification, "bouton");
+  gtk_widget_set_name(jeuRetour, "bouton");
+
   gtk_container_set_border_width (GTK_CONTAINER (scrollSudoku), 20);
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrollSudoku), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   gtk_widget_set_vexpand (GTK_WIDGET (scrollSudoku), TRUE);
   gtk_widget_set_hexpand (GTK_WIDGET (scrollSudoku), TRUE);
+
+  g_signal_connect (jeuVerification, "clicked", G_CALLBACK (gtk_main_quit), NULL);
+  g_signal_connect (jeuRetour, "clicked", G_CALLBACK (transitionInterface), grilleMenu);
+
+  gtk_grid_attach (GTK_GRID (grilleBoutonJeu), GTK_WIDGET (jeuEtiquetteTitre), 0, 0, 5, 1);
   gtk_grid_attach (GTK_GRID (grilleBoutonJeu), GTK_WIDGET (scrollSudoku), 0, 1, 5, 2);
+  gtk_grid_attach (GTK_GRID (grilleBoutonJeu), GTK_WIDGET (jeuVerification), 4, 3, 1, 1);
+  gtk_grid_attach (GTK_GRID (grilleBoutonJeu), GTK_WIDGET (jeuRetour), 0, 3, 1, 1);
+
+
 
   // Grille du SUDOKU
   grilleSudoku = gtk_grid_new();

@@ -7,10 +7,14 @@
 G_BEGIN_DECLS
 
 
+
 // Test
 void print_hello (GtkWidget *widget, gpointer data);
 
-// ---- !!! ---- A OPTIMISER  ---- !!! ---- //
+
+/**
+ * Création du tableau maximum du Sudoku.
+ */
 GtkWidget *caseSudoku[64][64];
 
 
@@ -32,7 +36,7 @@ int* envoiCoords(int t, int x, int y);
  * @param l             Ligne de la case du Sudoku appelante.
  * @param c             Colonne de la case du Sudoku appelante.
  * @param val           Valeur de la case du Sudoku appelante.
- * @return char         Booléen simplifié, renvoie VRAI si la val existe déjà dans la ligne.
+ * @return char         Booléen simplifié, renvoie VRAI si la val existe déjà dans la ligne séléctionnée.
  */
 char verifLigne(int t, int l, int c, const char *val);
 
@@ -44,7 +48,7 @@ char verifLigne(int t, int l, int c, const char *val);
  * @param l             Ligne de la case du Sudoku appelante.
  * @param c             Colonne de la case du Sudoku appelante.
  * @param val           Valeur de la case du Sudoku appelante.
- * @return char         Booléen simplifié, renvoie VRAI si la val existe déjà dans la colonne.
+ * @return char         Booléen simplifié, renvoie VRAI si la val existe déjà dans la colonne séléctionnée.
  */
 char verifColonne(int t, int l, int c, const char *val);
 
@@ -56,7 +60,7 @@ char verifColonne(int t, int l, int c, const char *val);
  * @param l             Ligne de la case du Sudoku appelante.
  * @param c             Colonne de la case du Sudoku appelante.
  * @param val           Valeur de la case du Sudoku appelante.
- * @return char         Booléen simplifié, renvoie VRAI si la val existe déjà dans le carré.
+ * @return char         Booléen simplifié, renvoie VRAI si la val existe déjà dans le carré séléctionnée.
  */
 char verifCarre(int t, int l, int c, const char *val);
 
@@ -86,7 +90,7 @@ void sortieCase(GtkEntry *widget, GdkEvent *evenement, gpointer donnee);
  * @brief Création de l'interface Sudoku.
  *
  * @param taille        Taille du Sudoku.
- * @return void         Affichage
+ * @return void         Création du Sudoku
  */
 void sudokuCreer(int taille);
 

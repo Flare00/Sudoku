@@ -1,6 +1,55 @@
-.button{
-    background: #669999;
-    text-shadow: 1px 1px 5px red;
-    border-radius: 3px;
-    box-shadow: 0px 0px 5px red;
+#fenetre {
+    background-image: url("Res/fond.jpg");
+    background-color: #733;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+
+#titre {
+  background: rgba(135, 110, 69, 0.5);
+  text-shadow: 0px 0px 2px black;
+  color: #111;
+  font-family: DejaVu Sans;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 50px;
+}
+
+
+#bouton {
+    background: #876e45;
+    text-shadow: 1px 1px 5px black;
+    color: #111;
+    font-family: DejaVu Sans;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;
+    border-radius: 15px;
+    border-color: #000;
+    box-shadow: 0px 0px 2px black;
+}
+
+
+#bouton:hover {
+  box-shadow: 0px 0px 10px black;
+}
+
+
+#texte {
+  background: rgba(135, 110, 69, 1);
+  color: #111;
+  border-color: #000;
+  box-shadow: 0px 0px 2px black;
+  font-family: DejaVu Sans;
+  font-size: 15px;
+}
+
+#scale {
+  color: #000;
+  font-size: 20px;
+  background-size: 100px 100px;
+  min-width: 100px;
+  min-height: 100px;
+  box-shadow: 0px 0px 15px black;
 }

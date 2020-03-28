@@ -8,11 +8,75 @@ G_BEGIN_DECLS
 
 
 /**
+  * Widgets Globaux (Grilles et Fenêtre).
+  */
+GtkWidget *fenetre;
+GtkWidget *grilleMenu;
+GtkWidget *grilleDifficulte;
+GtkWidget *grilleRegles;
+GtkWidget *grilleOptions;
+GtkWidget *grilleResoudre;
+
+
+// TO DO //
+void changementSurligner(GObject *switcher, GParamSpec *pspec, gpointer user_data);
+
+
+/**
+ * @brief Création de l'interface "Menu".
+ *
+ * @return void         Interface "Menu" initialisée sur la grille "grilleMenu".
+ */
+void menuCreer();
+
+
+/**
+ * @brief Création de l'interface "Difficulte".
+ *
+ * @return void         Interface "Difficulte" initialisée sur la grille "grilleDifficulte".
+ */
+void difficulteCreer();
+
+
+/**
+ * @brief Création de l'interface "Regles".
+ *
+ * @return void         Interface "Regles" initialisée sur la grille "grilleRegles".
+ */
+void reglesCreer();
+
+
+/**
+ * @brief Création de l'interface "Options".
+ *
+ * @return void         Interface "Options" initialisée sur la grille "grilleOptions".
+ */
+void optionsCreer();
+
+
+/**
+ * @brief Création de l'interface "Résoudre".
+ *
+ * @return void         Interface "Résoudre" initialisée sur la grille "grilleResoudre".
+ */
+void resoudreCreer();
+
+
+/**
+ * @brief Configuration de l'homogénéité et du CSS de la grille.
+ *
+ * @param grille        Grille à configurer.
+ * @return void         Grille homogénéisé avec CSS.
+ */
+void grilleCreer(GtkWidget *grille);
+
+
+/**
  * @brief Transitions entre les différentes interfaces possibles.
  *
  * @param widget        Bouton appelant.
  * @param grille        Grille à afficher.
- * @return void
+ * @return void         Affichage de la grille paramètre dans la fenêtre principale.
  */
 void transitionInterface(GtkWidget *widget, gpointer grille);
 
@@ -21,7 +85,7 @@ void transitionInterface(GtkWidget *widget, gpointer grille);
  * @brief Changement de résolution de la fenêtre principale.
  *
  * @param widget        Liste appelante.
- * @return void
+ * @return void         Redimension de la fenêtre principale.
  */
 void changementResolution(GtkComboBox *widget);
 
@@ -31,84 +95,27 @@ void changementResolution(GtkComboBox *widget);
  *
  * @param widget        Scale appelant.
  * @param etiquette     Etiquette permettant l'affichage de la Traduction.
- * @return void         Affichage
+ * @return void         Retranscription du Scale dans le widget etiquette.
  */
 void scaleTrad(GtkRange *widget, gpointer etiquette);
 
 
 /**
- * @brief Permet une configuration avant l'appel de la fonction Sudoku.
+ * @brief Permet une configuration de la grille avant l'appel de la fonction Sudoku.
  *
  * @param widget        Bouton appelant (Valider).
  * @param range         Scale permettant de savoir quel valeur utiliser.
- * @return void         Affichage
+ * @return void         Envoi de la fonction Sudoku en fonction du Scale.
  */
-void appelSudoku(GtkRange *widget, gpointer range);
-
-
-
-///////////////////////////////////////////////////////////////////////////////////////////
-// ---- !!! ---- TOUT CE QUI EST EN DESSOUS EST A OPTIMISER IMPERATIVEMENT ---- !!! ---- //
-///////////////////////////////////////////////////////////////////////////////////////////
-
-/**
-  * Widgets Globaux (Fenetre, Grilles).
-  */
-GObject *fenetre;
-GObject *grilleMenu;
-GObject *grilleDifficulte;
-GObject *grilleRegles;
-GObject *grilleOptions;
-GObject *grilleResoudre;
+void appelSudoku(GtkWidget *widget, gpointer range);
 
 
 /**
-  * Structure de données permettant de garder une trace des boutons du sudoku
-  * et ainsi permettre l'assignement des signaux via constructeur XML.
-  */
-typedef struct boutonSudoku {
-  // Constructeur
-  GtkBuilder *constructeur;
-  // Menu
-  GObject *boutonJouer;
-  GObject *boutonResolution;
-  GObject *boutonRegles;
-  GObject *boutonOptions;
-  GObject *boutonQuitter;
-  //Difficulte
-  GObject *boutonFacileDifficulte;
-  GObject *boutonNormalDifficulte;
-  GObject *boutonDifficileDifficulte;
-  GObject *boutonExpertDifficulte;
-  GObject *boutonRetourDifficulte;
-  // Règles
-  GObject *boutonRetourRegles;
-  // Options
-  GObject *switchResolution;
-  GObject *switchSurlignerNombre;
-  GObject *switchSurlignerZone;
-  GObject *boutonRetourOptions;
-  // Résoudre
-  GObject *etiquetteTitreResoudre;
-  GObject *boutonRetourResoudre;
-  GObject *boutonValiderResoudre;
-  GObject *scaleSudokuResoudre;
-  GObject *etiquetteTraductionResoudre;
-} b_Sudoku;
-
-
-/** @brief Creer l'interface "menu" GTK
-  * @param b_Sudoku* bouton_Struct : structure contenant les traces des boutons du sudoku
-  * @return void : construction
-  */
-void menuCreer(b_Sudoku *bouton_Struct);
-void reglesCreer(b_Sudoku *bouton_Struct);
-void optionsCreer(b_Sudoku *bouton_Struct);
-void difficulteCreer(b_Sudoku *bouton_Struct);
-void resoudreCreer(b_Sudoku *bouton_Struct);
-
-void changementSurligner(GObject *switcher, GParamSpec *pspec, gpointer user_data);
-
+ * @brief configuration du CSS dans GTK.
+ *
+ * @return void
+ */
+void myCSS();
 
 
 G_END_DECLS
