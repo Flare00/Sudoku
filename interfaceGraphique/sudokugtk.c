@@ -23,8 +23,9 @@ char verifLigne(int t, int l, int c, const char *val){
 
   for(int i=0 ; i<t && trouve == 0 ; i++){
     if (i != l) {
-      if(strcmp(val, gtk_entry_get_text(GTK_ENTRY(caseSudoku[i][c]))) == 0) {
+      if((strcmp(val, gtk_entry_get_text(GTK_ENTRY(caseSudoku[i][c]))) == 0) && (strcmp("", gtk_entry_get_text(GTK_ENTRY(caseSudoku[i][c]))) != 0)) {
         trouve = 1;
+        gtk_widget_set_name(caseSudoku[i][c], "caseErreur");
       }
     }
   }
@@ -38,8 +39,9 @@ char verifColonne(int t, int l, int c, const char *val){
 
   for(int i=0 ; i<t && trouve == 0 ; i++){
     if (i != c) {
-      if(strcmp(val, gtk_entry_get_text(GTK_ENTRY(caseSudoku[l][i]))) == 0) {
+      if((strcmp(val, gtk_entry_get_text(GTK_ENTRY(caseSudoku[l][i]))) == 0) && (strcmp("", gtk_entry_get_text(GTK_ENTRY(caseSudoku[l][i]))) != 0)) {
         trouve = 1;
+        gtk_widget_set_name(caseSudoku[l][i], "caseErreur");
       }
     }
   }
@@ -56,8 +58,9 @@ char verifCarre(int t, int c, int l, const char *val){
       int nI = ((int) (((int) (c / sqrt(t))) * sqrt(t))) + i;
       int nJ = ((int) (((int) (l / sqrt(t))) * sqrt(t))) + j;
       if(!(nI == c && nJ == l)){
-        if (strcmp(val, gtk_entry_get_text(GTK_ENTRY(caseSudoku[nI][nJ]))) == 0){
+        if((strcmp(val, gtk_entry_get_text(GTK_ENTRY(caseSudoku[nI][nJ]))) == 0) && (strcmp("", gtk_entry_get_text(GTK_ENTRY(caseSudoku[nI][nJ]))) != 0)){
           trouve = 1;
+          gtk_widget_set_name(caseSudoku[nI][nJ], "caseErreur");
         }
       }
     }
@@ -80,7 +83,7 @@ char verifChar(int t, const char *val){
 }
 
 
-/** Fonction vérification des entrées **/
+/** Fonction vérification des entrées en sortie **/
 void sortieCase(GtkEntry *widget, GdkEvent *evenement, gpointer donnee){
   // Récupération des arguments
   const gchar *textEntree;
@@ -92,11 +95,59 @@ void sortieCase(GtkEntry *widget, GdkEvent *evenement, gpointer donnee){
   int y = tabCoords[2];
   textEntree = gtk_entry_get_text (GTK_ENTRY (widget));
 
+  // Réinitialisation du CSS des cases
+  for(int i=0 ; i<taille ; i++){
+    for(int j=0 ; j<taille ; j++){
+      if (strcmp(gtk_widget_get_name (GTK_WIDGET (caseSudoku[i][j])), "caseBloquee") != 0 ){
+        gtk_widget_set_name(caseSudoku[i][j], "caseBase");
+      }
+    }
+  }
+
   // Vérification : Entree - Ligne - Colonne - Carre
   if(!verifChar(taille, textEntree))  { gtk_entry_set_text (GTK_ENTRY (widget), ""); }
   if(verifLigne(taille, x, y, textEntree)) { gtk_entry_set_text (GTK_ENTRY (widget), ""); }
   if(verifColonne(taille, x, y, textEntree)) { gtk_entry_set_text (GTK_ENTRY (widget), ""); }
   if(verifCarre(taille, x, y, textEntree)) { gtk_entry_set_text (GTK_ENTRY (widget), ""); }
+}
+
+
+/** Fonction surlignement en entrée de case **/
+void entreeCase(GtkEntry *widget, GdkEvent *evenement, gpointer donnee){
+  // Récupération des arguments
+  int* tabCoords = (int*) donnee;
+
+  // Déclatation : Taille - Ligne - Colonne - Caractère de la case
+  int taille = tabCoords[0];
+  int x = tabCoords[1];
+  int y = tabCoords[2];
+
+  // Surlignement Ligne - Colonne
+  for(int i=0 ; i<taille ; i++){
+    if (i != x) {
+      if ((strcmp(gtk_widget_get_name (GTK_WIDGET (caseSudoku[i][y])), "caseErreur") != 0 ) && (strcmp(gtk_widget_get_name (GTK_WIDGET (caseSudoku[i][y])), "caseBloquee") != 0 )){
+        gtk_widget_set_name(caseSudoku[i][y], "caseSurligner");
+      }
+    }
+    if (i != y) {
+      if ((strcmp(gtk_widget_get_name (GTK_WIDGET (caseSudoku[x][i])), "caseErreur") != 0 ) && (strcmp(gtk_widget_get_name (GTK_WIDGET (caseSudoku[x][i])), "caseBloquee") != 0 )){
+        gtk_widget_set_name(caseSudoku[x][i], "caseSurligner");
+      }
+    }
+  }
+
+  // Surlignement Carré
+  for(int i=0 ; i<sqrt(taille) ; i++){
+    for(int j=0 ; j<sqrt(taille) ; j++){
+      int nI = ((int) (((int) (x / sqrt(taille))) * sqrt(taille))) + i;
+      int nJ = ((int) (((int) (y / sqrt(taille))) * sqrt(taille))) + j;
+      if(!(nI == x && nJ == y)){
+        if ((strcmp(gtk_widget_get_name (GTK_WIDGET (caseSudoku[nI][nJ])), "caseErreur") != 0 ) && (strcmp(gtk_widget_get_name (GTK_WIDGET (caseSudoku[nI][nJ])), "caseBloquee") != 0 )){
+          gtk_widget_set_name(caseSudoku[nI][nJ], "caseSurligner");
+        }
+      }
+    }
+  }
 }
 
 
@@ -138,7 +189,6 @@ void sudokuCreer(int taille){
   gtk_grid_attach (GTK_GRID (grilleBoutonJeu), GTK_WIDGET (jeuRetour), 0, 3, 1, 1);
 
 
-
   // Grille du SUDOKU
   grilleSudoku = gtk_grid_new();
   gtk_container_add (GTK_CONTAINER (scrollSudoku), grilleSudoku);
@@ -151,13 +201,23 @@ void sudokuCreer(int taille){
       // Création "Entry" - Taille char max - Texte - Align center - Taille pour 1 Char - Taille Carré - Envoi Coords - Signal - Margin - Placement
       caseSudoku[i][j] = gtk_entry_new ();
       gtk_entry_set_max_length (GTK_ENTRY (caseSudoku[i][j]), 1);
-      gtk_entry_set_placeholder_text (GTK_ENTRY (caseSudoku[i][j]), "0");
+      gtk_entry_set_placeholder_text (GTK_ENTRY (caseSudoku[i][j]), "");
       gtk_entry_set_alignment (GTK_ENTRY (caseSudoku[i][j]), 0.5);
       gtk_entry_set_width_chars (GTK_ENTRY (caseSudoku[i][j]), 1);
       gtk_widget_set_size_request (GTK_WIDGET (caseSudoku[i][j]), 40, 40);
 
       int* tableauCoords = envoiCoords(taille, i, j);
+      g_signal_connect (caseSudoku[i][j], "focus_in_event", G_CALLBACK (entreeCase), tableauCoords);
       g_signal_connect (caseSudoku[i][j], "focus_out_event", G_CALLBACK (sortieCase), tableauCoords);
+
+////////////////////////////////
+////////////////////////////////
+      if(i == 0) {
+        gtk_widget_set_sensitive (GTK_WIDGET(caseSudoku[i][j]), FALSE);
+        gtk_widget_set_name(caseSudoku[i][j], "caseBloquee");
+      }
+////////////////////////////////
+////////////////////////////////
 
       if(i % (int)(sqrt(taille)) == 0){ gtk_widget_set_margin_start (GTK_WIDGET (caseSudoku[i][j]), 5); }
       if(i % (int)(sqrt(taille)) == (sqrt(taille)-1)){ gtk_widget_set_margin_end (GTK_WIDGET (caseSudoku[i][j]), 5); }

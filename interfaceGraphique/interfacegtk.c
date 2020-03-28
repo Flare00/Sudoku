@@ -142,7 +142,7 @@ void resoudreCreer(){
   GtkWidget *boutonResoudreRetour;
 
   ajustementHorizontal = gtk_adjustment_new (0, 1, 7, 1, 0, 0);
-  etiquetteResoudreTitre = gtk_label_new ("Choisissez la taille du Sudoku");
+  etiquetteResoudreTitre = gtk_label_new ("Taille du Sudoku");
   etiquetteResoudreTraduction = gtk_label_new ("4 x 4");
   scaleResoudreTaille = gtk_scale_new (GTK_ORIENTATION_HORIZONTAL, ajustementHorizontal);
   boutonResoudreValider = gtk_button_new_with_label ("Valider");
@@ -185,26 +185,16 @@ void resoudreCreer(){
 void optionsCreer(){
   GtkWidget *etiquetteOptionsTitre;
   GtkWidget *etiquetteOptionsDimension;
-  GtkWidget *etiquetteOptionsZone;
-  GtkWidget *etiquetteOptionsNombre;
   GtkWidget *comboboxOptionsDimension;
-  GtkWidget *switchOptionsZone;
-  GtkWidget *switchOptionsNombre;
   GtkWidget *boutonOptionsRetour;
 
   etiquetteOptionsTitre = gtk_label_new ("Options");
   etiquetteOptionsDimension = gtk_label_new ("Dimension");
-  etiquetteOptionsZone = gtk_label_new ("Surligner les zones");
-  etiquetteOptionsNombre = gtk_label_new ("Surligner les nombres");
   comboboxOptionsDimension = gtk_combo_box_text_new ();
-  switchOptionsZone = gtk_switch_new();
-  switchOptionsNombre = gtk_switch_new();
   boutonOptionsRetour = gtk_button_new_with_label ("Retour");
 
   gtk_widget_set_name(etiquetteOptionsTitre, "titre");
   gtk_widget_set_name(etiquetteOptionsDimension, "texte");
-  gtk_widget_set_name(etiquetteOptionsZone, "texte");
-  gtk_widget_set_name(etiquetteOptionsNombre, "texte");
   gtk_widget_set_name(boutonOptionsRetour, "bouton");
 
   const char *dimensionList[] = {"800 x 600", "1280 x 800", "1440 x 900", "1600 x 1000", "1920 x 1080"};
@@ -212,39 +202,21 @@ void optionsCreer(){
     gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (comboboxOptionsDimension), dimensionList[i]);
   }
   gtk_combo_box_set_active (GTK_COMBO_BOX (comboboxOptionsDimension), 0);
-  gtk_switch_set_active (GTK_SWITCH (switchOptionsZone), TRUE);
-  gtk_switch_set_active (GTK_SWITCH (switchOptionsNombre), TRUE);
 
   g_signal_connect (boutonOptionsRetour, "clicked", G_CALLBACK (transitionInterface), grilleMenu);
-  g_signal_connect (GTK_SWITCH (switchOptionsZone), "notify::active", G_CALLBACK (changementSurligner), NULL);
-  g_signal_connect (GTK_SWITCH (switchOptionsNombre), "notify::active", G_CALLBACK (changementSurligner), NULL);
   g_signal_connect (comboboxOptionsDimension, "changed", G_CALLBACK (changementResolution), NULL);
 
   gtk_widget_set_margin_bottom (GTK_WIDGET (etiquetteOptionsDimension), 5);
   gtk_widget_set_margin_bottom (GTK_WIDGET (comboboxOptionsDimension), 5);
-  gtk_widget_set_margin_bottom (GTK_WIDGET (etiquetteOptionsZone), 5);
-  gtk_widget_set_margin_bottom (GTK_WIDGET (switchOptionsZone), 5);
-  gtk_widget_set_margin_bottom (GTK_WIDGET (etiquetteOptionsNombre), 5);
-  gtk_widget_set_margin_bottom (GTK_WIDGET (switchOptionsNombre), 5);
   gtk_widget_set_margin_bottom (GTK_WIDGET (boutonOptionsRetour), 5);
   gtk_widget_set_margin_top (GTK_WIDGET (etiquetteOptionsDimension), 5);
   gtk_widget_set_margin_top (GTK_WIDGET (comboboxOptionsDimension), 5);
-  gtk_widget_set_margin_top (GTK_WIDGET (etiquetteOptionsZone), 5);
-  gtk_widget_set_margin_top (GTK_WIDGET (switchOptionsZone), 5);
-  gtk_widget_set_margin_top (GTK_WIDGET (etiquetteOptionsNombre), 5);
-  gtk_widget_set_margin_top (GTK_WIDGET (switchOptionsNombre), 5);
   gtk_widget_set_margin_top (GTK_WIDGET (boutonOptionsRetour), 5);
   gtk_widget_set_margin_start (GTK_WIDGET (comboboxOptionsDimension), 15);
-  gtk_widget_set_margin_start (GTK_WIDGET (switchOptionsZone), 15);
-  gtk_widget_set_margin_start (GTK_WIDGET (switchOptionsNombre), 15);
 
   gtk_grid_attach (GTK_GRID (grilleOptions), GTK_WIDGET (etiquetteOptionsTitre), 0, 0, 5, 2);
   gtk_grid_attach (GTK_GRID (grilleOptions), GTK_WIDGET (etiquetteOptionsDimension), 1, 2, 2, 1);
   gtk_grid_attach (GTK_GRID (grilleOptions), GTK_WIDGET (comboboxOptionsDimension), 3, 2, 1, 1);
-  gtk_grid_attach (GTK_GRID (grilleOptions), GTK_WIDGET (etiquetteOptionsZone), 1, 3, 2, 1);
-  gtk_grid_attach (GTK_GRID (grilleOptions), GTK_WIDGET (switchOptionsZone), 3, 4, 1, 1);
-  gtk_grid_attach (GTK_GRID (grilleOptions), GTK_WIDGET (etiquetteOptionsNombre), 1, 4, 2, 1);
-  gtk_grid_attach (GTK_GRID (grilleOptions), GTK_WIDGET (switchOptionsNombre), 3, 3, 1, 1);
   gtk_grid_attach (GTK_GRID (grilleOptions), GTK_WIDGET (boutonOptionsRetour), 2, 5, 1, 1);
 }
 

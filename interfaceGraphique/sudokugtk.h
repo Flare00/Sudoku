@@ -12,6 +12,8 @@ G_BEGIN_DECLS
 void print_hello (GtkWidget *widget, gpointer data);
 
 
+
+
 /**
  * Création du tableau maximum du Sudoku.
  */
@@ -84,6 +86,17 @@ char verifChar(int t, const char *val);
  * @return void         En fonction des vérifications, le contenu de la case peut être supprimé.
  */
 void sortieCase(GtkEntry *widget, GdkEvent *evenement, gpointer donnee);
+
+
+/**
+ * @brief Fonction contenant les Surlignements des cases du Sudoku.
+ *
+ * @param widget        Case du Sudoku appelante.
+ * @param evenement     Événement déclenchant le signal.
+ * @param donnee        Tableau de coordonnées (x,y) avec la taille du Sudoku.
+ * @return void         Application du CSS en fonction de la ligne - colonne - carré de la case appelante.
+ */
+void entreeCase(GtkEntry *widget, GdkEvent *evenement, gpointer donnee);
 
 
 /**
