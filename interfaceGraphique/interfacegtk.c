@@ -89,45 +89,35 @@ void scaleTrad(GtkRange *widget, gpointer etiquette){
 
   switch (val){
     case 1:
-      gtk_label_set_text(GTK_LABEL(etiquette), "4 x 4");
+      gtk_label_set_text(GTK_LABEL(etiquette), "\n4 x 4");
       break;
 
     case 2:
-      gtk_label_set_text(GTK_LABEL(etiquette), "9 x 9");
+      gtk_label_set_text(GTK_LABEL(etiquette), "\n9 x 9");
       break;
 
     case 3:
-      gtk_label_set_text(GTK_LABEL(etiquette), "16 x 16");
+      gtk_label_set_text(GTK_LABEL(etiquette), "\n16 x 16");
       break;
 
     case 4:
-      gtk_label_set_text(GTK_LABEL(etiquette), "25 x 25");
+      gtk_label_set_text(GTK_LABEL(etiquette), "\n25 x 25");
       break;
 
     case 5:
-      gtk_label_set_text(GTK_LABEL(etiquette), "36 x 36");
+      gtk_label_set_text(GTK_LABEL(etiquette), "\n36 x 36");
       break;
 
     case 6:
-      gtk_label_set_text(GTK_LABEL(etiquette), "49 x 49");
+      gtk_label_set_text(GTK_LABEL(etiquette), "\n49 x 49");
       break;
 
     case 7:
-      gtk_label_set_text(GTK_LABEL(etiquette), "64 x 64");
+      gtk_label_set_text(GTK_LABEL(etiquette), "\n64 x 64");
       break;
 
     default:
-      gtk_label_set_text(GTK_LABEL(etiquette), "4 x 4");
-  }
-}
-
-
-void changementSurligner(GObject *switcher, GParamSpec *pspec, gpointer user_data){
-  if (gtk_switch_get_active (GTK_SWITCH (switcher))){
-    g_print("yes!");
-  }
-  else{
-    g_print("no!");
+      gtk_label_set_text(GTK_LABEL(etiquette), "\n4 x 4");
   }
 }
 
@@ -142,8 +132,8 @@ void resoudreCreer(){
   GtkWidget *boutonResoudreRetour;
 
   ajustementHorizontal = gtk_adjustment_new (0, 1, 7, 1, 0, 0);
-  etiquetteResoudreTitre = gtk_label_new ("Taille du Sudoku");
-  etiquetteResoudreTraduction = gtk_label_new ("4 x 4");
+  etiquetteResoudreTitre = gtk_label_new ("Taille");
+  etiquetteResoudreTraduction = gtk_label_new ("\n4 x 4");
   scaleResoudreTaille = gtk_scale_new (GTK_ORIENTATION_HORIZONTAL, ajustementHorizontal);
   boutonResoudreValider = gtk_button_new_with_label ("Valider");
   boutonResoudreRetour = gtk_button_new_with_label ("Retour");
@@ -162,22 +152,18 @@ void resoudreCreer(){
   g_signal_connect (boutonResoudreValider, "clicked", G_CALLBACK (appelSudoku), scaleResoudreTaille);
   g_signal_connect (boutonResoudreRetour, "clicked", G_CALLBACK (transitionInterface), grilleMenu);
 
-  gtk_widget_set_margin_bottom (GTK_WIDGET (etiquetteResoudreTraduction), 5);
-  gtk_widget_set_margin_bottom (GTK_WIDGET (scaleResoudreTaille), 5);
-  gtk_widget_set_margin_bottom (GTK_WIDGET (boutonResoudreValider), 15);
-  gtk_widget_set_margin_bottom (GTK_WIDGET (boutonResoudreRetour), 15);
-  gtk_widget_set_margin_top (GTK_WIDGET (etiquetteResoudreTraduction), 5);
-  gtk_widget_set_margin_top (GTK_WIDGET (scaleResoudreTaille), 5);
-  gtk_widget_set_margin_top (GTK_WIDGET (boutonResoudreValider), 15);
-  gtk_widget_set_margin_top (GTK_WIDGET (boutonResoudreRetour), 15);
-  gtk_widget_set_margin_start (GTK_WIDGET (boutonResoudreRetour), 15);
-  gtk_widget_set_margin_end (GTK_WIDGET (boutonResoudreValider), 15);
+  gtk_widget_set_margin_top (GTK_WIDGET (scaleResoudreTaille), 120);
+  gtk_widget_set_margin_top (GTK_WIDGET (etiquetteResoudreTraduction), 120);
+  gtk_widget_set_margin_top (GTK_WIDGET (boutonResoudreValider), 30);
+  gtk_widget_set_margin_top (GTK_WIDGET (boutonResoudreRetour), 156);
+  gtk_widget_set_margin_start (GTK_WIDGET (etiquetteResoudreTraduction), 15);
 
-  gtk_grid_attach (GTK_GRID (grilleResoudre), GTK_WIDGET (etiquetteResoudreTitre), 0, 0, 6, 2);
-  gtk_grid_attach (GTK_GRID (grilleResoudre), GTK_WIDGET (etiquetteResoudreTraduction), 1, 2, 4, 1);
-  gtk_grid_attach (GTK_GRID (grilleResoudre), GTK_WIDGET (scaleResoudreTaille), 1, 3, 4, 1);
-  gtk_grid_attach (GTK_GRID (grilleResoudre), GTK_WIDGET (boutonResoudreValider), 4, 4, 2, 1);
-  gtk_grid_attach (GTK_GRID (grilleResoudre), GTK_WIDGET (boutonResoudreRetour), 0, 4, 2, 1);
+
+  gtk_grid_attach (GTK_GRID (grilleResoudre), GTK_WIDGET (etiquetteResoudreTitre), 0, 0, 5, 1);
+  gtk_grid_attach (GTK_GRID (grilleResoudre), GTK_WIDGET (etiquetteResoudreTraduction), 1, 1, 1, 1);
+  gtk_grid_attach (GTK_GRID (grilleResoudre), GTK_WIDGET (scaleResoudreTaille), 2, 1, 2, 1);
+  gtk_grid_attach (GTK_GRID (grilleResoudre), GTK_WIDGET (boutonResoudreValider), 2, 2, 1, 1);
+  gtk_grid_attach (GTK_GRID (grilleResoudre), GTK_WIDGET (boutonResoudreRetour), 2, 3, 1, 1);
 }
 
 
@@ -206,12 +192,9 @@ void optionsCreer(){
   g_signal_connect (boutonOptionsRetour, "clicked", G_CALLBACK (transitionInterface), grilleMenu);
   g_signal_connect (comboboxOptionsDimension, "changed", G_CALLBACK (changementResolution), NULL);
 
-  gtk_widget_set_margin_bottom (GTK_WIDGET (etiquetteOptionsDimension), 5);
-  gtk_widget_set_margin_bottom (GTK_WIDGET (comboboxOptionsDimension), 5);
-  gtk_widget_set_margin_bottom (GTK_WIDGET (boutonOptionsRetour), 5);
-  gtk_widget_set_margin_top (GTK_WIDGET (etiquetteOptionsDimension), 5);
-  gtk_widget_set_margin_top (GTK_WIDGET (comboboxOptionsDimension), 5);
-  gtk_widget_set_margin_top (GTK_WIDGET (boutonOptionsRetour), 5);
+  gtk_widget_set_margin_top (GTK_WIDGET (etiquetteOptionsDimension), 200);
+  gtk_widget_set_margin_top (GTK_WIDGET (comboboxOptionsDimension), 200);
+  gtk_widget_set_margin_top (GTK_WIDGET (boutonOptionsRetour), 230);
   gtk_widget_set_margin_start (GTK_WIDGET (comboboxOptionsDimension), 15);
 
   gtk_grid_attach (GTK_GRID (grilleOptions), GTK_WIDGET (etiquetteOptionsTitre), 0, 0, 5, 2);
@@ -228,16 +211,24 @@ void reglesCreer(){
   GtkWidget *scrollReglesPresentation;
   GtkWidget *boutonReglesRetour;
 
-  etiquetteReglesTitre = gtk_label_new ("Règles du Sudoku");
+  etiquetteReglesTitre = gtk_label_new ("Règles");
   etiquetteReglesPresentation = gtk_label_new ( "Le but du jeu dans le cas d'un sudoku classique, est de remplir ces cases avec des chiffres allant de 1 à 9 en veillant toujours à ce qu'un même chiffre ne figure qu'une seule fois par colonne, une seule fois par ligne, et une seule fois par carré de neuf cases.\n\n"
                                                 "Au début du jeu, des chiffres sont déjà placés et il vous reste à trouver les autres. En effet, une grille initiale de sudoku correctement constituée ne peut aboutir qu'à une et une seule solution. Pour trouver les chiffres manquants, tout est une question de logique et d'observation.\n\n"
                                                 "Un sudoku classique contient neuf lignes et neuf colonnes, donc 81 cases au total. Mais il existe de nombreuses variantes au sudoku classique (aussi appelé 9x9), ne serait-ce qu'en modifiant le nombre de lignes et de colonnes. Vous pouvez ainsi trouver sur Le Sudoku toute la combinaison des grilles en allant du sudoku enfant 4x4 au sudoku géant 12x12.\n\n"
+                                                "Voici la liste des caractères acceptés en fonction de la taille du Sudoku :\n"
+                                                "4x4 :    {1,2,3,4}\n"
+                                                "9x9 :    {1,2,3,4,5,6,7,8,9}\n"
+                                                "16x16 :  {1,2,3,4,5,6,7,8,9,A,B,C,D,E,F,G}\n"
+                                                "25x25 :  {1,2,3,4,5,6,7,8,9,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P}\n"
+                                                "36x36 :  {1,2,3,4,5,6,7,8,9,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z,a}\n"
+                                                "49x49 :  {1,2,3,4,5,6,7,8,9,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z,a,b,c,d,e,f,g,h,i,j,k,l,m,n}\n"
+                                                "64x64 :  {1,2,3,4,5,6,7,8,9,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,@,&,+}\n"
                                               );
   scrollReglesPresentation = gtk_scrolled_window_new (NULL, NULL);
   boutonReglesRetour = gtk_button_new_with_label ("Retour");
 
   gtk_widget_set_name(etiquetteReglesTitre, "titre");
-  gtk_widget_set_name(etiquetteReglesPresentation, "texte");
+  gtk_widget_set_name(etiquetteReglesPresentation, "regle");
   gtk_widget_set_name(boutonReglesRetour, "bouton");
 
   gtk_container_set_border_width (GTK_CONTAINER (scrollReglesPresentation), 10);
@@ -246,12 +237,14 @@ void reglesCreer(){
   gtk_label_set_line_wrap (GTK_LABEL (etiquetteReglesPresentation), TRUE);
   g_signal_connect (boutonReglesRetour, "clicked", G_CALLBACK (transitionInterface), grilleMenu);
 
-  gtk_widget_set_margin_bottom (GTK_WIDGET (scrollReglesPresentation), 5);
-  gtk_widget_set_margin_top (GTK_WIDGET (scrollReglesPresentation), 5);
-  gtk_widget_set_margin_start (GTK_WIDGET (scrollReglesPresentation), 50);
-  gtk_widget_set_margin_end (GTK_WIDGET (scrollReglesPresentation), 50);
-  gtk_widget_set_margin_bottom (GTK_WIDGET (boutonReglesRetour), 5);
-  gtk_widget_set_margin_top (GTK_WIDGET (boutonReglesRetour), 5);
+  gtk_widget_set_vexpand (GTK_WIDGET (scrollReglesPresentation), TRUE);
+
+  gtk_widget_set_margin_bottom (GTK_WIDGET (scrollReglesPresentation), 15);
+  gtk_widget_set_margin_top (GTK_WIDGET (scrollReglesPresentation), 50);
+  gtk_widget_set_margin_start (GTK_WIDGET (scrollReglesPresentation), 25);
+  gtk_widget_set_margin_end (GTK_WIDGET (scrollReglesPresentation), 25);
+  gtk_widget_set_margin_bottom (GTK_WIDGET (boutonReglesRetour), 51);
+
 
   gtk_grid_attach (GTK_GRID (grilleRegles), GTK_WIDGET (etiquetteReglesTitre), 0, 0, 3, 2);
   gtk_grid_attach (GTK_GRID (grilleRegles), GTK_WIDGET (scrollReglesPresentation), 0, 2, 3, 4);
@@ -268,7 +261,7 @@ void difficulteCreer(){
   GtkWidget *boutonDifficulteExpert;
   GtkWidget *boutonDifficulteRetour;
 
-  etiquetteDifficulteTitre = gtk_label_new ("Choisissez une Difficulté");
+  etiquetteDifficulteTitre = gtk_label_new ("Niveau");
   boutonDifficulteFacile = gtk_button_new_with_label ("Facile");
   boutonDifficulteNormal = gtk_button_new_with_label ("Normal");
   boutonDifficulteDifficile = gtk_button_new_with_label ("Difficile");
@@ -288,16 +281,11 @@ void difficulteCreer(){
   g_signal_connect (boutonDifficulteExpert, "clicked", G_CALLBACK (print_hello), NULL);
   g_signal_connect (boutonDifficulteRetour, "clicked", G_CALLBACK (transitionInterface), grilleMenu);
 
-  gtk_widget_set_margin_bottom (GTK_WIDGET (boutonDifficulteFacile), 5);
-  gtk_widget_set_margin_bottom (GTK_WIDGET (boutonDifficulteNormal), 5);
-  gtk_widget_set_margin_bottom (GTK_WIDGET (boutonDifficulteDifficile), 5);
-  gtk_widget_set_margin_bottom (GTK_WIDGET (boutonDifficulteExpert), 5);
-  gtk_widget_set_margin_bottom (GTK_WIDGET (boutonDifficulteRetour), 5);
-  gtk_widget_set_margin_top (GTK_WIDGET (boutonDifficulteFacile), 5);
-  gtk_widget_set_margin_top (GTK_WIDGET (boutonDifficulteNormal), 5);
-  gtk_widget_set_margin_top (GTK_WIDGET (boutonDifficulteDifficile), 5);
-  gtk_widget_set_margin_top (GTK_WIDGET (boutonDifficulteExpert), 5);
-  gtk_widget_set_margin_top (GTK_WIDGET (boutonDifficulteRetour), 5);
+  gtk_widget_set_margin_top (GTK_WIDGET (boutonDifficulteFacile), 120);
+  gtk_widget_set_margin_top (GTK_WIDGET (boutonDifficulteNormal), 30);
+  gtk_widget_set_margin_top (GTK_WIDGET (boutonDifficulteDifficile), 30);
+  gtk_widget_set_margin_top (GTK_WIDGET (boutonDifficulteExpert), 30);
+  gtk_widget_set_margin_top (GTK_WIDGET (boutonDifficulteRetour), 130);
 
   gtk_grid_attach (GTK_GRID (grilleDifficulte), GTK_WIDGET (etiquetteDifficulteTitre), 0, 0, 3, 2);
   gtk_grid_attach (GTK_GRID (grilleDifficulte), GTK_WIDGET (boutonDifficulteFacile), 1, 2, 1, 1);
@@ -337,16 +325,11 @@ void menuCreer(){
   g_signal_connect (boutonMenuOptions, "clicked", G_CALLBACK (transitionInterface), grilleOptions);
   g_signal_connect (boutonMenuQuitter, "clicked", G_CALLBACK (gtk_main_quit), NULL);
 
-  gtk_widget_set_margin_bottom (GTK_WIDGET (boutonMenuJouer), 5);
-  gtk_widget_set_margin_bottom (GTK_WIDGET (boutonMenuResoudre), 5);
-  gtk_widget_set_margin_bottom (GTK_WIDGET (boutonMenuRegles), 5);
-  gtk_widget_set_margin_bottom (GTK_WIDGET (boutonMenuOptions), 5);
-  gtk_widget_set_margin_bottom (GTK_WIDGET (boutonMenuQuitter), 5);
-  gtk_widget_set_margin_top (GTK_WIDGET (boutonMenuJouer), 5);
-  gtk_widget_set_margin_top (GTK_WIDGET (boutonMenuResoudre), 5);
-  gtk_widget_set_margin_top (GTK_WIDGET (boutonMenuRegles), 5);
-  gtk_widget_set_margin_top (GTK_WIDGET (boutonMenuOptions), 5);
-  gtk_widget_set_margin_top (GTK_WIDGET (boutonMenuQuitter), 5);
+  gtk_widget_set_margin_top (GTK_WIDGET (boutonMenuJouer), 120);
+  gtk_widget_set_margin_top (GTK_WIDGET (boutonMenuResoudre), 30);
+  gtk_widget_set_margin_top (GTK_WIDGET (boutonMenuRegles), 30);
+  gtk_widget_set_margin_top (GTK_WIDGET (boutonMenuOptions), 30);
+  gtk_widget_set_margin_top (GTK_WIDGET (boutonMenuQuitter), 130);
 
   gtk_grid_attach (GTK_GRID (grilleMenu), GTK_WIDGET (etiquetteMenuTitre), 0, 0, 3, 2);
   gtk_grid_attach (GTK_GRID (grilleMenu), GTK_WIDGET (boutonMenuJouer), 1, 2, 1, 1);
@@ -359,7 +342,6 @@ void menuCreer(){
 
 /** Fonction Création Grille **/
 void grilleCreer(GtkWidget *grille){
-  gtk_grid_set_row_homogeneous (GTK_GRID (grille), TRUE);
   gtk_grid_set_column_homogeneous (GTK_GRID (grille), TRUE);
   gtk_widget_set_name(grille, "fenetre");
 }

@@ -18,10 +18,6 @@ GtkWidget *grilleOptions;
 GtkWidget *grilleResoudre;
 
 
-// TO DO //
-void changementSurligner(GObject *switcher, GParamSpec *pspec, gpointer user_data);
-
-
 /**
  * @brief Création de l'interface "Menu".
  *

@@ -25,7 +25,12 @@ char verifLigne(int t, int l, int c, const char *val){
     if (i != l) {
       if((strcmp(val, gtk_entry_get_text(GTK_ENTRY(caseSudoku[i][c]))) == 0) && (strcmp("", gtk_entry_get_text(GTK_ENTRY(caseSudoku[i][c]))) != 0)) {
         trouve = 1;
-        gtk_widget_set_name(caseSudoku[i][c], "caseErreur");
+        if(strcmp(gtk_widget_get_name (GTK_WIDGET (caseSudoku[i][c])), "caseBloquee") == 0 ){
+          gtk_widget_set_name(caseSudoku[i][c], "caseBloqueErreur");
+        }
+        else{
+          gtk_widget_set_name(caseSudoku[i][c], "caseErreur");
+        }
       }
     }
   }
@@ -41,7 +46,12 @@ char verifColonne(int t, int l, int c, const char *val){
     if (i != c) {
       if((strcmp(val, gtk_entry_get_text(GTK_ENTRY(caseSudoku[l][i]))) == 0) && (strcmp("", gtk_entry_get_text(GTK_ENTRY(caseSudoku[l][i]))) != 0)) {
         trouve = 1;
-        gtk_widget_set_name(caseSudoku[l][i], "caseErreur");
+        if(strcmp(gtk_widget_get_name (GTK_WIDGET (caseSudoku[l][i])), "caseBloquee") == 0 ){
+          gtk_widget_set_name(caseSudoku[l][i], "caseBloqueErreur");
+        }
+        else{
+          gtk_widget_set_name(caseSudoku[l][i], "caseErreur");
+        }
       }
     }
   }
@@ -60,7 +70,12 @@ char verifCarre(int t, int c, int l, const char *val){
       if(!(nI == c && nJ == l)){
         if((strcmp(val, gtk_entry_get_text(GTK_ENTRY(caseSudoku[nI][nJ]))) == 0) && (strcmp("", gtk_entry_get_text(GTK_ENTRY(caseSudoku[nI][nJ]))) != 0)){
           trouve = 1;
-          gtk_widget_set_name(caseSudoku[nI][nJ], "caseErreur");
+          if(strcmp(gtk_widget_get_name (GTK_WIDGET (caseSudoku[nI][nJ])), "caseBloquee") == 0 ){
+            gtk_widget_set_name(caseSudoku[nI][nJ], "caseBloqueErreur");
+          }
+          else{
+            gtk_widget_set_name(caseSudoku[nI][nJ], "caseErreur");
+          }
         }
       }
     }
@@ -95,11 +110,16 @@ void sortieCase(GtkEntry *widget, GdkEvent *evenement, gpointer donnee){
   int y = tabCoords[2];
   textEntree = gtk_entry_get_text (GTK_ENTRY (widget));
 
-  // Réinitialisation du CSS des cases
+  // Réinitialisation CSS des cases
   for(int i=0 ; i<taille ; i++){
     for(int j=0 ; j<taille ; j++){
-      if (strcmp(gtk_widget_get_name (GTK_WIDGET (caseSudoku[i][j])), "caseBloquee") != 0 ){
-        gtk_widget_set_name(caseSudoku[i][j], "caseBase");
+      if (strcmp(gtk_widget_get_name (GTK_WIDGET (caseSudoku[i][j])), "caseBloqueErreur") == 0 ){
+        gtk_widget_set_name(caseSudoku[i][j], "caseBloquee");
+      }
+      else {
+        if (strcmp(gtk_widget_get_name (GTK_WIDGET (caseSudoku[i][j])), "caseBloquee") != 0 ){
+          gtk_widget_set_name(caseSudoku[i][j], "caseBase");
+        }
       }
     }
   }
@@ -125,12 +145,12 @@ void entreeCase(GtkEntry *widget, GdkEvent *evenement, gpointer donnee){
   // Surlignement Ligne - Colonne
   for(int i=0 ; i<taille ; i++){
     if (i != x) {
-      if ((strcmp(gtk_widget_get_name (GTK_WIDGET (caseSudoku[i][y])), "caseErreur") != 0 ) && (strcmp(gtk_widget_get_name (GTK_WIDGET (caseSudoku[i][y])), "caseBloquee") != 0 )){
+      if ((strcmp(gtk_widget_get_name (GTK_WIDGET (caseSudoku[i][y])), "caseErreur") != 0 ) && (strcmp(gtk_widget_get_name (GTK_WIDGET (caseSudoku[i][y])), "caseBloquee") != 0 ) && (strcmp(gtk_widget_get_name (GTK_WIDGET (caseSudoku[i][y])), "caseBloqueErreur") != 0 )){
         gtk_widget_set_name(caseSudoku[i][y], "caseSurligner");
       }
     }
     if (i != y) {
-      if ((strcmp(gtk_widget_get_name (GTK_WIDGET (caseSudoku[x][i])), "caseErreur") != 0 ) && (strcmp(gtk_widget_get_name (GTK_WIDGET (caseSudoku[x][i])), "caseBloquee") != 0 )){
+      if ((strcmp(gtk_widget_get_name (GTK_WIDGET (caseSudoku[x][i])), "caseErreur") != 0 ) && (strcmp(gtk_widget_get_name (GTK_WIDGET (caseSudoku[x][i])), "caseBloquee") != 0 ) && (strcmp(gtk_widget_get_name (GTK_WIDGET (caseSudoku[x][i])), "caseBloqueErreur") != 0 )){
         gtk_widget_set_name(caseSudoku[x][i], "caseSurligner");
       }
     }
@@ -142,7 +162,7 @@ void entreeCase(GtkEntry *widget, GdkEvent *evenement, gpointer donnee){
       int nI = ((int) (((int) (x / sqrt(taille))) * sqrt(taille))) + i;
       int nJ = ((int) (((int) (y / sqrt(taille))) * sqrt(taille))) + j;
       if(!(nI == x && nJ == y)){
-        if ((strcmp(gtk_widget_get_name (GTK_WIDGET (caseSudoku[nI][nJ])), "caseErreur") != 0 ) && (strcmp(gtk_widget_get_name (GTK_WIDGET (caseSudoku[nI][nJ])), "caseBloquee") != 0 )){
+        if ((strcmp(gtk_widget_get_name (GTK_WIDGET (caseSudoku[nI][nJ])), "caseErreur") != 0 ) && (strcmp(gtk_widget_get_name (GTK_WIDGET (caseSudoku[nI][nJ])), "caseBloquee") != 0 ) && (strcmp(gtk_widget_get_name (GTK_WIDGET (caseSudoku[nI][nJ])), "caseBloqueErreur") != 0 )){
           gtk_widget_set_name(caseSudoku[nI][nJ], "caseSurligner");
         }
       }
@@ -165,10 +185,10 @@ void sudokuCreer(int taille){
   gtk_container_add (GTK_CONTAINER (fenetre), GTK_WIDGET (grilleBoutonJeu));
 
   // Widgets
-  jeuEtiquetteTitre = gtk_label_new ("Entrez le Sudoku à résoudre");
+  jeuEtiquetteTitre = gtk_label_new ("Sudoku");
   scrollSudoku = gtk_scrolled_window_new (NULL, NULL);
-  jeuVerification = gtk_button_new_with_label ("Vérification");
-  jeuRetour = gtk_button_new_with_label ("Retour Menu");
+  jeuVerification = gtk_button_new_with_label ("Vérifier");
+  jeuRetour = gtk_button_new_with_label ("Retour");
 
   gtk_widget_set_name(grilleBoutonJeu, "fenetre");
   gtk_widget_set_name(jeuEtiquetteTitre, "titre");
@@ -179,6 +199,11 @@ void sudokuCreer(int taille){
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrollSudoku), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   gtk_widget_set_vexpand (GTK_WIDGET (scrollSudoku), TRUE);
   gtk_widget_set_hexpand (GTK_WIDGET (scrollSudoku), TRUE);
+
+  gtk_widget_set_margin_bottom (GTK_WIDGET (jeuVerification), 10);
+  gtk_widget_set_margin_bottom (GTK_WIDGET (jeuRetour), 10);
+  gtk_widget_set_margin_start (GTK_WIDGET (jeuRetour), 10);
+  gtk_widget_set_margin_end (GTK_WIDGET (jeuVerification), 10);
 
   g_signal_connect (jeuVerification, "clicked", G_CALLBACK (gtk_main_quit), NULL);
   g_signal_connect (jeuRetour, "clicked", G_CALLBACK (transitionInterface), grilleMenu);
@@ -214,6 +239,7 @@ void sudokuCreer(int taille){
 ////////////////////////////////
       if(i == 0) {
         gtk_widget_set_sensitive (GTK_WIDGET(caseSudoku[i][j]), FALSE);
+        gtk_entry_set_text (GTK_ENTRY (caseSudoku[i][j]), "1");
         gtk_widget_set_name(caseSudoku[i][j], "caseBloquee");
       }
 ////////////////////////////////
