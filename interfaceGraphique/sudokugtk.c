@@ -1,10 +1,7 @@
 #include "interfacegtk.h"
 #include "sudokugtk.h"
+#include "../generation.h"
 
-/** Fonction HelloWorld Test **/
-void print_hello (GtkWidget *widget, gpointer data){
-  g_print ("Hello World\n");
-}
 
 
 /** Fonction envoi du tableau des coordonnées et taille du Sudoku **/
@@ -171,8 +168,52 @@ void entreeCase(GtkEntry *widget, GdkEvent *evenement, gpointer donnee){
 }
 
 
+/** Remplissage du Sudoku **/
+void sudokuRemplir(GtkWidget *grilleSudoku, int taille, int niveau){
+  const char *caracDispo[64] = {"1","2","3","4","5","6","7","8","9","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","@","&","+"};
+  size_t t = taille;
+  u_int8_t **tableauCases;
+
+  if (niveau != 0){
+    tableauCases = genererGrilleSudokuValide(t, niveau);
+  }
+
+  for (int i = 0; i < t; i++){
+    for (int j = 0; j < t; j++){
+      // Création "Entry" - Taille char max - Texte - Align center - Taille pour 1 Char - Taille Carré - Envoi Coords - Signal - Margin - Placement
+      caseSudoku[i][j] = gtk_entry_new ();
+      gtk_entry_set_max_length (GTK_ENTRY (caseSudoku[i][j]), 1);
+      gtk_entry_set_placeholder_text (GTK_ENTRY (caseSudoku[i][j]), "");
+      gtk_entry_set_alignment (GTK_ENTRY (caseSudoku[i][j]), 0.5);
+      gtk_entry_set_width_chars (GTK_ENTRY (caseSudoku[i][j]), 1);
+      gtk_widget_set_size_request (GTK_WIDGET (caseSudoku[i][j]), 40, 40);
+
+      int* tableauCoords = envoiCoords(t, i, j);
+      g_signal_connect (caseSudoku[i][j], "focus_in_event", G_CALLBACK (entreeCase), tableauCoords);
+      g_signal_connect (caseSudoku[i][j], "focus_out_event", G_CALLBACK (sortieCase), tableauCoords);
+
+      if (niveau != 0){
+        if (tableauCases[i][j] != 0){
+          gtk_widget_set_sensitive (GTK_WIDGET(caseSudoku[i][j]), FALSE);
+          gtk_entry_set_text (GTK_ENTRY (caseSudoku[i][j]), caracDispo[(tableauCases[i][j])-1]);
+          gtk_widget_set_name(caseSudoku[i][j], "caseBloquee");
+        }
+      }
+
+      if(i % (int)(sqrt(t)) == 0){ gtk_widget_set_margin_start (GTK_WIDGET (caseSudoku[i][j]), 5); }
+      if(i % (int)(sqrt(t)) == (sqrt(t)-1)){ gtk_widget_set_margin_end (GTK_WIDGET (caseSudoku[i][j]), 5); }
+      if(j % (int)(sqrt(t)) == 0){ gtk_widget_set_margin_top (GTK_WIDGET (caseSudoku[i][j]), 5); }
+      if(j % (int)(sqrt(t)) == (sqrt(t)-1)){ gtk_widget_set_margin_bottom (GTK_WIDGET (caseSudoku[i][j]), 5); }
+
+      gtk_grid_attach (GTK_GRID (grilleSudoku), caseSudoku[i][j], i, j, 1, 1);
+    }
+  }
+}
+
+
+
 /** Fonction création du Sudoku **/
-void sudokuCreer(int taille){
+void sudokuCreer(int taille, int niveau){
   GtkWidget *grilleBoutonJeu;
   GtkWidget *grilleSudoku;
   GtkWidget *scrollSudoku;
@@ -213,7 +254,6 @@ void sudokuCreer(int taille){
   gtk_grid_attach (GTK_GRID (grilleBoutonJeu), GTK_WIDGET (jeuVerification), 4, 3, 1, 1);
   gtk_grid_attach (GTK_GRID (grilleBoutonJeu), GTK_WIDGET (jeuRetour), 0, 3, 1, 1);
 
-
   // Grille du SUDOKU
   grilleSudoku = gtk_grid_new();
   gtk_container_add (GTK_CONTAINER (scrollSudoku), grilleSudoku);
@@ -221,36 +261,5 @@ void sudokuCreer(int taille){
   gtk_widget_set_valign (grilleSudoku, GTK_ALIGN_CENTER);
 
   // Construction des cases du Sudoku dans la grille
-  for (int i = 0; i < taille; i++){
-    for (int j = 0; j < taille; j++){
-      // Création "Entry" - Taille char max - Texte - Align center - Taille pour 1 Char - Taille Carré - Envoi Coords - Signal - Margin - Placement
-      caseSudoku[i][j] = gtk_entry_new ();
-      gtk_entry_set_max_length (GTK_ENTRY (caseSudoku[i][j]), 1);
-      gtk_entry_set_placeholder_text (GTK_ENTRY (caseSudoku[i][j]), "");
-      gtk_entry_set_alignment (GTK_ENTRY (caseSudoku[i][j]), 0.5);
-      gtk_entry_set_width_chars (GTK_ENTRY (caseSudoku[i][j]), 1);
-      gtk_widget_set_size_request (GTK_WIDGET (caseSudoku[i][j]), 40, 40);
-
-      int* tableauCoords = envoiCoords(taille, i, j);
-      g_signal_connect (caseSudoku[i][j], "focus_in_event", G_CALLBACK (entreeCase), tableauCoords);
-      g_signal_connect (caseSudoku[i][j], "focus_out_event", G_CALLBACK (sortieCase), tableauCoords);
-
-////////////////////////////////
-////////////////////////////////
-      if(i == 0) {
-        gtk_widget_set_sensitive (GTK_WIDGET(caseSudoku[i][j]), FALSE);
-        gtk_entry_set_text (GTK_ENTRY (caseSudoku[i][j]), "1");
-        gtk_widget_set_name(caseSudoku[i][j], "caseBloquee");
-      }
-////////////////////////////////
-////////////////////////////////
-
-      if(i % (int)(sqrt(taille)) == 0){ gtk_widget_set_margin_start (GTK_WIDGET (caseSudoku[i][j]), 5); }
-      if(i % (int)(sqrt(taille)) == (sqrt(taille)-1)){ gtk_widget_set_margin_end (GTK_WIDGET (caseSudoku[i][j]), 5); }
-      if(j % (int)(sqrt(taille)) == 0){ gtk_widget_set_margin_top (GTK_WIDGET (caseSudoku[i][j]), 5); }
-      if(j % (int)(sqrt(taille)) == (sqrt(taille)-1)){ gtk_widget_set_margin_bottom (GTK_WIDGET (caseSudoku[i][j]), 5); }
-
-      gtk_grid_attach (GTK_GRID (grilleSudoku), caseSudoku[i][j], i, j, 1, 1);
-    }
-  }
+  sudokuRemplir(grilleSudoku, taille, niveau);
 }

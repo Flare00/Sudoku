@@ -8,16 +8,15 @@ G_BEGIN_DECLS
 
 
 
-// Test
-void print_hello (GtkWidget *widget, gpointer data);
-
-
-
-
 /**
  * Création du tableau maximum du Sudoku.
  */
 GtkWidget *caseSudoku[64][64];
+
+
+/**
+ * Création du tableau de char.
+ */
 
 
 /**
@@ -105,7 +104,18 @@ void entreeCase(GtkEntry *widget, GdkEvent *evenement, gpointer donnee);
  * @param taille        Taille du Sudoku.
  * @return void         Création du Sudoku
  */
-void sudokuCreer(int taille);
+void sudokuCreer(int taille, int niveau);
+
+
+/**
+ * @brief Création et Remplissage des cases du sudoku à partir des grilles valides.
+ *
+ * @param grilleSudoku  Grille du Sudoku.
+ * @param taille        Taille séléctionnée du Sudoku.
+ * @param niveau        Niveau séléctionnée du Sudoku.
+ * @return void         Création du Sudoku
+ */
+void sudokuRemplir(GtkWidget *grilleSudoku, int taille, int niveau);
 
 
 

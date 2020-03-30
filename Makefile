@@ -1,14 +1,25 @@
 CC = gcc
+OPTIONS  = -Wall
+FLAGSGTK = `pkg-config --cflags --libs gtk+-3.0`
+GTKFOLDER = interfaceGraphique/
 
-FLAGS = -Wall -O -lm
 
-all : resolution
-
-resolution : bitBoard.c grille.c liste.c resolution.c main.c
-	@echo "Génération de l'excécutable ... "
-	$(CC) -o $@ $^ $(FLAGS)
+exe: interfacegtk.o main.o sudokugtk.o generation.o
+	$(CC) $(OPTIONS) *.o $(FLAGSGTK) -o $@ -lm
+	rm -f *.o
 	@echo "Excécutable prêt !"
 
+interfacegtk.o: $(GTKFOLDER)interfacegtk.c
+	$(CC) $(OPTIONS) -c $^ $(FLAGSGTK)
+
+sudokugtk.o: $(GTKFOLDER)sudokugtk.c
+	$(CC) $(OPTIONS) -c $^ $(FLAGSGTK)
+
+main.o: $(GTKFOLDER)main.c
+	$(CC) $(OPTIONS) -c $^ $(FLAGSGTK)
+
+generation.o: generation.c
+	$(CC) $(OPTIONS) -c $^
+
 clean:
-	rm -f resolution
-	@echo "Fichier resolution effacé !"
+	rm -f exe

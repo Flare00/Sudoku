@@ -97,11 +97,11 @@ void scaleTrad(GtkRange *widget, gpointer etiquette);
 
 
 /**
- * @brief Permet une configuration de la grille avant l'appel de la fonction Sudoku.
+ * @brief Permet une configuration de l'appel de la fonction Sudoku en fonction de l'interface.
  *
- * @param widget        Bouton appelant (Valider).
- * @param range         Scale permettant de savoir quel valeur utiliser.
- * @return void         Envoi de la fonction Sudoku en fonction du Scale.
+ * @param widget        Bouton appelant.
+ * @param range         Scale permettant de savoir quelle taille utiliser.
+ * @return void         Envoi de la fonction Sudoku.
  */
 void appelSudoku(GtkWidget *widget, gpointer range);
 
