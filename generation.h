@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include <stdlib.h>
+#include <math.h>
 
 /*struct posCase{
     size_t ligne;
@@ -19,29 +20,29 @@ uint8_t ** genererGrilleSudokuValide(size_t taille, int niveauDemander);
 
 /**
  * \brief retire une case, parmi les cases non vide, de la grille de façon aléatoire.
- * \param grille : grille du sudoku 
+ * \param grille : grille du sudoku
  * \return nombre de cases restante.
- */ 
+ */
 //size_t retirerCaseRandomAvecCaseRestante(uint8_t ** grille, size_t taille);
 
 /**
  * \brief retire une case, parmi les cases non vide, de la grille de façon aléatoire.
- * \param grille : grille du sudoku 
- */ 
+ * \param grille : grille du sudoku
+ */
 void retirerCaseRandom(uint8_t ** grille, size_t taille);
 
 /**
  * \brief retire une case, parmi les cases non vide, de la grille de façon aléatoire et son symétrique selon le centre du sudoku.
- * \param grille : grille du sudoku 
+ * \param grille : grille du sudoku
  * \return int : nombre de case retirer (1 ou 2);
- */ 
+ */
 int retirerCaseSymetrie(uint8_t ** grille, size_t taille);
 /**
  * \brief genere une grille de sudoku complete.
  * \param taille : taille de la grille.
  * \return grille de sudoku complete.
  */
-uint8_t ** genererGrilleComplete(size_t taille);
+uint8_t **genererGrilleComplete(size_t taille);
 
 /**
  * \brief permute les lignes d'une grille de sudoku.

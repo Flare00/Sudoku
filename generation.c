@@ -4,15 +4,12 @@
 
 uint8_t **genererGrilleSudokuValide(size_t taille, int niveauDemander)
 {
-	printf("niveauDemander : %i\n", niveauDemander);
     int difficulte = 0;
     srand(time(NULL));
     uint8_t **grille = genererGrilleComplete(taille);
     //affichage(grille, taille);
     int nbCasesTotal = taille*taille;
     int casesRestantes = nbCasesTotal;
-
-    printf("Passe 1 \n");
 
     do
     {
@@ -30,16 +27,12 @@ uint8_t **genererGrilleSudokuValide(size_t taille, int niveauDemander)
         }
 
         if(niveauDemander == 1 && casesRestantes < (nbCasesTotal/3) + taille){
-        	printf("case voulu : %i | cases eu : %i\n", (nbCasesTotal/3) + taille, casesRestantes);
         	difficulte = 5;
         } else if(niveauDemander == 2 && casesRestantes < (nbCasesTotal/3) + (taille/2)){
-        	printf("case voulu : %i | cases eu : %i\n", (nbCasesTotal/3) + (taille/2), casesRestantes);
 			difficulte = 5;
         } else if(niveauDemander == 3 && casesRestantes < (nbCasesTotal/4) + taille){
-        	printf("case voulu : %i | cases eu : %i\n", (nbCasesTotal/4) + taille, casesRestantes);
 			difficulte = 5;
         } else if(niveauDemander == 4 && casesRestantes < (nbCasesTotal/4) + (taille/2)){
-        	printf("case voulu : %i | cases eu : %i\n", (nbCasesTotal/4) + (taille/2), casesRestantes);
 			difficulte = 5;
         }
 
@@ -49,7 +42,6 @@ uint8_t **genererGrilleSudokuValide(size_t taille, int niveauDemander)
             difficulte = 5;
         }
     } while (difficulte != 5);
-    printf("Passe Final \n");
 
     return grille;
 }
@@ -174,7 +166,7 @@ uint8_t **genererGrilleComplete(size_t taille)
         //retour = rotation(retour, taille);
     }
 
-    affichage(retour, taille);
+    // affichage(retour, taille);
     return retour;
 }
 
@@ -334,6 +326,6 @@ int verif_lcz(uint8_t ** sudoku, int colonne, int ligne, size_t taille){
 					printf("Avec   %ix%i : %i\n", i, j, sudoku[nI][nJ]);
 				}
 			}
-		}	
+		}
 	}
 }*/
