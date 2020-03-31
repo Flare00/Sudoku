@@ -1,6 +1,5 @@
 #include "interfacegtk.h"
 #include "sudokugtk.h"
-#include "../generation.h"
 
 
 
@@ -11,6 +10,40 @@ int* envoiCoords(int t, int x, int y){
   retour[1] = x;
   retour[2] = y;
   return retour;
+}
+
+
+/** Fonction vérification du Sudoku **/
+void verifSudoku(GtkWidget *widget, gpointer donnee){
+
+  const char *caracDispo[64] = {"1","2","3","4","5","6","7","8","9","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","@","&","+"};
+  int taille = GPOINTER_TO_INT(donnee);
+  char trouve;
+  uint8_t *tab = malloc(taille*taille*sizeof(uint8_t));
+  int idTab = 0;
+
+  for (int i = 0; i < taille; i++){
+    for (int j = 0; j < taille; j++){
+      trouve = 0;
+      if(strcmp("", gtk_entry_get_text(GTK_ENTRY(caseSudoku[j][i]))) == 0){
+        tab[idTab] = 0;
+        idTab++;
+      }
+      else{
+        for (uint8_t k = 0; k < taille && trouve == 0; k++){
+          if(strcmp(caracDispo[k], gtk_entry_get_text(GTK_ENTRY(caseSudoku[j][i]))) == 0){
+            trouve = 1;
+            tab[idTab] = k+1;
+            idTab++;
+          }
+        }
+      }
+    }
+  }
+
+  if(resoudre(tab, sqrt(taille))){
+    printf("RESOLU!\n");
+  }
 }
 
 
@@ -214,6 +247,7 @@ void sudokuRemplir(GtkWidget *grilleSudoku, int taille, int niveau){
 
 /** Fonction création du Sudoku **/
 void sudokuCreer(int taille, int niveau){
+  // Widgets
   GtkWidget *grilleBoutonJeu;
   GtkWidget *grilleSudoku;
   GtkWidget *scrollSudoku;
@@ -225,36 +259,41 @@ void sudokuCreer(int taille, int niveau){
   grilleBoutonJeu = gtk_grid_new();
   gtk_container_add (GTK_CONTAINER (fenetre), GTK_WIDGET (grilleBoutonJeu));
 
-  // Widgets
+  // Déclatation
   jeuEtiquetteTitre = gtk_label_new ("Sudoku");
   scrollSudoku = gtk_scrolled_window_new (NULL, NULL);
   jeuVerification = gtk_button_new_with_label ("Vérifier");
   jeuRetour = gtk_button_new_with_label ("Retour");
 
+  // CSS
   gtk_widget_set_name(grilleBoutonJeu, "fenetre");
   gtk_widget_set_name(jeuEtiquetteTitre, "titre");
   gtk_widget_set_name(jeuVerification, "bouton");
   gtk_widget_set_name(jeuRetour, "bouton");
 
+  // Expansion
   gtk_container_set_border_width (GTK_CONTAINER (scrollSudoku), 20);
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrollSudoku), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   gtk_widget_set_vexpand (GTK_WIDGET (scrollSudoku), TRUE);
   gtk_widget_set_hexpand (GTK_WIDGET (scrollSudoku), TRUE);
 
+  // Marges
   gtk_widget_set_margin_bottom (GTK_WIDGET (jeuVerification), 10);
   gtk_widget_set_margin_bottom (GTK_WIDGET (jeuRetour), 10);
   gtk_widget_set_margin_start (GTK_WIDGET (jeuRetour), 10);
   gtk_widget_set_margin_end (GTK_WIDGET (jeuVerification), 10);
 
-  g_signal_connect (jeuVerification, "clicked", G_CALLBACK (gtk_main_quit), NULL);
+  // Signaux
+  g_signal_connect (jeuVerification, "clicked", G_CALLBACK (verifSudoku), GINT_TO_POINTER(taille));
   g_signal_connect (jeuRetour, "clicked", G_CALLBACK (transitionInterface), grilleMenu);
 
+  // Positionnement
   gtk_grid_attach (GTK_GRID (grilleBoutonJeu), GTK_WIDGET (jeuEtiquetteTitre), 0, 0, 5, 1);
   gtk_grid_attach (GTK_GRID (grilleBoutonJeu), GTK_WIDGET (scrollSudoku), 0, 1, 5, 2);
   gtk_grid_attach (GTK_GRID (grilleBoutonJeu), GTK_WIDGET (jeuVerification), 4, 3, 1, 1);
   gtk_grid_attach (GTK_GRID (grilleBoutonJeu), GTK_WIDGET (jeuRetour), 0, 3, 1, 1);
 
-  // Grille du SUDOKU
+  // Grille du Sudoku
   grilleSudoku = gtk_grid_new();
   gtk_container_add (GTK_CONTAINER (scrollSudoku), grilleSudoku);
   gtk_widget_set_halign (grilleSudoku, GTK_ALIGN_CENTER);

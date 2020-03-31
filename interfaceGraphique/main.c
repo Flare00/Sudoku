@@ -22,11 +22,11 @@ int main (int argc, char *argv[]){
   grilleRegles = gtk_grid_new();
   grilleOptions = gtk_grid_new();
   grilleResoudre = gtk_grid_new();
-  grilleCreer(grilleMenu);
-  grilleCreer(grilleDifficulte);
-  grilleCreer(grilleRegles);
-  grilleCreer(grilleOptions);
-  grilleCreer(grilleResoudre);
+  grilleConfiguration(grilleMenu);
+  grilleConfiguration(grilleDifficulte);
+  grilleConfiguration(grilleRegles);
+  grilleConfiguration(grilleOptions);
+  grilleConfiguration(grilleResoudre);
 
 
   // Création des différentes parties de l'interface

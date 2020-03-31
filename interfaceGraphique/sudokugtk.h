@@ -3,6 +3,12 @@
 
 #include <gtk/gtk.h>
 #include <math.h>
+#include <time.h>
+#include "../generation.h"
+#include "../grille.h"
+#include "../bitBoard.h"
+#include "../liste.h"
+#include "../resolution.h"
 
 G_BEGIN_DECLS
 
@@ -15,11 +21,6 @@ GtkWidget *caseSudoku[64][64];
 
 
 /**
- * Création du tableau de char.
- */
-
-
-/**
  * @brief Création des tableaux des coordonnées de chaque case du Sudoku.
  *
  * @param t             Taille du Sudoku.
@@ -28,6 +29,16 @@ GtkWidget *caseSudoku[64][64];
  * @return int*         Tableau contenant les coordonnées (x,y) ainsi que la taille.
  */
 int* envoiCoords(int t, int x, int y);
+
+
+/**
+ * @brief Création des tableaux des coordonnées de chaque case du Sudoku.
+ *
+ * @param widget         Taille du Sudoku.
+ * @param donnee         Ligne de la case du Sudoku appelante.
+ * @return void
+ */
+void verifSudoku(GtkWidget *widget, gpointer donnee);
 
 
 /**

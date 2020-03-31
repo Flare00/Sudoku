@@ -345,7 +345,7 @@ void menuCreer(){
 
 
 /** Fonction Création Grille **/
-void grilleCreer(GtkWidget *grille){
+void grilleConfiguration(GtkWidget *grille){
   gtk_grid_set_column_homogeneous (GTK_GRID (grille), TRUE);
   gtk_widget_set_name(grille, "fenetre");
 }

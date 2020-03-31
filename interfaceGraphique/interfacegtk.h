@@ -64,7 +64,7 @@ void resoudreCreer();
  * @param grille        Grille à configurer.
  * @return void         Grille homogénéisé avec CSS.
  */
-void grilleCreer(GtkWidget *grille);
+void grilleConfiguration(GtkWidget *grille);
 
 
 /**
@@ -87,7 +87,7 @@ void changementResolution(GtkComboBox *widget);
 
 
 /**
- * @brief Traduction du widget Scale en Taille sudoku n*n.
+ * @brief Traduction du widget Scale en Taille sudoku n*n dans l'étiquette.
  *
  * @param widget        Scale appelant.
  * @param etiquette     Etiquette permettant l'affichage de la Traduction.
