@@ -138,7 +138,7 @@ void listeDetruire(Liste *dl)
 {
     while(dl)
     {
-        free(dl->c);
+        if(dl->c) free(dl->c);
         Liste *aSup = dl;
         dl = dl->suivante;
         free(aSup);
@@ -149,7 +149,7 @@ void listeDetruire32(Liste32 *dl)
 {
     while(dl)
     {
-        free(dl->c);
+        if(dl->c) free(dl->c);
         Liste32 *aSup = dl;
         dl = dl->suivante;
         free(aSup);
