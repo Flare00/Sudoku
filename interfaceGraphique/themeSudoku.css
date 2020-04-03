@@ -1,5 +1,5 @@
 #fenetre {
-    background: url("image.jpg") rgba(0, 0, 0, 0.4);
+    background: url("Res/image.jpg") rgba(0, 0, 0, 0.4);
 animation: gradient 100s linear infinite;
     opacity: 0;
     transition: opacity .0s ease-in-out;
