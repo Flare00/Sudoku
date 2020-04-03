@@ -1,9 +1,5 @@
 #fenetre {
-    background: url("Res/image.jpg") rgba(0, 0, 0, 0.4);
-animation: gradient 100s linear infinite;
-    opacity: 0;
-    transition: opacity .0s ease-in-out;
-    opacity: 1;
+    background: url("Res/image.jpg") ;
     
   }
 
@@ -33,7 +29,7 @@ animation: gradient 100s linear infinite;
 
 
 #bouton:hover {
-  background:linear-gradient(45deg, #ff0000, #ff7300, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+  background:linear-gradient(45deg, #707d02, #cd3a03, #ecc206, #00ffd5);
   background-size:400% ;
   animation: glowing 20s linear infinite;
   opacity: 0;
