@@ -1,8 +1,8 @@
 #include "interfacegtk.h"
 
-
 int main (int argc, char *argv[]){
   // Initialisation GTK
+
   gtk_init (&argc, &argv);
 
   // Chargement du CSS
@@ -13,7 +13,7 @@ int main (int argc, char *argv[]){
   gtk_window_set_title (GTK_WINDOW (fenetre), "Sudoku");
   gtk_widget_set_size_request (GTK_WIDGET (fenetre), 800, 600);
   gtk_window_set_position (GTK_WINDOW (fenetre), GTK_WIN_POS_CENTER_ALWAYS);
-  g_signal_connect (fenetre, "destroy", G_CALLBACK (gtk_main_quit), NULL);
+  g_signal_connect (fenetre, "destroy", G_CALLBACK (quit), NULL);
 
 
   // Initialisation des Grilles
@@ -44,6 +44,5 @@ int main (int argc, char *argv[]){
 
   // Main Fonction GTK
   gtk_main();
-
   return 0;
 }
