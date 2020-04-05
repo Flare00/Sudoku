@@ -1,7 +1,8 @@
 #include "interfacegtk.h"
 #include "sudokugtk.h"
-
-
+#include<sys/types.h>
+#include<unistd.h>
+pid_t pid = -1;
 
 /** Fonction transition **/
 void transitionInterface(GtkWidget *widget, gpointer grille){
@@ -11,6 +12,35 @@ void transitionInterface(GtkWidget *widget, gpointer grille){
   gtk_widget_show_all(GTK_WIDGET (fenetre));
 }
 
+
+void  quit()
+{
+  if (pid != -1)
+    kill(pid, SIGKILL);
+  gtk_main_quit();
+}
+//Jouant et Ecouter la Music
+void play_bc_music()
+{
+    pid = fork();
+    if (pid == -1)
+      printf("PROCCESS_CANT_BE_CREATED\n");
+    else if (pid == 0)
+    {
+        if (pid != -1)
+        system("mpv --loop --resume-playback --no-video music.mp3");
+     else
+    {
+        system("mpv --pause music.mp3");
+        pid = -1;
+    }
+   }
+}
+/* 
+void stop_music()
+{
+if (pid == -1)
+    kill(pid, SIGKILL);}*/
 
 /** Configuration de l'Appel Sudoku **/
 void appelSudoku(GtkWidget *widget, gpointer range){
@@ -66,7 +96,7 @@ void changementResolution(GtkComboBox *widget){
       break;
 
     default:
-      gtk_window_resize(GTK_WINDOW(fenetre), 800, 600);
+      gtk_window_resize(GTK_WINDOW(fenetre), 400, 600);
   }
   gtk_window_set_position(GTK_WINDOW(fenetre), GTK_WIN_POS_CENTER_ALWAYS);
 }
@@ -135,19 +165,38 @@ void optionsCreer(){
   // Widgets
   GtkWidget *etiquetteOptionsTitre;
   GtkWidget *etiquetteOptionsDimension;
+  GtkWidget *etiquetteMusic;
   GtkWidget *comboboxOptionsDimension;
+  GtkWidget *buttonMusic;
+  GtkWidget *etiquetteStopMusic;
+  GtkWidget *buttonStopMusic;
   GtkWidget *boutonOptionsRetour;
 
   // Déclatations
+  
+
   etiquetteOptionsTitre = gtk_label_new ("Options");
   etiquetteOptionsDimension = gtk_label_new ("Dimension");
   comboboxOptionsDimension = gtk_combo_box_text_new ();
   boutonOptionsRetour = gtk_button_new_with_label ("Retour");
+  /* Faut faire GtkSWitch (Music / Stop music) au lieu bouton , ici button juste pour tester la music*/
+  etiquetteMusic=gtk_label_new ("Music");
+  buttonMusic = gtk_button_new_with_label ("Music");
+  etiquetteStopMusic=gtk_label_new ("Stop_Music");
+  buttonStopMusic = gtk_button_new_with_label ("Stop_Music");
+  
+ 
 
   // CSS
   gtk_widget_set_name(etiquetteOptionsTitre, "titre");
+  gtk_widget_set_name(etiquetteMusic, "texte");
+  gtk_widget_set_name(buttonMusic, "bouton");
+
+  gtk_widget_set_name(etiquetteStopMusic, "texte");
+  gtk_widget_set_name(buttonStopMusic, "bouton");
   gtk_widget_set_name(etiquetteOptionsDimension, "texte");
   gtk_widget_set_name(boutonOptionsRetour, "bouton");
+  
 
   // Remplissage Combobox
   const char *dimensionList[] = {"800 x 600", "1280 x 800", "1440 x 900", "1600 x 1000", "1920 x 1080"};
@@ -158,19 +207,25 @@ void optionsCreer(){
 
   // Signaux
   g_signal_connect (boutonOptionsRetour, "clicked", G_CALLBACK (transitionInterface), grilleMenu);
+  g_signal_connect (buttonMusic, "clicked", G_CALLBACK (play_bc_music), grilleMenu);
+  g_signal_connect (buttonStopMusic, "clicked", G_CALLBACK (transitionInterface), grilleMenu);
   g_signal_connect (comboboxOptionsDimension, "changed", G_CALLBACK (changementResolution), NULL);
 
   // Marges
   gtk_widget_set_margin_top (GTK_WIDGET (etiquetteOptionsDimension), 200);
   gtk_widget_set_margin_top (GTK_WIDGET (comboboxOptionsDimension), 200);
   gtk_widget_set_margin_top (GTK_WIDGET (boutonOptionsRetour), 230);
+  gtk_widget_set_margin_top (GTK_WIDGET (buttonMusic), 200);
+  gtk_widget_set_margin_top (GTK_WIDGET (buttonStopMusic), 200);
   gtk_widget_set_margin_start (GTK_WIDGET (comboboxOptionsDimension), 15);
 
   // Position grille
   gtk_grid_attach (GTK_GRID (grilleOptions), GTK_WIDGET (etiquetteOptionsTitre), 0, 0, 5, 2);
-  gtk_grid_attach (GTK_GRID (grilleOptions), GTK_WIDGET (etiquetteOptionsDimension), 1, 2, 2, 1);
+  gtk_grid_attach (GTK_GRID (grilleOptions), GTK_WIDGET (etiquetteOptionsDimension), 2, 2, 1, 1);
   gtk_grid_attach (GTK_GRID (grilleOptions), GTK_WIDGET (comboboxOptionsDimension), 3, 2, 1, 1);
-  gtk_grid_attach (GTK_GRID (grilleOptions), GTK_WIDGET (boutonOptionsRetour), 2, 5, 1, 1);
+  gtk_grid_attach (GTK_GRID (grilleOptions), GTK_WIDGET (buttonMusic),2, 3, 1, 1);
+  gtk_grid_attach (GTK_GRID (grilleOptions), GTK_WIDGET (buttonStopMusic),2, 4, 1, 1);
+  gtk_grid_attach (GTK_GRID (grilleOptions), GTK_WIDGET (boutonOptionsRetour), 0, 5, 1, 1);
 }
 
 
@@ -358,7 +413,7 @@ void myCSS(){
   GdkScreen *ecran;
   GError *erreur = NULL;
 
-  const gchar *cheminCSS = "interfaceGraphique/themeSudoku.css";
+  const gchar *cheminCSS = "interacfeGraphique/themeSudoku.css";
   GFile *fichierCSS = g_file_new_for_path(cheminCSS);
   gtkCSS = gtk_css_provider_new();
   affichage = gdk_display_get_default();
