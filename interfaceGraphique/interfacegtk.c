@@ -28,10 +28,10 @@ void play_bc_music()
     else if (pid == 0)
     {
         if (pid != -1)
-        system("mpv --loop --resume-playback --no-video music.mp3");
+        system("mpv --loop --resume-playback --no-video Res/music.mp3");
      else
     {
-        system("mpv --pause music.mp3");
+        system("mpv --pause Res/music.mp3");
         pid = -1;
     }
    }
