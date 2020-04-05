@@ -19,9 +19,9 @@ void  quit()
     kill(pid, SIGKILL);
   gtk_main_quit();
 }
-//Jouant et Ecouter la Music
+//Jouer en  écoutant la Music
 void play_bc_music()
-{
+{ 
     pid = fork();
     if (pid == -1)
       printf("PROCCESS_CANT_BE_CREATED\n");
