@@ -56,10 +56,11 @@ size_t heuristiqueDifficile(uint8_t **grille, size_t n, uint64_t *bbL, uint64_t 
     }
 }
 
-uint8_t heuristiqueJumeauANVisible(uint8_t **grille, size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, uint8_t **map)
+uint8_t heuristiqueJumeauANVisible(uint8_t **grille, size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, Liste * liste)
 {
     size_t taille = n * n;
     uint64_t mask = (1 << taille) - 1;
+    Liste * temp;
 
     // bitboard de ligne de bloc correspondant au candidats présent plusieur fois sur la même ligne.
     uint64_t *mbbBL = malloc(n * sizeof(uint64_t));
@@ -76,6 +77,7 @@ uint8_t heuristiqueJumeauANVisible(uint8_t **grille, size_t n, uint64_t *bbL, ui
                 size_t colonne = (bloc % n) + i;
                 for (size_t k = 0; k < n; k++)
                 {
+                    //Trouve les candidats sur la ligne/colonne présent au moins 2 fois.
                     mbbBL[i] = mask & (mbbBL[i] | ((~(bbL[ligne] | bbC[colonne] | bbB[((ligne / n) * n) + colonne / n])) & (~(bbL[ligne] | bbC[(bloc % n) + k] | bbB[((ligne / n) * n) + ((bloc % n) + k) / n]))));
                     mbbBC[j] = mask & (mbbBC[j] | ((~(bbL[ligne] | bbC[colonne] | bbB[((ligne / n) * n) + colonne / n])) & (~(bbL[(bloc / n) + k] | bbC[colonne] | bbB[((((bloc / n) + k) / n) * n) + colonne / n]))));
                 }
@@ -88,6 +90,7 @@ uint8_t heuristiqueJumeauANVisible(uint8_t **grille, size_t n, uint64_t *bbL, ui
             {
                 if (i != j)
                 {
+                    //Enleve les element pas uniquement sur la même ligne/colonne
                     mbbBL[i] = mask & (mbbBL[i] & ~mbbBL[j]);
                     mbbBC[i] = mask & (mbbBC[i] & ~mbbBC[j]);
                 }
@@ -96,15 +99,17 @@ uint8_t heuristiqueJumeauANVisible(uint8_t **grille, size_t n, uint64_t *bbL, ui
 
         for (size_t i = 0; i < n; i++)
         {
-            if (mbbBL[i] != 0)
+            if (mbbBL[i] != 0 || mbbBC[i] != 0)
             {
-                //a faire
-                //retirer de toute la ligne, sauf case présente, les occurence présente dans mbbBL[i]; 
+                //suprimme dans la liste les candidats jumeau et Nplait se situant sur la meme ligne/colonne, sauf la même régions.
+                if(temp->i < bloc/n && temp->i > (bloc/n) + n && mbbBL[i] != 0){
+                    temp->candidats = temp->candidats & ~mbbBL[i];
+                }
+                if(temp->j < bloc%n && temp->j > (bloc%n) + n  && mbbBC[i] != 0){
+                    temp->candidats = temp->candidats & ~mbbBC[i];
+                }
             }
-            if (mbbBC[i] != 0)
-            {
-                //a faire
-            }
+            temp = temp->suivante;
         }
     }
 }
@@ -119,6 +124,7 @@ uint64_t genMbbB(size_t bloc, size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *
             {
                 if (k != j)
                 {
+                    
                 }
             }
         }
