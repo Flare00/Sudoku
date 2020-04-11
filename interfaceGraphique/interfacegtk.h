@@ -2,9 +2,11 @@
 #define __INTERFACEGTK_H__
 
 #include <gtk/gtk.h>
+
 G_BEGIN_DECLS
 
-void  quit();
+
+
 /**
   * Widgets Globaux (Grilles et Fenêtre).
   */

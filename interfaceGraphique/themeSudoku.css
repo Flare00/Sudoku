@@ -1,14 +1,13 @@
 #fenetre {
-    background: url("Res/image.jpg") ;
-    
-  }
-
-   
-
+    background-image: url("Res/fond.jpg");
+    background-color: #733;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
 
 
 #titre {
-  
+  background: rgba(135, 110, 69, 0.5);
   text-shadow: 0px 0px 2px black;
   color: #111;
   font-family: DejaVu Sans;
@@ -18,25 +17,24 @@
 }
 
 
-
 #bouton {
-    border:none;
-    outline: none;
-    color: #fff;
-    background: rgba(40,40,40,40);
-    border-radius: 10px;
+    background: #876e45;
+    text-shadow: 1px 1px 5px black;
+    color: #111;
+    font-family: DejaVu Sans;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;
+    border-radius: 15px;
+    border-color: #000;
+    box-shadow: 0px 0px 2px black;
 }
 
 
 #bouton:hover {
-  background:linear-gradient(45deg, #707d02, #cd3a03, #ecc206, #00ffd5);
-  background-size:400% ;
-  animation: glowing 20s linear infinite;
-  opacity: 0;
-  transition: opacity .0s ease-in-out ;
-  border-radius: 10px;
-  opacity: 1;
+  box-shadow: 0px 0px 10px black;
 }
+
 
 #regle {
   background: #876e45;
@@ -63,10 +61,12 @@
 
 #caseBase {
   background: #fff;
+  color: #000;
 }
 #caseSurligner {
   background: #ede6de;
   border-color: #876e45;
+  color: #000;
 }
 #caseBloquee {
   background: #d9d9d9;
@@ -76,19 +76,32 @@
 #caseBloqueErreur {
   background: #ffb3b3;
   border-color: #f00;
+  color: #000;
 }
 #caseErreur {
   background: #ffb3b3;
   border-color: #f00;
+  color: #000;
 }
 
-@keyframes glowing {
-  5%{background-position: 50% 0%; }
-  50%{background-position: 100% 50%;}
-  100%{background-position: 50% 50%; }
+
+#verifSudokuCBV{
+  background: #e6ffe6;
+  border-color: #80ff80;
+  color: #000;
 }
-@keyframes gradient{
-  5%{background-position: 50% 0%; }
-  100%{background-position: 100% 50%;}
-  50%{background-position: 50% 50%; }
+#verifSudokuCBR{
+  background: #ffb3b3;
+  border-color: #f00;
+  color: #000;
+}
+#verifSudokuCV{
+  background: #e6ffe6;
+  border-color: #80ff80;
+  color: #000;
+}
+#verifSudokuCR{
+  background: #ffb3b3;
+  border-color: #f00;
+  color: #000;
 }

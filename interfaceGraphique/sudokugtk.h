@@ -3,7 +3,6 @@
 
 #include <gtk/gtk.h>
 #include <math.h>
-#include <time.h>
 #include "../generation.h"
 #include "../grille.h"
 #include "../bitBoard.h"
