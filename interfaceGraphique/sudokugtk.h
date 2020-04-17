@@ -31,13 +31,13 @@ int* envoiCoords(int t, int x, int y);
 
 
 /**
- * @brief Création des tableaux des coordonnées de chaque case du Sudoku.
+ * @brief Vérification du Sudoku avec les heuristiques.
  *
- * @param widget         Taille du Sudoku.
- * @param donnee         Ligne de la case du Sudoku appelante.
- * @return void
+ * @param widget         Bouton "Vérifier" ou "Résoudre" appelant.
+ * @param donnee         Taille du Sudoku.
+ * @return void          Surlignement vert pour les cases correctes, rouge sinon OU Remplissage du Sudoku par les solutions en fonction du widget appelant.
  */
-void verifSudoku(GtkWidget *widget, gpointer donnee);
+void SudokuVerifResoud(GtkWidget *widget, gpointer donnee);
 
 
 /**
@@ -77,7 +77,7 @@ char verifCarre(int t, int l, int c, const char *val);
 
 
 /**
- * @brief Vérification du contenu de la case du Sudoku appelante.
+ * @brief Vérification du contenu de la case modifiée par l'utilisateur.
  *
  * @param t             Taille du Sudoku.
  * @param val           Valeur de la case du Sudoku appelante.
@@ -109,15 +109,6 @@ void entreeCase(GtkEntry *widget, GdkEvent *evenement, gpointer donnee);
 
 
 /**
- * @brief Création de l'interface Sudoku.
- *
- * @param taille        Taille du Sudoku.
- * @return void         Création du Sudoku
- */
-void sudokuCreer(int taille, int niveau);
-
-
-/**
  * @brief Création et Remplissage des cases du sudoku à partir des grilles valides.
  *
  * @param grilleSudoku  Grille du Sudoku.
@@ -126,6 +117,15 @@ void sudokuCreer(int taille, int niveau);
  * @return void         Création du Sudoku
  */
 void sudokuRemplir(GtkWidget *grilleSudoku, int taille, int niveau);
+
+
+/**
+ * @brief Création de l'interface Sudoku.
+ *
+ * @param taille        Taille du Sudoku.
+ * @return void         Création du Sudoku
+ */
+void sudokuCreer(int taille, int niveau);
 
 
 

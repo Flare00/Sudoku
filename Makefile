@@ -5,13 +5,15 @@ GTKFOLDER = interfaceGraphique/
 
 
 ### EXECUTABLE
-exe: interfacegtk.o main.o sudokugtk.o generation.o bitBoard.o grille.o liste.o resolution.o
+exe: listeGtk.o interfacegtk.o sudokugtk.o generation.o bitBoard.o grille.o liste.o resolution.o main.o
 	$(CC) -o $@ $^ $(OPTIONS) $(FLAGSGTK)
 	rm -f *.o
 	@echo "Excécutable prêt !"
 
 
 ### INTERFACE GRAPHIQUE
+listeGtk.o: $(GTKFOLDER)listeGtk.c
+	$(CC) $(OPTIONS) -c $^ $(FLAGSGTK)
 interfacegtk.o: $(GTKFOLDER)interfacegtk.c
 	$(CC) $(OPTIONS) -c $^ $(FLAGSGTK)
 sudokugtk.o: $(GTKFOLDER)sudokugtk.c

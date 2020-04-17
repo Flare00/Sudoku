@@ -1,6 +1,11 @@
 #include "interfacegtk.h"
 #include "sudokugtk.h"
+#include "listeGtk.h"
 
+
+
+/**  **/
+ListeGtk* liste;
 
 
 /** Fonction envoi du tableau des coordonnées et taille du Sudoku **/
@@ -9,12 +14,19 @@ int* envoiCoords(int t, int x, int y){
   retour[0] = t;
   retour[1] = x;
   retour[2] = y;
+  liste = listeGtkInserer(liste, retour);
   return retour;
 }
 
 
-/** Fonction vérification du Sudoku **/
-void verifSudoku(GtkWidget *widget, gpointer donnee){
+/**  **/
+void destrcution(){
+  listeGtkDetruire(liste);
+}
+
+
+/** Fonction vérification & résolution du Sudoku **/
+void SudokuVerifResoud(GtkWidget *widget, gpointer donnee){
   // Initialisation
   const char *caracDispo[64] = {"1","2","3","4","5","6","7","8","9","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","@","&","+"};
   int taille = GPOINTER_TO_INT(donnee);
@@ -47,75 +59,46 @@ void verifSudoku(GtkWidget *widget, gpointer donnee){
   resoudre(tab, sqrt(taille));
 
   // Vérification de chaque case
-  for (int i = 0; i < taille; i++){
-    for (int j = 0; j < taille; j++){
-      trouve = 0;
-      maCase = -1;
-      for (uint8_t k = 0; k < taille && trouve == 0; k++){
-        if(strcmp(caracDispo[k], gtk_entry_get_text(GTK_ENTRY(caseSudoku[j][i]))) == 0){
-          trouve = 1;
-          maCase = k+1;
-        }
-      }
-      if( tab[(i*taille)+j] == maCase ){
-        if(strcmp(gtk_widget_get_name (GTK_WIDGET (caseSudoku[j][i])), "caseBloquee") == 0 ){
-          gtk_widget_set_name(caseSudoku[j][i], "verifSudokuCBV");
-        }
-        else{
-          gtk_widget_set_name(caseSudoku[j][i], "verifSudokuCV");
-        }
-      }
-      else{
-        if(strcmp(gtk_widget_get_name (GTK_WIDGET (caseSudoku[j][i])), "caseBloquee") == 0 ){
-          gtk_widget_set_name(caseSudoku[j][i], "verifSudokuCBR");
-        }
-        else{
-          gtk_widget_set_name(caseSudoku[j][i], "verifSudokuCR");
-        }
-      }
-    }
-  }
-}
-
-
-/** Fonction résolution du Sudoku **/
-void resoudSudoku(GtkWidget *widget, gpointer donnee){
-  // Initialisation
-  const char *caracDispo[64] = {"1","2","3","4","5","6","7","8","9","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","@","&","+"};
-  int taille = GPOINTER_TO_INT(donnee);
-  char trouve;
-  uint8_t *tab = malloc(taille*taille*sizeof(uint8_t));
-  int idTab = 0;
-
-  // Remplissage du tableau uint8_t pour la Résolution
-  for (int i = 0; i < taille; i++){
-    for (int j = 0; j < taille; j++){
-      trouve = 0;
-      if(strcmp("", gtk_entry_get_text(GTK_ENTRY(caseSudoku[j][i]))) == 0){
-        tab[idTab] = 0;
-        idTab++;
-      }
-      else{
+  if(strcmp(gtk_button_get_label( GTK_BUTTON (widget)), "Vérifier") == 0 ){
+    for (int i = 0; i < taille; i++){
+      for (int j = 0; j < taille; j++){
+        trouve = 0;
+        maCase = -1;
         for (uint8_t k = 0; k < taille && trouve == 0; k++){
           if(strcmp(caracDispo[k], gtk_entry_get_text(GTK_ENTRY(caseSudoku[j][i]))) == 0){
             trouve = 1;
-            tab[idTab] = k+1;
-            idTab++;
+            maCase = k+1;
+          }
+        }
+        if( tab[(i*taille)+j] == maCase ){
+          if(strcmp(gtk_widget_get_name (GTK_WIDGET (caseSudoku[j][i])), "caseBloquee") == 0 ){
+            gtk_widget_set_name(caseSudoku[j][i], "verifSudokuCBV");
+          }
+          else{
+            gtk_widget_set_name(caseSudoku[j][i], "verifSudokuCV");
+          }
+        }
+        else{
+          if(strcmp(gtk_widget_get_name (GTK_WIDGET (caseSudoku[j][i])), "caseBloquee") == 0 ){
+            gtk_widget_set_name(caseSudoku[j][i], "verifSudokuCBR");
+          }
+          else{
+            gtk_widget_set_name(caseSudoku[j][i], "verifSudokuCR");
           }
         }
       }
     }
   }
-
-  // Résoud le tableau
-  resoudre(tab, sqrt(taille));
-
   // Remplissage du Sudoku avec le tableau
-  for (int i = 0; i < taille; i++){
-    for (int j = 0; j < taille; j++){
-      gtk_entry_set_text (GTK_ENTRY (caseSudoku[j][i]), caracDispo[tab[(i*taille)+j]-1]);
+  if(strcmp(gtk_button_get_label( GTK_BUTTON (widget)), "Résoudre") == 0 ){
+    for (int i = 0; i < taille; i++){
+      for (int j = 0; j < taille; j++){
+        gtk_entry_set_text (GTK_ENTRY (caseSudoku[j][i]), caracDispo[tab[(i*taille)+j]-1]);
+      }
     }
   }
+
+  free(tab);
 }
 
 
@@ -342,6 +325,8 @@ void sudokuCreer(int taille, int niveau){
   GtkWidget *jeuEtiquetteTitre;
   GtkWidget *jeuResoudre;
 
+  liste = NULL;
+
   // Grille de l'interface du Jeu
   grilleBoutonJeu = gtk_grid_new();
   gtk_container_add (GTK_CONTAINER (fenetre), GTK_WIDGET (grilleBoutonJeu));
@@ -375,9 +360,10 @@ void sudokuCreer(int taille, int niveau){
   gtk_widget_set_margin_end (GTK_WIDGET (jeuVerification), 10);
 
   // Signaux
-  g_signal_connect (jeuVerification, "clicked", G_CALLBACK (verifSudoku), GINT_TO_POINTER(taille));
-  g_signal_connect (jeuResoudre, "clicked", G_CALLBACK (resoudSudoku), GINT_TO_POINTER(taille));
+  g_signal_connect (jeuVerification, "clicked", G_CALLBACK (SudokuVerifResoud), GINT_TO_POINTER(taille));
+  g_signal_connect (jeuResoudre, "clicked", G_CALLBACK (SudokuVerifResoud), GINT_TO_POINTER(taille));
   g_signal_connect (jeuRetour, "clicked", G_CALLBACK (transitionInterface), grilleMenu);
+  g_signal_connect_swapped (jeuRetour, "clicked", G_CALLBACK (destrcution), NULL);
 
   // Positionnement
   gtk_grid_attach (GTK_GRID (grilleBoutonJeu), GTK_WIDGET (jeuEtiquetteTitre), 0, 0, 5, 1);

@@ -15,7 +15,6 @@ int main (int argc, char *argv[]){
   gtk_window_set_position (GTK_WINDOW (fenetre), GTK_WIN_POS_CENTER_ALWAYS);
   g_signal_connect (fenetre, "destroy", G_CALLBACK (gtk_main_quit), NULL);
 
-
   // Initialisation des Grilles
   grilleMenu = gtk_grid_new();
   grilleDifficulte = gtk_grid_new();
@@ -28,7 +27,6 @@ int main (int argc, char *argv[]){
   grilleConfiguration(grilleOptions);
   grilleConfiguration(grilleResoudre);
 
-
   // Création des différentes parties de l'interface
   menuCreer();
   difficulteCreer();
@@ -36,11 +34,9 @@ int main (int argc, char *argv[]){
   optionsCreer();
   resoudreCreer();
 
-
   // Affichage du Menu
   gtk_container_add (GTK_CONTAINER (fenetre), GTK_WIDGET (grilleMenu));
   gtk_widget_show_all(GTK_WIDGET (fenetre));
-
 
   // Main Fonction GTK
   gtk_main();
