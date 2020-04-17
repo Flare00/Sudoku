@@ -280,6 +280,96 @@ bool resoudreRecursivement32(uint8_t** grille, Liste32 *dl, uint32_t *bbL, uint3
     grille[i][j] = 0;
     return false;
 }
+int resolu_64(uint8_t** grille, Liste *dl, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB,uint8_t **map, int count, int pi, int pj)
+{
+    if(!dl){
+        return 1;
+    }
+
+    size_t k,c, i = dl->i, j= dl->j, b = map[i][j];
+    uint8_t val, indice1;
+    uint32_t bitVal;
+
+        for(k = 0 ; k < dl->population ; k++)
+        {
+
+            c = dl->c[k];
+            val = c, indice1 = val-1;
+            bitVal = 1<<indice1;
+
+           if((val && !(( (bbL[i] | bbC[j] | bbB[b])>>indice1)&1) ) )
+            {
+                grille[i][j] = val;
+                bbL[i] |= bitVal;
+                bbC[j] |= bitVal;
+                bbB[b] |= bitVal;
+
+                if(resolu_64(grille, dl->next, bbL, bbC, bbB,map,count, pi,pj))
+                {
+                  
+                   count++;
+                   if(k == dl->population-1 && i==pi &&j==pj)
+                        return count;
+                }
+          
+            }
+            
+        }
+
+    size_t bi =dl->back->i , bj = dl->back->j;
+    uint8_t indice2 = grille[bi][bj]-1;
+    uint32_t bitVal2 = (1<<indice2);
+    bbL[bi] ^= bitVal2;
+    bbC[bj] ^= bitVal2;
+    bbB[map[bi][bj]] ^= bitVal2;
+
+    return count;
+}
+int resolu_32(uint8_t** grille, Liste *dl, uint32_t *bbL, uint32_t *bbC, uint32_t *bbB,uint8_t **map, int count, int pi, int pj)
+{
+    if(!dl){
+        return 1;
+    }
+
+    size_t k,c, i = dl->i, j= dl->j, b = map[i][j];
+    uint8_t val, indice1;
+    uint32_t bitVal;
+
+        for(k = 0 ; k < dl->population ; k++)
+        {
+
+            c = dl->c[k];
+            val = c, indice1 = val-1;
+            bitVal = 1<<indice1;
+
+           if((val && !(( (bbL[i] | bbC[j] | bbB[b])>>indice1)&1) ) )
+            {
+                grille[i][j] = val;
+                bbL[i] |= bitVal;
+                bbC[j] |= bitVal;
+                bbB[b] |= bitVal;
+
+                if(resolu_32(grille, dl->next, bbL, bbC, bbB,map,count, pi,pj))
+                {
+                  
+                   count++;
+                   if(k == dl->population-1 && i==pi &&j==pj)
+                        return count;
+                }
+          
+            }
+            
+        }
+
+    size_t bi =dl->back->i , bj = dl->back->j;
+    uint8_t indice2 = grille[bi][bj]-1;
+    uint32_t bitVal2 = (1<<indice2);
+    bbL[bi] ^= bitVal2;
+    bbC[bj] ^= bitVal2;
+    bbB[map[bi][bj]] ^= bitVal2;
+
+    return count;
+}
 
 bool resoudre(uint8_t *entree, size_t n)
 {
@@ -299,11 +389,11 @@ bool resoudre(uint8_t *entree, size_t n)
             resultat = false;
         }
         else{
-            /*printf("BitBoard Ã  la phasse d'initialisation : \n");
+            /*printf("BitBoard à la phasse d'initialisation : \n");
             afficherTousBitBoard32(taille, bbL, bbC, bbB);*/
 
             heuristiqueUniqueCandidat32(n, bbL, bbC, bbB, grille, map);
-            /*printf("BitBoard aprÃ¨s heuristiques unique candidats : \n");
+            /*printf("BitBoard après heuristiques unique candidats : \n");
             afficherTousBitBoard32(taille, bbL, bbC, bbB);*/
 
             Liste32 *liste = rechercherCandidat32(n, bbL, bbC, bbB, grille, map);
