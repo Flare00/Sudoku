@@ -63,6 +63,12 @@ size_t listeNbCandida32(Liste32 *l1);
 void listeDetruire(Liste *dl);
 void listeDetruire32(Liste32 *dl);
 
+/** @brief Supprime la tête d'une liste
+  * @param Liste *dl :un pointeur sur une liste
+  */
+void listeDetruireTete(Liste **dl);
+void listeDetruireTete32(Liste32 **dl);
+
 /** @brief Liste de candidats pour les cases vides
   * @param uint8_t **grille : grille utilisée pour remplir le tableau de bits
   * @param size_t n : nombre de lignes ou colonnes de blocks
@@ -76,5 +82,6 @@ Liste* rechercherCandidat(size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB,
 Liste32* rechercherCandidat32(size_t n, uint32_t *bbL, uint32_t *bbC, uint32_t *bbB, uint8_t** grille, uint8_t** map);
 
 void afficherListe(Liste* liste);
+void afficherListe32(Liste32* liste);
 
 #endif

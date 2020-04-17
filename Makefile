@@ -35,6 +35,9 @@ liste.o: liste.c
 resolution.o: resolution.c
 	$(CC) $(OPTIONS) -c $^
 
+resolution : grille.c bitBoard.c liste.c resolution.c main.c
+	$(CC) -o $@ $^
+
 
 ### CLEAN
 clean:

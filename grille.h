@@ -6,6 +6,10 @@
 #include <stdlib.h>
 #define block(a, b,n)    (((a/n)*n)+b/n)
 
+#define bool uint8_t
+#define true 1
+#define false 0
+
 /** @brief Creer une grille à partir d'un tableau d'entiers
   * @param unsigned int* chaine : tableau d'entiers à repartir dans la grille
   * @param size_t taille : nombre de case par ligne ou colonne de la grille

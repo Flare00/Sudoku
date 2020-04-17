@@ -1,13 +1,7 @@
 ﻿#ifndef RESOLUTION_H
 #define RESOLUTION_H
 
-#include "grille.h"
-#include "liste.h"
 #include "bitBoard.h"
-
-#define bool uint8_t
-#define true 1
-#define false 0
 
 /** @brief Ajouter un élément en tête de liste
   * @param Liste *liste : pointeur sur la liste à laquelle on rattachera une nouvelle
@@ -26,8 +20,8 @@ Liste32* ajouterEnTete32(Liste32 *liste, uint32_t candidats, size_t i, size_t j)
   * @param uint8_t** grille : pointeur sur la grille
   * @return Liste* : la tête de la liste
   */
-Liste* creerListeUniqueCandidat(size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, uint8_t** grille);
-Liste32* creerListeUniqueCandidat32(size_t n, uint32_t *bbL, uint32_t *bbC, uint32_t *bbB, uint8_t** grille);
+Liste* creerListeUniqueCandidat(size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, uint8_t** grille, uint8_t** map);
+Liste32* creerListeUniqueCandidat32(size_t n, uint32_t *bbL, uint32_t *bbC, uint32_t *bbB, uint8_t** grille, uint8_t** map);
 
 /** @brief Remplir directement les cases à 1 candidat
   * @param size_t n : la racine de la hauteur de la grille
@@ -36,8 +30,8 @@ Liste32* creerListeUniqueCandidat32(size_t n, uint32_t *bbL, uint32_t *bbC, uint
   * @param uint64_t* bbB : tableau de bits block
   * @param uint8_t** grille : pointeur sur la grille
   */
-void heuristiqueUniqueCandidat(size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, uint8_t** grille);
-void heuristiqueUniqueCandidat32(size_t n, uint32_t *bbL, uint32_t *bbC, uint32_t *bbB, uint8_t** grille);
+void heuristiqueUniqueCandidat(size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, uint8_t** grille, uint8_t** map);
+void heuristiqueUniqueCandidat32(size_t n, uint32_t *bbL, uint32_t *bbC, uint32_t *bbB, uint8_t** grille, uint8_t** map);
 
 /** @brief Heuristique de résolution basé sur la technique de paire cachée, si 2 cases contiennent la même paire de valeur, on peut
   * @param size_t taille : nombre de valeurs par régions

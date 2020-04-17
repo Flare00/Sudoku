@@ -156,6 +156,34 @@ void listeDetruire32(Liste32 *dl)
     }
 }
 
+void listeDetruireTete(Liste **liste)
+{
+    if((*liste)){
+        Liste* tmp = (*liste)->suivante;
+        if(tmp)
+            tmp->precedente = NULL;
+        if((*liste)->c)
+            free((*liste)->c);
+        
+        free((*liste));
+        (*liste) = tmp;
+    }
+}
+
+void listeDetruireTete32(Liste32 **liste)
+{
+    if((*liste)){
+        Liste32* tmp = (*liste)->suivante;
+        if(tmp)
+            tmp->precedente = NULL;
+        if((*liste)->c)
+            free((*liste)->c);
+
+        free((*liste));
+        (*liste) = tmp;
+    }
+}
+
 size_t listeNbElement(Liste *l1){
     size_t count=0;
     while(l1!=NULL)
@@ -215,8 +243,9 @@ Liste* rechercherCandidat(size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB,
             /* Si la valeur dans une case == 0, on ajoute une liste constituée des
                des coordonnées de cette case ainsi que l'entier représentant les candidats */
             {
-                if((cdt=mask&(~(bbL[i] | bbC[j] | bbB[map[i][j]]))))
+                if((cdt=mask&(~(bbL[i] | bbC[j] | bbB[map[i][j]])))){
                     liste = listeInsertionOrdonnee(liste, cdt, i, j);
+                }
             }
         }
     }
@@ -236,8 +265,9 @@ Liste32* rechercherCandidat32(size_t n, uint32_t *bbL, uint32_t *bbC, uint32_t *
             /* Si la valeur dans une case == 0, on ajoute une liste constituée des
                des coordonnées de cette case ainsi que l'entier représentant les candidats */
             {
-                if((cdt=mask&(~(bbL[i] | bbC[j] | bbB[map[i][j]]))))
+                if((cdt=mask&(~(bbL[i] | bbC[j] | bbB[map[i][j]])))){
                     liste = listeInsertionOrdonnee32(liste, cdt, i, j);
+                }
             }
         }
     }
@@ -251,7 +281,20 @@ void afficherListe(Liste* liste)
         printf("i : %ld j : %ld  b : %ld, pop : %d et (", liste->i, liste->j,block(liste->i,liste->j,5), liste->population);
 
         for(size_t j=0 ; j<liste->population;j++)
-                printf(" %ld, ", liste->c[j]);
+                printf((j==0 ? "%ld" : ", %ld"), liste->c[j]+1);
+            printf(")\n");
+        liste=liste->suivante;
+    }
+}
+
+void afficherListe32(Liste32* liste)
+{
+    while(liste!=NULL)
+    {
+        printf("i : %ld j : %ld  b : %ld, pop : %d et (", liste->i, liste->j,block(liste->i,liste->j,5), liste->population);
+
+        for(size_t j=0 ; j<liste->population;j++)
+                printf((j==0 ? "%ld" : ", %ld"), liste->c[j]+1);
             printf(")\n");
         liste=liste->suivante;
     }

@@ -38,17 +38,16 @@ Liste32* ajouterEnTete32(Liste32 *liste, uint32_t candidats, size_t i, size_t j)
     return elem;
 }
 
-Liste* creerListeUniqueCandidat(size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, uint8_t** grille)
+Liste* creerListeUniqueCandidat(size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, uint8_t** grille, uint8_t** map)
 {
     size_t taille = n*n;
     Liste *liste = NULL;
     uint64_t mask = (1<<taille)-1, cdt;
     for(size_t i = 0; i < taille; i++)
     {
-        size_t tmp = (i/n)*n;
         for(size_t j = 0; j < taille; j++)
         {
-            if(!grille[i][j] && __builtin_popcountll((cdt=mask&(~(bbL[i] | bbC[j] | bbB[tmp+j/n])))) == 1)
+            if(!grille[i][j] && __builtin_popcountll((cdt=mask&(~(bbL[i] | bbC[j] | bbB[map[i][j]])))) == 1)
             {
                 liste = ajouterEnTete(liste, cdt, i, j);
             }
@@ -57,17 +56,16 @@ Liste* creerListeUniqueCandidat(size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t
     return liste;
 }
 
-Liste32* creerListeUniqueCandidat32(size_t n, uint32_t *bbL, uint32_t *bbC, uint32_t *bbB, uint8_t** grille)
+Liste32* creerListeUniqueCandidat32(size_t n, uint32_t *bbL, uint32_t *bbC, uint32_t *bbB, uint8_t** grille, uint8_t** map)
 {
     size_t taille = n*n;
     Liste32 *liste = NULL;
     uint64_t mask = (1<<taille)-1, cdt;
     for(size_t i = 0; i < taille; i++)
     {
-        size_t tmp = (i/n)*n;
         for(size_t j = 0; j < taille; j++)
         {
-            if(!grille[i][j] && __builtin_popcount((cdt=mask&(~(bbL[i] | bbC[j] | bbB[tmp+j/n])))) == 1)
+            if(!grille[i][j] && __builtin_popcount((cdt=mask&(~(bbL[i] | bbC[j] | bbB[map[i][j]])))) == 1)
             {
                 liste = ajouterEnTete32(liste, cdt, i, j);
             }
@@ -76,44 +74,40 @@ Liste32* creerListeUniqueCandidat32(size_t n, uint32_t *bbL, uint32_t *bbC, uint
     return liste;
 }
 
-void heuristiqueUniqueCandidat(size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, uint8_t** grille)
+void heuristiqueUniqueCandidat(size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, uint8_t** grille, uint8_t** map)
 {
-    Liste* liste = creerListeUniqueCandidat(n, bbL, bbC, bbB, grille);
+    Liste* liste = creerListeUniqueCandidat(n, bbL, bbC, bbB, grille, map);
 
     if(liste == NULL) return;
-
-    Liste *courante = liste;
-    while(courante!=NULL)
+    size_t indice;
+    while(liste)
     {
-        grille[courante->i][courante->j]=1+__builtin_ctz(courante->candidats);
-        size_t indice1 = grille[courante->i][courante->j]-1;
-        bbL[courante->i] |= (1<<indice1);
-        bbC[courante->j] |= (1<<indice1);
-        bbB[((courante->i/n)*n)+courante->j/n] |= (1<<indice1);
-        courante = courante->suivante;
+        indice = __builtin_ctz(liste->candidats);
+        grille[liste->i][liste->j]=1+indice;
+        bbL[liste->i] |= (1<<indice);
+        bbC[liste->j] |= (1<<indice);
+        bbB[map[liste->i][liste->j]] |= (1<<indice);
+        listeDetruireTete(&liste);
     }
-    listeDetruire(liste);
-    heuristiqueUniqueCandidat(n, bbL, bbC, bbB, grille);
+    heuristiqueUniqueCandidat(n, bbL, bbC, bbB, grille, map);
 }
 
-void heuristiqueUniqueCandidat32(size_t n, uint32_t *bbL, uint32_t *bbC, uint32_t *bbB, uint8_t** grille)
+void heuristiqueUniqueCandidat32(size_t n, uint32_t *bbL, uint32_t *bbC, uint32_t *bbB, uint8_t** grille, uint8_t** map)
 {
-    Liste32* liste = creerListeUniqueCandidat32(n, bbL, bbC, bbB, grille);
+    Liste32* liste = creerListeUniqueCandidat32(n, bbL, bbC, bbB, grille, map);
 
     if(liste == NULL) return;
-
-    Liste32 *courante = liste;
-    while(courante!=NULL)
+    size_t indice;
+    while(liste)
     {
-        grille[courante->i][courante->j]=1+__builtin_ctz(courante->candidats);
-        size_t indice1 = grille[courante->i][courante->j]-1;
-        bbL[courante->i] |= (1<<indice1);
-        bbC[courante->j] |= (1<<indice1);
-        bbB[((courante->i/n)*n)+courante->j/n] |= (1<<indice1);
-        courante = courante->suivante;
+        indice = __builtin_ctz(liste->candidats);
+        grille[liste->i][liste->j]=1+indice;
+        bbL[liste->i] |= (1<<indice);
+        bbC[liste->j] |= (1<<indice);
+        bbB[map[liste->i][liste->j]] |= (1<<indice);
+        listeDetruireTete32(&liste);
     }
-    listeDetruire32(liste);
-    heuristiqueUniqueCandidat32(n, bbL, bbC, bbB, grille);
+    heuristiqueUniqueCandidat32(n, bbL, bbC, bbB, grille, map);
 }
 
 
@@ -227,7 +221,7 @@ bool resoudreRecursivement(uint8_t** grille, Liste *dl, uint64_t *bbL, uint64_t 
         uint8_t val = c+1, indice1 = val-1;
         uint64_t bitVal = 1<<indice1;
 
-       if((val && !(( (bbL[i] | bbC[j] | bbB[b])>>indice1)&1)))
+       if(!(( (bbL[i] | bbC[j] | bbB[b])>>indice1)&1))
         {
             grille[i][j] = val;
             bbL[i] |= bitVal;
@@ -263,7 +257,7 @@ bool resoudreRecursivement32(uint8_t** grille, Liste32 *dl, uint32_t *bbL, uint3
         uint8_t val = c+1, indice1 = val-1;
         uint32_t bitVal = 1<<indice1;
 
-       if((val && !(( (bbL[i] | bbC[j] | bbB[b])>>indice1)&1)))
+       if(!(( (bbL[i] | bbC[j] | bbB[b])>>indice1)&1))
         {
             grille[i][j] = val;
             bbL[i] |= bitVal;
@@ -301,54 +295,70 @@ bool resoudre(uint8_t *entree, size_t n)
         uint32_t* bbC = bitboard32Creer(taille);
         uint32_t* bbB = bitboard32Creer(taille);
 
-        bitBoardInitialiser32(grille, n, bbL, bbC, bbB);
-
-        heuristiqueUniqueCandidat32(n, bbL, bbC, bbB, grille);
-
-        Liste32 *liste = rechercherCandidat32(n, bbL, bbC, bbB, grille, map);
-        if(!resoudreRecursivement32(grille, liste, bbL, bbC, bbB, map))
+        if(!bitBoardInitialiser32(grille, n, bbL, bbC, bbB)){
             resultat = false;
-        else
-            for (size_t i = 0; i < taille; i++)
-            {
-                size_t tmpI = i*taille;
-                for (size_t j = 0; j < taille; j++)
-                {
-                    entree[tmpI+j] = grille[i][j];
-                }
-            }
+        }
+        else{
+            /*printf("BitBoard à la phasse d'initialisation : \n");
+            afficherTousBitBoard32(taille, bbL, bbC, bbB);*/
 
-        bitBoardDetruire32(bbL);
-        bitBoardDetruire32(bbC);
-        bitBoardDetruire32(bbB);
-        listeDetruire32(liste);
+            heuristiqueUniqueCandidat32(n, bbL, bbC, bbB, grille, map);
+            /*printf("BitBoard après heuristiques unique candidats : \n");
+            afficherTousBitBoard32(taille, bbL, bbC, bbB);*/
+
+            Liste32 *liste = rechercherCandidat32(n, bbL, bbC, bbB, grille, map);
+            // afficherListe32(liste);
+
+            /*printf("Fin affichage\n");*/
+            if(!resoudreRecursivement32(grille, liste, bbL, bbC, bbB, map)){
+                /*printf("pas resolu !\n");*/
+                resultat = false;
+            }
+            else
+                for (size_t i = 0; i < taille; i++)
+                {
+                    size_t tmpI = i*taille;
+                    for (size_t j = 0; j < taille; j++)
+                    {
+                        entree[tmpI+j] = grille[i][j];
+                    }
+                }
+
+            bitBoardDetruire32(bbL);
+            bitBoardDetruire32(bbC);
+            bitBoardDetruire32(bbB);
+            listeDetruire32(liste);
+        }
     }
     else{
         uint64_t* bbL = bitboard64Creer(taille);
         uint64_t* bbC = bitboard64Creer(taille);
         uint64_t* bbB = bitboard64Creer(taille);
 
-        bitBoardInitialiser(grille, n, bbL, bbC, bbB);
-
-        heuristiqueUniqueCandidat(n, bbL, bbC, bbB, grille);
-
-        Liste *liste = rechercherCandidat(n, bbL, bbC, bbB, grille, map);
-        if(!resoudreRecursivement(grille, liste, bbL, bbC, bbB, map))
+        if(!bitBoardInitialiser(grille, n, bbL, bbC, bbB)){
             resultat = false;
-        else
-            for (size_t i = 0; i < taille; i++)
-            {
-                size_t tmpI = i*taille;
-                for (size_t j = 0; j < taille; j++)
-                {
-                    entree[tmpI+j] = grille[i][j];
-                }
-            }
+        }
+        else{
+            heuristiqueUniqueCandidat(n, bbL, bbC, bbB, grille, map);
 
-        bitBoardDetruire(bbL);
-        bitBoardDetruire(bbC);
-        bitBoardDetruire(bbB);
-        listeDetruire(liste);
+            Liste *liste = rechercherCandidat(n, bbL, bbC, bbB, grille, map);
+            if(!resoudreRecursivement(grille, liste, bbL, bbC, bbB, map))
+                resultat = false;
+            else
+                for (size_t i = 0; i < taille; i++)
+                {
+                    size_t tmpI = i*taille;
+                    for (size_t j = 0; j < taille; j++)
+                    {
+                        entree[tmpI+j] = grille[i][j];
+                    }
+                }
+
+            bitBoardDetruire(bbL);
+            bitBoardDetruire(bbC);
+            bitBoardDetruire(bbB);
+            listeDetruire(liste);
+        }
     }
 
     grilleDetruire(grille, taille);

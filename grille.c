@@ -66,7 +66,7 @@ void afficherGrille(size_t taille, size_t n, uint8_t **grille)
 		printf("\n");
 
 	}
-	printf("\n");
+	printf("\n\n");
 }
 
 uint8_t** mapCreer(size_t n)
