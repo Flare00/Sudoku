@@ -2,17 +2,17 @@
 #define __HEURISTIQUE_H__
 
 #include <stdint.h>
-
+#include "liste.h"
 /**
  * @brief execute toutes les heuristique de niveau Facile.
  * @param uint8_t** grille : pointeur sur la grille
  * @param uint64_t* bbL : tableau de bits ligne
  * @param uint64_t* bbC : tableau de bits colonne
  * @param uint64_t* bbB : tableau de bits block
- * @param uint8_t** map : tableau contenant les indices de région pour le tableau de bits block (bbB)
+ * @param Liste * liste : Liste des candidats par cases.
  * @return nombre de cases restantes à remplir.
  */
-size_t heuristiqueFacile(uint8_t ** grille, size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, uint8_t **map);
+size_t heuristiqueFacile(uint8_t **grille, size_t n, Liste *liste, uint8_t ** map);
 
 /**
  * @brief execute toutes les heuristique de niveau Moyen, plus les heuristique de niveau Facile.
@@ -20,10 +20,10 @@ size_t heuristiqueFacile(uint8_t ** grille, size_t n, uint64_t *bbL, uint64_t *b
  * @param uint64_t* bbL : tableau de bits ligne
  * @param uint64_t* bbC : tableau de bits colonne
  * @param uint64_t* bbB : tableau de bits block
- * @param uint8_t** map : tableau contenant les indices de région pour le tableau de bits block (bbB)
+ * @param Liste * liste : Liste des candidats par cases.
  * @return nombre de cases restantes à remplir.
  */
-size_t heuristiqueMoyenne(uint8_t ** grille, size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, uint8_t **map);
+size_t heuristiqueMoyenne(uint8_t **grille, size_t n, Liste *liste, uint8_t ** map);
 
 /**
  * @brief execute toutes les heuristique de niveau Difficile, plus les heuristiques de niveau Moyen et Facile.
@@ -31,14 +31,16 @@ size_t heuristiqueMoyenne(uint8_t ** grille, size_t n, uint64_t *bbL, uint64_t *
  * @param uint64_t* bbL : tableau de bits ligne
  * @param uint64_t* bbC : tableau de bits colonne
  * @param uint64_t* bbB : tableau de bits block
- * @param uint8_t** map : tableau contenant les indices de région pour le tableau de bits block (bbB)
+ * @param Liste * liste : Liste des candidats par cases.
  * @return nombre de cases restantes à remplir.
  */
-size_t heuristiqueDifficile(uint8_t ** grille, size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, uint8_t **map);
+size_t heuristiqueDifficile(uint8_t **grille, size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, Liste *liste, uint8_t ** map);
 
 //Niveau Facile
-void heuristiqueSingleton(uint8_t ** grille, size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, uint8_t **map);
-
+//void heuristiqueSingleton(uint8_t **grille, size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, uint8_t **map);
+uint8_t heuristiqueSingletonVisible(uint8_t **grille, size_t n, Liste *liste, uint8_t** map);
+uint8_t heuristiqueSingletonCacher(uint8_t **grille, size_t n, Liste *liste, uint8_t** map);
+uint8_t heuristiqueSingleton(uint8_t **grille, size_t n, Liste *liste, uint8_t** map);
 //Niveau Moyen
 /**
  * @brief fonction heuristique permettant d'effectuer la technique de Jumeau, Triple, et N Visible. 
@@ -51,10 +53,10 @@ void heuristiqueSingleton(uint8_t ** grille, size_t n, uint64_t *bbL, uint64_t *
  * @param uint64_t* bbL : tableau de bits ligne
  * @param uint64_t* bbC : tableau de bits colonne
  * @param uint64_t* bbB : tableau de bits block
- * @param uint8_t** map : tableau contenant les indices de région pour le tableau de bits block (bbB)
+ * @param Liste * liste : Liste des candidats par cases.
  * @return uint8_t : retourne 0 si aucune modification n'as été faite, 1 sinon.
  */
-uint8_t heuristiqueJumeauANVisible(uint8_t ** grille, size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, uint8_t **map);
+uint8_t heuristiqueJumeauANVisible(uint8_t **grille, size_t n, Liste *liste, uint8_t ** map);
 
 /**
  * @brief fonction heuristique permettant d'effectuer la technique de Candidats Identiques
@@ -67,10 +69,10 @@ uint8_t heuristiqueJumeauANVisible(uint8_t ** grille, size_t n, uint64_t *bbL, u
  * @param uint64_t* bbL : tableau de bits ligne
  * @param uint64_t* bbC : tableau de bits colonne
  * @param uint64_t* bbB : tableau de bits block
- * @param uint8_t** map : tableau contenant les indices de région pour le tableau de bits block (bbB)
+ * @param Liste * liste : Liste des candidats par cases.
  * @return uint8_t : retourne 0 si aucune modification n'as été faite, 1 sinon.
  */
-uint8_t heuristiqueCandidatsIdentique(uint8_t ** grille, size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, uint8_t **map);
+uint8_t heuristiqueCandidatsIdentique(uint8_t **grille, size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, Liste *liste);
 
 //Niveau Difficile
 
@@ -85,10 +87,10 @@ uint8_t heuristiqueCandidatsIdentique(uint8_t ** grille, size_t n, uint64_t *bbL
  * @param uint64_t* bbL : tableau de bits ligne
  * @param uint64_t* bbC : tableau de bits colonne
  * @param uint64_t* bbB : tableau de bits block
- * @param uint8_t** map : tableau contenant les indices de région pour le tableau de bits block (bbB)
+ * @param Liste * liste : Liste des candidats par cases.
  * @return uint8_t : retourne 0 si aucune modification n'as été faite, 1 sinon.
  */
-uint8_t heuristiqueGroupesIsoler(uint8_t ** grille, size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, uint8_t **map);
+uint8_t heuristiqueGroupesIsoler(uint8_t **grille, size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, Liste *liste);
 
 /**
  * @brief fonction heuristique permettant d'effectuer la technique de Groupes Mélangés
@@ -101,11 +103,22 @@ uint8_t heuristiqueGroupesIsoler(uint8_t ** grille, size_t n, uint64_t *bbL, uin
  * @param uint64_t* bbL : tableau de bits ligne
  * @param uint64_t* bbC : tableau de bits colonne
  * @param uint64_t* bbB : tableau de bits block
- * @param uint8_t** map : tableau contenant les indices de région pour le tableau de bits block (bbB)
+ * @param Liste * liste : Liste des candidats par cases.
  * @return uint8_t : retourne 0 si aucune modification n'as été faite, 1 sinon.
  */
-uint8_t heuristiqueGroupesMelanger(uint8_t ** grille, size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, uint8_t **map);
+uint8_t heuristiqueGroupesMelanger(uint8_t **grille, size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, Liste *liste);
 
-
+/**
+ * @brief Méthode de suppression de candidats de lignes et colonnes avec case selectionner, dans la liste, selon un mode. 
+ * 
+ * @param uint8_t taille : taille des tableaux.
+ * @param uint64_t **pourSuppressionLigne : tableau deux dimension [Taille][2] correspondant a chaqu'une des ligne du sudoku. regroupant la liste des candidats selectionnés et les cases où ils se situent.
+ * @param uint64_t **pourSupressionColonne : tableau deux dimension [Taille][2] correspondant a chaqu'une des colonne du sudoku. regroupant la liste des candidats selectionnés et les cases où ils se situent.
+ * [Taille][0] = candidats séléctionnés, [Taille][1] = cases ou se situe de base les candidats.
+ * @param Liste * liste : Liste des candidats par cases.
+ * @param uint8_t mode : Mode de suppression. 0 = supprime les candidats séléctionnés sur la ligne/colonne correspondante sauf sur les cases des candidats. 1 = Supprime sur les cases des candidats les candidats non selectionnés.
+ * @return uint8_t : retourne 0 si rien n'as été fait. retourne supérieur à 0 si une modification a été faite.
+ */
+uint8_t ligneColonneCandidatsSupprimer(uint8_t taille, uint64_t **pourSuppressionLigne, uint64_t **pourSuppressionColonne, Liste *liste, uint8_t mode);
 
 #endif

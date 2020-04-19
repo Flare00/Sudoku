@@ -4,64 +4,62 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <math.h>
-
-/*struct posCase{
-    size_t ligne;
-    size_t colonne;
-}*/
-
+#include <time.h>
+#include "difficulte.h"
 /**
 * \brief Génère une grille de sudoku valide et de difficulté donnée.
 * \param taille size_t : taille de la grille de sudoku
-* \param level int : le niveau de difficulté nécéssaire pour la grille
+* \param niveauDemander int : le niveau de difficulté nécéssaire pour la grille
 * \return uint8_t ** : la grille de sudoku.
 */
-uint8_t ** genererGrilleSudokuValide(size_t taille, int niveauDemander);
+uint8_t **genererGrilleSudokuValide(size_t taille, size_t niveauDemander);
 
 /**
  * \brief retire une case, parmi les cases non vide, de la grille de façon aléatoire.
- * \param grille : grille du sudoku
+ * \param uint8_t** grille : grille du sudoku.
  * \return nombre de cases restante.
  */
 //size_t retirerCaseRandomAvecCaseRestante(uint8_t ** grille, size_t taille);
 
 /**
  * \brief retire une case, parmi les cases non vide, de la grille de façon aléatoire.
- * \param grille : grille du sudoku
+ * \param uint8_t** grille : grille du sudoku.
+ * \param size_t taille : taille de la grille.
  */
 void retirerCaseRandom(uint8_t ** grille, size_t taille);
 
 /**
  * \brief retire une case, parmi les cases non vide, de la grille de façon aléatoire et son symétrique selon le centre du sudoku.
- * \param grille : grille du sudoku
- * \return int : nombre de case retirer (1 ou 2);
+ * \param uint8_t** grille : grille du sudoku.
+ * \param size_t taille : taille de la grille.
+ * \return size_t : nombre de case retirer (1 ou 2);
  */
-int retirerCaseSymetrie(uint8_t ** grille, size_t taille);
+size_t retirerCaseSymetrie(uint8_t ** grille, size_t taille);
 /**
  * \brief genere une grille de sudoku complete.
- * \param taille : taille de la grille.
+ * \param size_t taille : taille de la grille.
  * \return grille de sudoku complete.
  */
 uint8_t **genererGrilleComplete(size_t taille);
 
 /**
  * \brief permute les lignes d'une grille de sudoku.
- * \param grille : grille du sudoku.
- * \param taille : taille de la grille.
+ * \param uint8_t** grille : grille du sudoku.
+ * \param size_t taille : taille de la grille.
  */
 void permuterLignes(uint8_t ** grille, size_t taille);
 
 /**
  * \brief permute les colonnes de la grille de sudoku donnée.
- * \param grille : grille du sudoku.
- * \param taille : taille de la grille.
+ * \param uint8_t** grille : grille du sudoku.
+ * \param size_t taille : taille de la grille.
  */
 void permuterColonnes(uint8_t ** grille, size_t taille);
 
 /**
  * \brief echange deux ligne de la grille de sudoku donnée.
- * \param grille : grille du sudoku.
- * \param taille : taille de la grille.
+ * \param uint8_t** grille : grille du sudoku.
+ * \param size_t taille : taille de la grille.
  * \param size_t ligne1 : ligne à echanger.
  * \param size_t ligne2 : ligne à echanger.
  */
@@ -69,23 +67,19 @@ void echangerLignes(uint8_t ** grille, size_t taille, size_t ligne1, size_t lign
 
 /**
  * \brief echange deux colonnes de la grille de sudoku donnée.
- * \param grille : grille du sudoku.
- * \param taille : taille de la grille.
+ * \param uint8_t** grille : grille du sudoku.
+ * \param size_t taille : taille de la grille.
  * \param size_t colonne1 : colonne à echanger.
  * \param size_t colonne2 : colonne à echanger.
  */
 void echangerColonnes(uint8_t ** grille, size_t taille, size_t colonne1, size_t colonne2);
 
-
 /**
- * \brief permute deux lignes de la grille de sudoku donnée.
- * \param grille : grille du sudoku.
- * \param taille : taille de la grille.
+ * \brief renvoie un clone de la grille de taille taille.
+ * \param uint8_t** grille : grille du sudoku.
+ * \param size_t taille : taille de la grille.
+ * \return uint8_t** : clone de la grille.
  */
-void rotation(uint8_t ** grille, size_t taille);
+uint8_t** grilleCloner(uint8_t ** grille, size_t taille);
 
-/* Pour Debug
-void affichage(uint8_t ** sudoku, size_t taille);
-int verif_lcz(uint8_t ** sudoku, int colonne, int ligne, size_t taille);
-int valide(uint8_t ** sudoku, size_t taille);*/
 #endif

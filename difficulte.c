@@ -1,74 +1,127 @@
-#include difficulte.h
+#include "difficulte.h"
+#include "aff_verif.h"
+int validiterEtDifficulter(uint8_t **grille, size_t taille, int level)
+{
+    int n = sqrt(taille);
+    uint8_t **map = mapCreer(n);
+    int retour = 0;
+    if (!map)
+        return 0;
 
-int validiterEtDifficulter(uint8_t **grille, size_t taille, int level);
-	//NON FONCTIONNEL - A FAIRE
-	bool terminer = false;
-	bool bloque = false;
-	bool avance = false;
-	bool depasser = false;
+        
 
-	int difficulte = 0;
-	// Essaye de faire sur toute la grille les techniques de résolution facile, jusqu'a terminer ou bloqué, recommence avec le niveau du dessus si bloqué (et ainsi de suite)
-	// doit s'arreter si le niveau dépasse le niveau maximum désiré.
-	
-
-	do{
-		bool utilise = false;
-		avance = false;
-		// NIVEAU 1
-		
-		if(utilise && difficulte < 1){
-			avance = true;
-			difficulte = 1;
-		} else if (utilise){
-			avance = true;
-		}
-		
-		if(!terminer && level >=2){
-			utilise = false;
-			// NIVEAU 2
-			
-			if(utilise && difficulte < 2){	
-				avance = true;
-				difficulte = 2;
-			} else if (utilise){
-				avance = true;
-			}
-			if(!termine && level >= 3){
-				utilise = false;
-				// NIVEAU 3
-				
-				if(utilise && difficulte < 3){		
-					avance = true;
-					difficulte = 3;
-				} else if (utilise){
-					avance = true;
-				}
-				
-				if(!termine && level >= 4){
-					utilise = false;
-					// NIVEAU 4
-					
-					if(utilise && difficulte < 4){						
-						difficulte = 4;
-					}	else if (utilise){
-						avance = true;
-					}
-				} else if(!termine){
-					depasser = true;
-				}
-			} else if(!termine){
-				depasser = true;
-			}
-		} else if(!termine){
-			depasser = true;
-		}
-	}while(!termine && !avance && depasser);
-	
-	if(depasser){
-		difficulte = 0;
-	}
-	return difficulte;
+    //if (resolu_64(uint8_t** grille, Liste *dl, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB,uint8_t **map, int count, int pi, int pj) == 1)
+    //{
+        retour = difficulter(grille, taille, level);
+    //}
+    grilleDetruire(grille, taille);
+    return retour;
 }
 
-	
+int difficulter(uint8_t **grille, size_t taille, int level)
+{
+    int retour = 0;
+    size_t n = sqrt(taille);
+    uint64_t *bbL = bitboard64Creer(taille);
+    uint64_t *bbC = bitboard64Creer(taille);
+    uint64_t *bbB = bitboard64Creer(taille);
+
+    bitBoardInitialiser(grille, sqrt(taille), bbL, bbC, bbB);
+    uint8_t ** map = mapCreer(n);
+    Liste *liste = listeGenerer(n, bbL, bbC, bbB, grille);
+
+    if (heuristiqueFacile(grille, n, liste, map) == 0)
+    {
+        retour = 1;
+    }
+    else
+    {
+        if (level == 1)
+        {
+            retour = 5;
+        }
+        else
+        {
+            if (heuristiqueMoyenne(grille, n, liste, map) == 0)
+            {
+                retour = 2;
+            }
+            else
+            {
+                if (level == 2)
+                {
+                    affichage(grille, taille);
+                    retour = 5;
+                }
+                else
+                {
+                    if (heuristiqueDifficile(grille, n, bbL, bbC, bbB, liste,map) == 0)
+                    {
+                        retour = 3;
+                    }
+                    else
+                    {
+                        if (level == 3)
+                        {
+                            retour = 5;
+                        }
+                        else
+                        {
+                            retour = 4;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    return retour;
+}
+
+Liste* listeGenerer(size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, uint8_t **grille)
+{
+    size_t taille = n * n;
+
+    Liste * retour = NULL;
+    Liste * liste = NULL;
+    Liste * temp = NULL;
+
+    uint64_t mask = (1<<taille) - 1;
+
+    liste = malloc(sizeof(Liste));
+    liste->c = 0;
+    liste->candidats = 0;
+    liste->i = 0;
+    liste->j = 0;
+    liste->population = 0;
+    liste->precedente = NULL;
+    liste->suivante = NULL;
+
+    retour = liste;
+
+    for (size_t i = 0; i < taille; i++)
+    {
+        size_t tmp = (i / n) * n;
+        for (size_t j = 0; j < taille; j++)
+        {
+            if (grille[i][j] == 0)
+            {
+            	temp = malloc(sizeof(Liste));
+                temp->c = NULL;
+                temp->candidats = mask&(~(bbL[i] | bbC[j] | bbB[tmp+j/n]));
+                temp->i = i;
+                temp->j = j;
+                temp->suivante = NULL;
+                temp->population = __builtin_popcount(temp->candidats);
+
+                temp->precedente = liste;
+
+                liste->suivante = temp;
+
+                liste = liste->suivante;
+            }
+        }
+    }
+
+    return retour;
+}
