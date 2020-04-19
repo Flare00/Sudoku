@@ -5,7 +5,7 @@
 #include "bitBoard.h"
 #include "liste.h"
 #include "heuristique.h"
-//#include "resolution.h"
+#include "resolution.h"
 
 /**
 * \file difficulte.h
