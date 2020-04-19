@@ -17,11 +17,12 @@ uint8_t **genererGrilleSudokuValide(size_t taille, size_t niveauDemander)
 
     if(taille == 4){
         //niveau max : facile;
+        niveauDemander = 1;
         if (niveauDemander == 1){
             //niveau facile;
-            casesRestantesMax = 12;
+            casesRestantesMax = 8;
             casesRestantesMin = 8;
-        }
+        } 
     } else if (taille == 9){
         if(niveauDemander == 1){
             //niveau facile;
@@ -146,6 +147,7 @@ uint8_t **genererGrilleSudokuValide(size_t taille, size_t niveauDemander)
         if(compteurEchec >= 64){
             difficulte == 5;
         }
+        printf("casesRestantes : %i | casesRestantesMin : %i\n",casesRestantes, casesRestantesMin );
 
         //si le nombre de cases restante est inferieur au nombre de casesRestantesMin, termine la boucle.
         if (casesRestantes <= casesRestantesMin)
