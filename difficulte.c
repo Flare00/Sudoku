@@ -4,16 +4,29 @@ int validiterEtDifficulter(uint8_t **grille, size_t taille, int level)
     int n = sqrt(taille);
     uint8_t **map = mapCreer(n);
     int retour = 0;
-    if (!map)
+    if (!map){
         return 0;
+    }
+    uint64_t *bbL = bitboard64Creer(taille);
+    uint64_t *bbC = bitboard64Creer(taille);
+    uint64_t *bbB = bitboard64Creer(taille);
 
-        
+    bitBoardInitialiser(grille, sqrt(taille), bbL, bbC, bbB);
+    Liste *liste = listeGenerer(n, bbL, bbC, bbB, grille);
+    Liste *temp = liste->suivante;
+    temp->precedente = NULL;
 
-    //if (resolu_64(uint8_t** grille, Liste *dl, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB,uint8_t **map, int count, int pi, int pj) == 1)
+    //if (resolu_64(grille, temp, bbL, bbC, bbB,map, 0, temp->i, temp->j) == 1)
     //{
         retour = difficulter(grille, taille, level);
     //}
+
     grilleDetruire(grille, taille);
+    listeDetruire(liste);
+    bitBoardDetruire(bbL);
+    bitBoardDetruire(bbC);
+    bitBoardDetruire(bbB);
+    mapDetruire(map, taille);
     return retour;
 }
 
@@ -73,6 +86,10 @@ int difficulter(uint8_t **grille, size_t taille, int level)
         }
     }
 
+    listeDetruire(liste);
+    bitBoardDetruire(bbL);
+    bitBoardDetruire(bbC);
+    bitBoardDetruire(bbB);
     return retour;
 }
 
