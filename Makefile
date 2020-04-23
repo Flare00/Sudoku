@@ -5,7 +5,7 @@ GTKFOLDER = interfaceGraphique/
 
 
 ### EXECUTABLE
-exe: listeGtk.o interfacegtk.o sudokugtk.o generation.o bitBoard.o grille.o liste.o resolution.o main.o
+exe: listeGtk.o interfacegtk.o sudokugtk.o generation.o heuristique.o difficulte.o bitBoard.o grille.o liste.o resolution.o main.o
 	$(CC) -o $@ $^ $(OPTIONS) $(FLAGSGTK)
 	rm -f *.o
 	@echo "Excécutable prêt !"
@@ -25,7 +25,10 @@ main.o: $(GTKFOLDER)main.c
 ### GENERATION
 generation.o: generation.c
 	$(CC) $(OPTIONS) -c $^
-
+difficulte.o: difficulte.c
+	$(CC) $(OPTIONS) -c $^
+heuristique.o: heuristique.c
+	$(CC) $(OPTIONS) -c $^
 
 ### RESOLUTION
 bitBoard.o: bitBoard.c

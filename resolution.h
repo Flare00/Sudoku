@@ -1,29 +1,29 @@
-?#ifndef RESOLUTION_H
+#ifndef RESOLUTION_H
 #define RESOLUTION_H
 
 #include "bitBoard.h"
 
-/** @brief Ajouter un élément en tête de liste
-  * @param Liste *liste : pointeur sur la liste à laquelle on rattachera une nouvelle
-  * @param uint64_t candidats : entier représentant les candidats pour une case donnée
-  * @param size_t i, j : coordonnée pour la case concernée
-  * @return Liste* : la tête de la liste
+/** @brief Ajouter un ï¿½lï¿½ment en tï¿½te de liste
+  * @param Liste *liste : pointeur sur la liste ï¿½ laquelle on rattachera une nouvelle
+  * @param uint64_t candidats : entier reprï¿½sentant les candidats pour une case donnï¿½e
+  * @param size_t i, j : coordonnï¿½e pour la case concernï¿½e
+  * @return Liste* : la tï¿½te de la liste
   */
 Liste* ajouterEnTete(Liste *liste, uint64_t candidats, size_t i, size_t j);
 Liste32* ajouterEnTete32(Liste32 *liste, uint32_t candidats, size_t i, size_t j);
 
-/** @brief Créer une liste pour les case à 1 élément
+/** @brief Crï¿½er une liste pour les case ï¿½ 1 ï¿½lï¿½ment
   * @param size_t n : la racine de la hauteur de la grille
   * @param uint64_t* bbL : tableau de bits ligne
   * @param uint64_t* bbC : tableau de bits colonne
   * @param uint64_t* bbB : tableau de bits block
   * @param uint8_t** grille : pointeur sur la grille
-  * @return Liste* : la tête de la liste
+  * @return Liste* : la tï¿½te de la liste
   */
 Liste* creerListeUniqueCandidat(size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, uint8_t** grille, uint8_t** map);
 Liste32* creerListeUniqueCandidat32(size_t n, uint32_t *bbL, uint32_t *bbC, uint32_t *bbB, uint8_t** grille, uint8_t** map);
 
-/** @brief Remplir directement les cases à 1 candidat
+/** @brief Remplir directement les cases ï¿½ 1 candidat
   * @param size_t n : la racine de la hauteur de la grille
   * @param uint64_t* bbL : tableau de bits ligne
   * @param uint64_t* bbC : tableau de bits colonne
@@ -33,63 +33,63 @@ Liste32* creerListeUniqueCandidat32(size_t n, uint32_t *bbL, uint32_t *bbC, uint
 void heuristiqueUniqueCandidat(size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, uint8_t** grille, uint8_t** map);
 void heuristiqueUniqueCandidat32(size_t n, uint32_t *bbL, uint32_t *bbC, uint32_t *bbB, uint8_t** grille, uint8_t** map);
 
-/** @brief Heuristique de résolution basé sur la technique de paire cachée, si 2 cases contiennent la même paire de valeur, on peut
-  * @param size_t taille : nombre de valeurs par régions
+/** @brief Heuristique de rï¿½solution basï¿½ sur la technique de paire cachï¿½e, si 2 cases contiennent la mï¿½me paire de valeur, on peut
+  * @param size_t taille : nombre de valeurs par rï¿½gions
   * @param Liste *dl : pointeur sur une liste
   * @param uint64_t* bbL : tableau de bits ligne
   * @param uint64_t* bbC : tableau de bits colonne
   * @param uint64_t* bbB : tableau de bits block
   * @param uint8_t** grille : pointeur sur la grille
-  * @param uint8_t** map : tableau contenant les indices de région pour le tableau de bits block (bbB)
+  * @param uint8_t** map : tableau contenant les indices de rï¿½gion pour le tableau de bits block (bbB)
   */
 void heuristiquePaireCachee(size_t taille,Liste *dl,uint64_t *bbL, uint64_t *bbC, uint64_t *bbB,uint8_t**map);
 void heuristiquePaireCachee32(size_t taille,Liste32 *dl,uint32_t *bbL, uint32_t *bbC, uint32_t *bbB,uint8_t**map);
 
-/** @brief Vérifie si la grille est résolu
+/** @brief Vï¿½rifie si la grille est rï¿½solu
   * @param uint8_t** grille : pointeur sur la grille
   * @param Liste *dl : pointeur sur une liste
   * @param uint64_t* bbL : tableau de bits ligne
   * @param uint64_t* bbC : tableau de bits colonne
   * @param uint64_t* bbB : tableau de bits block
-  * @param uint8_t** map : tableau contenant les indices de région pour le tableau de bits block (bbB)
-  * @return bool : true si la grille est résolu, false sinon
+  * @param uint8_t** map : tableau contenant les indices de rï¿½gion pour le tableau de bits block (bbB)
+  * @return bool : true si la grille est rï¿½solu, false sinon
   */
 bool resoudreRecursivement(uint8_t** grille, Liste *dl, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB,uint8_t **map);
 bool resoudreRecursivement32(uint8_t** grille, Liste32 *dl, uint32_t *bbL, uint32_t *bbC, uint32_t *bbB,uint8_t **map);
 
-/** @brief Vérifie si la grille est résolu et renvoie le nombre de solution à tester ensuite
+/** @brief Vï¿½rifie si la grille est rï¿½solu et renvoie le nombre de solution ï¿½ tester ensuite
   * @param uint8_t** grille : pointeur sur la grille
   * @param Liste *dl : pointeur sur une liste
   * @param uint64_t* bbL : tableau de bits ligne
   * @param uint64_t* bbC : tableau de bits colonne
   * @param uint64_t* bbB : tableau de bits block
-  * @param uint8_t** map : tableau contenant les indices de région pour le tableau de bits block (bbB)
-  * @param int pi,pj : index de la première case de la liste
+  * @param uint8_t** map : tableau contenant les indices de rï¿½gion pour le tableau de bits block (bbB)
+  * @param int pi,pj : index de la premiï¿½re case de la liste
   * @param int count : compteur du nombre de solutions
-  * @return int: nombre de solution 0, 1 ou 2 
+  * @return int: nombre de solution 0, 1 ou 2
   */
 
 
-/** @brief Vérifie si la grille est résolu et renvoie le nombre de solution à tester ensuite
+/** @brief Vï¿½rifie si la grille est rï¿½solu et renvoie le nombre de solution ï¿½ tester ensuite
   * @param uint8_t** grille : pointeur sur la grille
   * @param Liste *dl : pointeur sur une liste
   * @param uint32_t* bbL : tableau de bits ligne
   * @param uint32_t* bbC : tableau de bits colonne
   * @param uint32_t* bbB : tableau de bits block
-  * @param uint8_t** map : tableau contenant les indices de région pour le tableau de bits block (bbB)
-  * @param int pi,pj : index de la première case de la liste
+  * @param uint8_t** map : tableau contenant les indices de rï¿½gion pour le tableau de bits block (bbB)
+  * @param int pi,pj : index de la premiï¿½re case de la liste
   * @param int count : compteur du nombre de solutions
-  * @return int: nombre de solution 0, 1 ou 2 
+  * @return int: nombre de solution 0, 1 ou 2
   */
 
 int resolu_64(uint8_t** grille, Liste *dl, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB,uint8_t **map, int count, int pi, int pj);
 
 int resolu_32(uint8_t** grille, Liste *dl, uint32_t *bbL, uint32_t *bbC, uint32_t *bbB,uint8_t **map, int count, int pi, int pj);
 
-/** @brief Résoudre la grille
+/** @brief Rï¿½soudre la grille
   * @param uint8_t* entree : les informations de la grille ligne par ligne
   * @param size_t n : la racine de la taille de la grille
-  * @return bool : true si le problème est résolu, false sinon
+  * @return bool : true si le problï¿½me est rï¿½solu, false sinon
   */
 bool resoudre(uint8_t *entree, size_t n);
 
