@@ -134,6 +134,44 @@ Liste32 *listeInsertionOrdonnee32(Liste32 *dl, uint32_t candidats, size_t i, siz
     return dl;
 }
 
+Liste* listeAjouterEnTete(Liste *liste, uint64_t candidats, size_t i, size_t j)
+{
+    Liste *elem = malloc(sizeof(Liste));
+    if(!elem)
+    {
+        listeDetruire(liste);
+        return NULL;
+    }
+    elem->c = NULL;
+    elem->candidats = candidats;
+    elem->population = 1;
+    elem->i=i;
+    elem->j=j;
+    elem->precedente = NULL;
+    elem->suivante = liste;
+
+    return elem;
+}
+
+Liste32* listeAjouterEnTete32(Liste32 *liste, uint32_t candidats, size_t i, size_t j)
+{
+    Liste32 *elem = malloc(sizeof(Liste32));
+    if(!elem)
+    {
+        listeDetruire32(liste);
+        return NULL;
+    }
+    elem->c = NULL;
+    elem->candidats = candidats;
+    elem->population = 1;
+    elem->i=i;
+    elem->j=j;
+    elem->precedente = NULL;
+    elem->suivante = liste;
+
+    return elem;
+}
+
 void listeDetruire(Liste *dl)
 {
     while(dl)
@@ -164,7 +202,7 @@ void listeDetruireTete(Liste **liste)
             tmp->precedente = NULL;
         if((*liste)->c)
             free((*liste)->c);
-        
+
         free((*liste));
         (*liste) = tmp;
     }
@@ -230,7 +268,43 @@ size_t listeNbCandida32(Liste32 *l1)
     return count;
 }
 
-Liste* rechercherCandidat(size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, uint8_t** grille, uint8_t** map)
+Liste* listeCreerUniqueCandidat(size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, uint8_t** grille, uint8_t** map)
+{
+    size_t taille = n*n;
+    Liste *liste = NULL;
+    uint64_t mask = (1<<taille)-1, cdt;
+    for(size_t i = 0; i < taille; i++)
+    {
+        for(size_t j = 0; j < taille; j++)
+        {
+            if(!grille[i][j] && __builtin_popcountll((cdt=mask&(~(bbL[i] | bbC[j] | bbB[map[i][j]])))) == 1)
+            {
+                liste = listeAjouterEnTete(liste, cdt, i, j);
+            }
+        }
+    }
+    return liste;
+}
+
+Liste32* listeCreerUniqueCandidat32(size_t n, uint32_t *bbL, uint32_t *bbC, uint32_t *bbB, uint8_t** grille, uint8_t** map)
+{
+    size_t taille = n*n;
+    Liste32 *liste = NULL;
+    uint64_t mask = (1<<taille)-1, cdt;
+    for(size_t i = 0; i < taille; i++)
+    {
+        for(size_t j = 0; j < taille; j++)
+        {
+            if(!grille[i][j] && __builtin_popcount((cdt=mask&(~(bbL[i] | bbC[j] | bbB[map[i][j]])))) == 1)
+            {
+                liste = listeAjouterEnTete32(liste, cdt, i, j);
+            }
+        }
+    }
+    return liste;
+}
+
+Liste* listeRechercherCandidat(size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, uint8_t** grille, uint8_t** map)
 {
     size_t taille = n*n;
     Liste *liste = NULL;
@@ -252,7 +326,7 @@ Liste* rechercherCandidat(size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB,
     return liste;
 }
 
-Liste32* rechercherCandidat32(size_t n, uint32_t *bbL, uint32_t *bbC, uint32_t *bbB, uint8_t** grille, uint8_t** map)
+Liste32* listeRechercherCandidat32(size_t n, uint32_t *bbL, uint32_t *bbC, uint32_t *bbB, uint8_t** grille, uint8_t** map)
 {
     size_t taille = n*n;
     Liste32 *liste = NULL;
@@ -274,11 +348,11 @@ Liste32* rechercherCandidat32(size_t n, uint32_t *bbL, uint32_t *bbC, uint32_t *
     return liste;
 }
 
-void afficherListe(Liste* liste)
+void listeAfficher(Liste* liste)
 {
-    while(liste!=NULL)
+    while(liste)
     {
-        printf("i : %ld j : %ld  b : %ld, pop : %d et (", liste->i, liste->j,block(liste->i,liste->j,5), liste->population);
+        printf("case[%ld][%ld] : population = %d et candidats = (", liste->i, liste->j, liste->population);
 
         for(size_t j=0 ; j<liste->population;j++)
                 printf((j==0 ? "%ld" : ", %ld"), liste->c[j]+1);
@@ -287,11 +361,11 @@ void afficherListe(Liste* liste)
     }
 }
 
-void afficherListe32(Liste32* liste)
+void listeAfficher32(Liste32* liste)
 {
-    while(liste!=NULL)
+    while(liste)
     {
-        printf("i : %ld j : %ld  b : %ld, pop : %d et (", liste->i, liste->j,block(liste->i,liste->j,5), liste->population);
+        printf("case[%ld][%ld] : population = %d et candidats = (", liste->i, liste->j, liste->population);
 
         for(size_t j=0 ; j<liste->population;j++)
                 printf((j==0 ? "%ld" : ", %ld"), liste->c[j]+1);
