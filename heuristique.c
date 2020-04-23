@@ -406,5 +406,7 @@ uint8_t ligneColonneCandidatsSupprimer(uint8_t taille, uint64_t **pourSuppressio
             }
         }
     }
+	
+	return retour;
 }
 

@@ -2,6 +2,7 @@
 #define __DIFFICULTE_H__
 
 #include <stdint.h>
+#include <math.h>
 #include "bitBoard.h"
 #include "liste.h"
 #include "heuristique.h"
