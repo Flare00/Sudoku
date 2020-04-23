@@ -304,7 +304,7 @@ int resolu_64(uint8_t** grille, Liste *dl, uint64_t *bbL, uint64_t *bbC, uint64_
                 bbC[j] |= bitVal;
                 bbB[b] |= bitVal;
 
-                if(resolu_64(grille, dl->next, bbL, bbC, bbB,map,count, pi,pj))
+                if(resolu_64(grille, dl->suivante, bbL, bbC, bbB,map,count, pi,pj))
                 {
                   
                    count++;
@@ -316,7 +316,7 @@ int resolu_64(uint8_t** grille, Liste *dl, uint64_t *bbL, uint64_t *bbC, uint64_
             
         }
 
-    size_t bi =dl->back->i , bj = dl->back->j;
+    size_t bi =dl->precedente->i , bj = dl->precedente->j;
     uint8_t indice2 = grille[bi][bj]-1;
     uint32_t bitVal2 = (1<<indice2);
     bbL[bi] ^= bitVal2;
@@ -349,7 +349,7 @@ int resolu_32(uint8_t** grille, Liste *dl, uint32_t *bbL, uint32_t *bbC, uint32_
                 bbC[j] |= bitVal;
                 bbB[b] |= bitVal;
 
-                if(resolu_32(grille, dl->next, bbL, bbC, bbB,map,count, pi,pj))
+                if(resolu_32(grille, dl->suivante, bbL, bbC, bbB,map,count, pi,pj))
                 {
                   
                    count++;
@@ -361,7 +361,7 @@ int resolu_32(uint8_t** grille, Liste *dl, uint32_t *bbL, uint32_t *bbC, uint32_
             
         }
 
-    size_t bi =dl->back->i , bj = dl->back->j;
+    size_t bi =dl->precedente->i , bj = dl->precedente->j;
     uint8_t indice2 = grille[bi][bj]-1;
     uint32_t bitVal2 = (1<<indice2);
     bbL[bi] ^= bitVal2;
@@ -389,11 +389,11 @@ bool resoudre(uint8_t *entree, size_t n)
             resultat = false;
         }
         else{
-            /*printf("BitBoard à la phasse d'initialisation : \n");
+            /*printf("BitBoard Ã  la phasse d'initialisation : \n");
             afficherTousBitBoard32(taille, bbL, bbC, bbB);*/
 
             heuristiqueUniqueCandidat32(n, bbL, bbC, bbB, grille, map);
-            /*printf("BitBoard après heuristiques unique candidats : \n");
+            /*printf("BitBoard aprÃ¨s heuristiques unique candidats : \n");
             afficherTousBitBoard32(taille, bbL, bbC, bbB);*/
 
             Liste32 *liste = rechercherCandidat32(n, bbL, bbC, bbB, grille, map);
