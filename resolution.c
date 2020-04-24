@@ -142,8 +142,8 @@ bool resoudreRecursivement(uint8_t** grille, Liste *dl, uint64_t *bbL, uint64_t 
     for(k = 0 ; k < dl->population ; k++)
     {
 
-        size_t c = dl->c[k];
-        uint8_t val = c+1, indice1 = val-1;
+        size_t indice1 = dl->c[k];
+        uint8_t val = indice1+1;
         uint64_t bitVal = (uint64_t)1<<indice1;
 
        if(!(( (bbL[i] | bbC[j] | bbB[b])>>indice1)&1))
@@ -178,8 +178,8 @@ bool resoudreRecursivement32(uint8_t** grille, Liste32 *dl, uint32_t *bbL, uint3
     for(k = 0 ; k < dl->population ; k++)
     {
 
-        size_t c = dl->c[k];
-        uint8_t val = c+1, indice1 = val-1;
+        size_t indice1 = dl->c[k];
+        uint8_t val = indice1+1;
         uint32_t bitVal = (uint32_t)(1<<indice1);
 
        if(!(( (bbL[i] | bbC[j] | bbB[b])>>indice1)&1))
@@ -205,6 +205,7 @@ bool resoudreRecursivement32(uint8_t** grille, Liste32 *dl, uint32_t *bbL, uint3
     grille[i][j] = 0;
     return false;
 }
+
 int resolu_64(uint8_t** grille, Liste *dl, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB,uint8_t **map, int count, int pi, int pj)
 {
     if(!dl){
@@ -315,19 +316,11 @@ bool resoudre(uint8_t *entree, size_t n)
             resultat = false;
         }
         else{
-            /*printf("BitBoard à la phasse d'initialisation : \n");
-            afficherTousBitBoard32(taille, bbL, bbC, bbB);*/
-
             heuristiqueUniqueCandidat32(n, bbL, bbC, bbB, grille, map);
-            /*printf("BitBoard après heuristiques unique candidats : \n");
-            afficherTousBitBoard32(taille, bbL, bbC, bbB);*/
 
             Liste32 *liste = listeRechercherCandidat32(n, bbL, bbC, bbB, grille, map);
-            // afficherListe32(liste);
 
-            /*printf("Fin affichage\n");*/
             if(!resoudreRecursivement32(grille, liste, bbL, bbC, bbB, map)){
-                /*printf("pas resolu !\n");*/
                 resultat = false;
             }
             else
@@ -358,6 +351,7 @@ bool resoudre(uint8_t *entree, size_t n)
             heuristiqueUniqueCandidat(n, bbL, bbC, bbB, grille, map);
 
             Liste *liste = listeRechercherCandidat(n, bbL, bbC, bbB, grille, map);
+
             if(!resoudreRecursivement(grille, liste, bbL, bbC, bbB, map))
                 resultat = false;
             else

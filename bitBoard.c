@@ -38,7 +38,7 @@ bool bitBoardInitialiser(uint8_t **grille, size_t n, uint64_t *bbL, uint64_t *bb
             if(grille[i][j]){
                 /* On ajoute toutes les valeurs de la grille à la ligne i != 0 dans le
                 bitBoard ligne (bbL) */
-                if((bbL[i]>>(grille[i][j]-1))&1){
+                if((bbL[i]>>(grille[i][j]-1))&1){ //si l'élément existe déjà (pour éviter les répétitions)
                     bitBoardDetruire(bbL);
                     bitBoardDetruire(bbC);
                     bitBoardDetruire(bbB);
@@ -93,8 +93,6 @@ bool bitBoardInitialiser32(uint8_t **grille, size_t n, uint32_t *bbL, uint32_t *
     size_t a=0, taille = n*n;
     for(size_t i = 0; i < taille; i++)
     {
-        // bbL[i] = 0;
-        // bbC[i] = 0;
         size_t minI = (i/n)*n, maxI = minI+n;
 
         for(size_t j = 0; j < taille; j++)
@@ -125,15 +123,12 @@ bool bitBoardInitialiser32(uint8_t **grille, size_t n, uint32_t *bbL, uint32_t *
 
 
             if(i%n == 0 && j%n == 0){
-                // bbB[a] = 0;
                 size_t minJ = (j/n)*n, maxJ = minJ+n;
                 for (size_t k = minI; k < maxI; k++)
                 {
                     for (size_t l = minJ; l < maxJ; l++)
                     {
                         if(grille[k][l]){
-                            /* On ajoute toutes les valeurs de la grille du block encadré
-                            dans le bitBoard block (bbB) */
                             if((bbB[a]>>(grille[k][l]-1))&1){
                                 bitBoardDetruire32(bbL);
                                 bitBoardDetruire32(bbC);
@@ -151,7 +146,7 @@ bool bitBoardInitialiser32(uint8_t **grille, size_t n, uint32_t *bbL, uint32_t *
     return true;
 }
 
-void afficherBit(uint64_t candidat, size_t taille)
+void bitAfficher(uint64_t candidat, size_t taille)
 {
     for(size_t i=0; i< taille; i++)
     {
@@ -162,7 +157,7 @@ void afficherBit(uint64_t candidat, size_t taille)
     printf("\n");
 }
 
-void afficherBit32(uint32_t candidat, size_t taille)
+void bitAfficher32(uint32_t candidat, size_t taille)
 {
     for(size_t i=0; i< taille; i++)
     {
@@ -173,42 +168,42 @@ void afficherBit32(uint32_t candidat, size_t taille)
     printf("\n");
 }
 
-void afficherBitBoard(size_t taille, uint64_t* bb)
+void bitBoardAfficher(size_t taille, uint64_t* bb)
 {
     for(size_t i = 0; i < taille; i++)
     {
-        afficherBit(bb[i], taille);
+        bitAfficher(bb[i], taille);
     }
     return;
 }
 
-void afficherBitBoard32(size_t taille, uint32_t* bb)
+void bitBoardAfficher32(size_t taille, uint32_t* bb)
 {
     for(size_t i = 0; i < taille; i++)
     {
-        afficherBit32(bb[i], taille);
+        bitAfficher32(bb[i], taille);
     }
     return;
 }
 
-void afficherTousBitBoard(size_t taille,uint64_t *bbL, uint64_t *bbC, uint64_t *bbB)
+void bitBoardAfficherTout(size_t taille,uint64_t *bbL, uint64_t *bbC, uint64_t *bbB)
 {
     printf("BBL : \n\n");
-    afficherBitBoard(taille, bbL);
+    bitBoardAfficher(taille, bbL);
     printf("BBC : \n\n");
-    afficherBitBoard(taille, bbC);
+    bitBoardAfficher(taille, bbC);
     printf("BBB : \n\n");
-    afficherBitBoard(taille, bbB);
+    bitBoardAfficher(taille, bbB);
     printf("\n");
 }
 
-void afficherTousBitBoard32(size_t taille,uint32_t *bbL, uint32_t *bbC, uint32_t *bbB)
+void bitBoardAfficherTout32(size_t taille,uint32_t *bbL, uint32_t *bbC, uint32_t *bbB)
 {
     printf("BBL : \n\n");
-    afficherBitBoard32(taille, bbL);
+    bitBoardAfficher32(taille, bbL);
     printf("BBC : \n\n");
-    afficherBitBoard32(taille, bbC);
+    bitBoardAfficher32(taille, bbC);
     printf("BBB : \n\n");
-    afficherBitBoard32(taille, bbB);
+    bitBoardAfficher32(taille, bbB);
     printf("\n");
 }
