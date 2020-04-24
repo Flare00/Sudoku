@@ -44,7 +44,7 @@ bool bitBoardInitialiser(uint8_t **grille, size_t n, uint64_t *bbL, uint64_t *bb
                     bitBoardDetruire(bbB);
                     return false;
                 }
-                bbL[i] |= 1<<(grille[i][j]-1);
+                bbL[i] |= (uint64_t)1<<(grille[i][j]-1);
               }
 
             if(grille[j][i]){
@@ -56,7 +56,7 @@ bool bitBoardInitialiser(uint8_t **grille, size_t n, uint64_t *bbL, uint64_t *bb
                     bitBoardDetruire(bbB);
                     return false;
                 }
-                bbC[i] |= 1<<(grille[j][i]-1);
+                bbC[i] |= (uint64_t)1<<(grille[j][i]-1);
               }
 
 
@@ -71,12 +71,13 @@ bool bitBoardInitialiser(uint8_t **grille, size_t n, uint64_t *bbL, uint64_t *bb
                             /* On ajoute toutes les valeurs de la grille du block encadré
                             dans le bitBoard block (bbB) */
                             if((bbB[a]>>(grille[k][l]-1))&1){
+
                                 bitBoardDetruire(bbL);
                                 bitBoardDetruire(bbC);
                                 bitBoardDetruire(bbB);
                                 return false;
                             }
-                            bbB[a] |= 1<<(grille[k][l]-1);
+                            bbB[a] |= (uint64_t)1<<(grille[k][l]-1);
                           }
                     }
                 }
@@ -107,7 +108,7 @@ bool bitBoardInitialiser32(uint8_t **grille, size_t n, uint32_t *bbL, uint32_t *
                     bitBoardDetruire32(bbB);
                     return false;
                 }
-                bbL[i] |= 1<<(grille[i][j]-1);
+                bbL[i] |= (uint32_t)1<<(grille[i][j]-1);
               }
 
             if(grille[j][i]){
@@ -119,7 +120,7 @@ bool bitBoardInitialiser32(uint8_t **grille, size_t n, uint32_t *bbL, uint32_t *
                     bitBoardDetruire32(bbB);
                     return false;
                 }
-                bbC[i] |= 1<<(grille[j][i]-1);
+                bbC[i] |= (uint32_t)1<<(grille[j][i]-1);
               }
 
 
@@ -139,7 +140,7 @@ bool bitBoardInitialiser32(uint8_t **grille, size_t n, uint32_t *bbL, uint32_t *
                                 bitBoardDetruire32(bbB);
                                 return false;
                             }
-                            bbB[a] |= 1<<(grille[k][l]-1);
+                            bbB[a] |= (uint32_t)1<<(grille[k][l]-1);
                           }
                     }
                 }

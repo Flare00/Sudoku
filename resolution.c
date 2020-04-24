@@ -10,9 +10,9 @@ void heuristiqueUniqueCandidat(size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t 
     {
         indice = __builtin_ctz(liste->candidats);
         grille[liste->i][liste->j]=1+indice;
-        bbL[liste->i] |= (1<<indice);
-        bbC[liste->j] |= (1<<indice);
-        bbB[map[liste->i][liste->j]] |= (1<<indice);
+        bbL[liste->i] |= (uint64_t)(1<<indice);
+        bbC[liste->j] |= (uint64_t)(1<<indice);
+        bbB[map[liste->i][liste->j]] |= (uint64_t)(1<<indice);
         listeDetruireTete(&liste);
     }
     heuristiqueUniqueCandidat(n, bbL, bbC, bbB, grille, map);
@@ -28,9 +28,9 @@ void heuristiqueUniqueCandidat32(size_t n, uint32_t *bbL, uint32_t *bbC, uint32_
     {
         indice = __builtin_ctz(liste->candidats);
         grille[liste->i][liste->j]=1+indice;
-        bbL[liste->i] |= (1<<indice);
-        bbC[liste->j] |= (1<<indice);
-        bbB[map[liste->i][liste->j]] |= (1<<indice);
+        bbL[liste->i] |= (uint32_t)(1<<indice);
+        bbC[liste->j] |= (uint32_t)(1<<indice);
+        bbB[map[liste->i][liste->j]] |= (uint32_t)(1<<indice);
         listeDetruireTete32(&liste);
     }
     heuristiqueUniqueCandidat32(n, bbL, bbC, bbB, grille, map);
@@ -144,7 +144,7 @@ bool resoudreRecursivement(uint8_t** grille, Liste *dl, uint64_t *bbL, uint64_t 
 
         size_t c = dl->c[k];
         uint8_t val = c+1, indice1 = val-1;
-        uint64_t bitVal = 1<<indice1;
+        uint64_t bitVal = (uint64_t)1<<indice1;
 
        if(!(( (bbL[i] | bbC[j] | bbB[b])>>indice1)&1))
         {
@@ -161,7 +161,7 @@ bool resoudreRecursivement(uint8_t** grille, Liste *dl, uint64_t *bbL, uint64_t 
     if(dl->precedente)
     {
         size_t bi =dl->precedente->i , bj = dl->precedente->j;
-        uint64_t bitVal2 = (1<<(grille[bi][bj]-1));
+        uint64_t bitVal2 = (uint64_t)(1<<(grille[bi][bj]-1));
         bbL[bi] ^= bitVal2;
         bbC[bj] ^= bitVal2;
         bbB[map[bi][bj]] ^= bitVal2;
@@ -180,7 +180,7 @@ bool resoudreRecursivement32(uint8_t** grille, Liste32 *dl, uint32_t *bbL, uint3
 
         size_t c = dl->c[k];
         uint8_t val = c+1, indice1 = val-1;
-        uint32_t bitVal = 1<<indice1;
+        uint32_t bitVal = (uint32_t)(1<<indice1);
 
        if(!(( (bbL[i] | bbC[j] | bbB[b])>>indice1)&1))
         {
@@ -197,7 +197,7 @@ bool resoudreRecursivement32(uint8_t** grille, Liste32 *dl, uint32_t *bbL, uint3
     if(dl->precedente)
     {
         size_t bi =dl->precedente->i , bj = dl->precedente->j;
-        uint32_t bitVal2 = (1<<(grille[bi][bj]-1));
+        uint32_t bitVal2 = (uint32_t)(1<<(grille[bi][bj]-1));
         bbL[bi] ^= bitVal2;
         bbC[bj] ^= bitVal2;
         bbB[map[bi][bj]] ^= bitVal2;
@@ -220,7 +220,7 @@ int resolu_64(uint8_t** grille, Liste *dl, uint64_t *bbL, uint64_t *bbC, uint64_
 
             c = dl->c[k];
             val = c, indice1 = val-1;
-            bitVal = 1<<indice1;
+            bitVal = (uint64_t)(1<<indice1);
 
            if((val && !(( (bbL[i] | bbC[j] | bbB[b])>>indice1)&1) ) )
             {
@@ -243,7 +243,7 @@ int resolu_64(uint8_t** grille, Liste *dl, uint64_t *bbL, uint64_t *bbC, uint64_
 
     size_t bi =dl->precedente->i , bj = dl->precedente->j;
     uint8_t indice2 = grille[bi][bj]-1;
-    uint32_t bitVal2 = (1<<indice2);
+    uint32_t bitVal2 = (uint64_t)(1<<indice2);
     bbL[bi] ^= bitVal2;
     bbC[bj] ^= bitVal2;
     bbB[map[bi][bj]] ^= bitVal2;
@@ -266,7 +266,7 @@ int resolu_32(uint8_t** grille, Liste *dl, uint32_t *bbL, uint32_t *bbC, uint32_
 
             c = dl->c[k];
             val = c, indice1 = val-1;
-            bitVal = 1<<indice1;
+            bitVal = (uint32_t)(1<<indice1);
 
            if((val && !(( (bbL[i] | bbC[j] | bbB[b])>>indice1)&1) ) )
             {
@@ -289,7 +289,7 @@ int resolu_32(uint8_t** grille, Liste *dl, uint32_t *bbL, uint32_t *bbC, uint32_
 
     size_t bi =dl->precedente->i , bj = dl->precedente->j;
     uint8_t indice2 = grille[bi][bj]-1;
-    uint32_t bitVal2 = (1<<indice2);
+    uint32_t bitVal2 = (uint32_t)(1<<indice2);
     bbL[bi] ^= bitVal2;
     bbC[bj] ^= bitVal2;
     bbB[map[bi][bj]] ^= bitVal2;

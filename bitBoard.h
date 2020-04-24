@@ -42,25 +42,25 @@ bool bitBoardInitialiser32(uint8_t **grille, size_t n, uint32_t *bbL, uint32_t *
   * @param uint64_t candidats : l'entier non signé qui contient les candidats
   * @param size_t taille : les tailles bits à afficher
   */
-void afficherBit(uint64_t candidats, size_t taille);
+void bitAfficher(uint64_t candidats, size_t taille);
 
 /** @brief Afficher les candidats sous forme de bits
   * @param uint32_t candidats : l'entier non signé qui contient les candidats
   * @param size_t taille : les tailles bits à afficher
   */
-void afficherBit32(uint32_t candidats, size_t taille);
+void bitAfficher32(uint32_t candidats, size_t taille);
 
 /** @brief Afficher un tableau de bits
   * @param size_t taille : taille de bb
   * @param uint64_t* bb : tableau de bits à afficher
   */
-void afficherBitBoard(size_t taille, uint64_t* bb);
+void bitBoardAfficher(size_t taille, uint64_t* bb);
 
 /** @brief Afficher un tableau de bits
   * @param size_t taille : taille de bb
   * @param uint32_t* bb : tableau de bits à afficher
   */
-void afficherBitBoard32(size_t taille, uint32_t* bb);
+void bitBoardAfficher32(size_t taille, uint32_t* bb);
 
 /** @brief Afficher tous les tableaux de bit ligne, colonne et block
   * @param size_t taille : taille du tableau
@@ -68,7 +68,7 @@ void afficherBitBoard32(size_t taille, uint32_t* bb);
   * @param uint64_t* bbC : tableau de bits colonne
   * @param uint64_t* bbB : tableau de bits block
   */
-void afficherTousBitBoard(size_t taille, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB);
+void bitBoardAfficherTout(size_t taille, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB);
 
 /** @brief Afficher tous les tableaux de bit ligne, colonne et block
   * @param size_t taille : taille du tableau
@@ -76,6 +76,6 @@ void afficherTousBitBoard(size_t taille, uint64_t *bbL, uint64_t *bbC, uint64_t 
   * @param uint32_t* bbC : tableau de bits colonne
   * @param uint32_t* bbB : tableau de bits block
   */
-void afficherTousBitBoard32(size_t taille, uint32_t *bbL, uint32_t *bbC, uint32_t *bbB);
+void bitBoardAfficherTout32(size_t taille, uint32_t *bbL, uint32_t *bbC, uint32_t *bbB);
 
 #endif

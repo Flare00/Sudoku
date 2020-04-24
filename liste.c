@@ -21,7 +21,7 @@ Liste *listeInsertionOrdonnee(Liste *dl, uint64_t candidats, size_t i, size_t j)
     {
         indice = __builtin_ctz(candidat);
         elem->c[p]= indice;
-        candidat^=1<<indice;
+        candidat ^= (uint64_t)(1<<indice);
         p++;
     }
 
@@ -88,7 +88,7 @@ Liste32 *listeInsertionOrdonnee32(Liste32 *dl, uint32_t candidats, size_t i, siz
     {
         indice = __builtin_ctz(candidat); //Cette méthode intégrée de GCC détermine le nombre de zéros de fin dans la représentation binaire d'un nombre.
         elem->c[p]= indice;
-        candidat^=1<<indice;
+        candidat ^= (uint32_t)(1<<indice);
         p++;
     }
 
@@ -272,7 +272,7 @@ Liste* listeCreerUniqueCandidat(size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t
 {
     size_t taille = n*n;
     Liste *liste = NULL;
-    uint64_t mask = (1<<taille)-1, cdt;
+    uint64_t mask = (uint64_t)(1<<taille)-1, cdt;
     for(size_t i = 0; i < taille; i++)
     {
         for(size_t j = 0; j < taille; j++)
@@ -290,7 +290,7 @@ Liste32* listeCreerUniqueCandidat32(size_t n, uint32_t *bbL, uint32_t *bbC, uint
 {
     size_t taille = n*n;
     Liste32 *liste = NULL;
-    uint64_t mask = (1<<taille)-1, cdt;
+    uint32_t mask = (uint32_t)(1<<taille)-1, cdt;
     for(size_t i = 0; i < taille; i++)
     {
         for(size_t j = 0; j < taille; j++)
@@ -308,7 +308,7 @@ Liste* listeRechercherCandidat(size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t 
 {
     size_t taille = n*n;
     Liste *liste = NULL;
-    uint64_t mask = (1<<taille)-1, cdt = 0;
+    uint64_t mask = (uint64_t)(1<<taille)-1, cdt = 0;
     for(size_t i = 0; i < taille; i++)
     {
         for(size_t j = 0; j < taille; j++)
@@ -330,7 +330,7 @@ Liste32* listeRechercherCandidat32(size_t n, uint32_t *bbL, uint32_t *bbC, uint3
 {
     size_t taille = n*n;
     Liste32 *liste = NULL;
-    uint32_t mask = (1<<taille)-1, cdt = 0;
+    uint32_t mask = (uint32_t)(1<<taille)-1, cdt = 0;
     for(size_t i = 0; i < taille; i++)
     {
         for(size_t j = 0; j < taille; j++)
