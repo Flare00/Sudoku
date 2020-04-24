@@ -41,6 +41,8 @@ int validiterEtDifficulter(uint8_t **grille, size_t taille, int level);
 
 int difficulter(uint8_t **grille, size_t taille, int level);
 
-Liste* listeGenerer(size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, uint8_t** grille);
+Liste* listeGenerer(size_t n, uint8_t** grille,uint8_t ** map);
+Liste32* listeGenerer32(size_t n, uint32_t *bbL, uint32_t *bbC, uint32_t *bbB, uint8_t **grille,uint8_t ** map);
+
 
 #endif

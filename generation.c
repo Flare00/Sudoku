@@ -44,22 +44,22 @@ uint8_t **genererGrilleSudokuValide(size_t taille, size_t niveauDemander)
     } else if (taille == 16){
         if(niveauDemander == 2){
             //niveau moyen;
-            casesRestantesMax = 110;
+            casesRestantesMax = 160;
             casesRestantesMin = 90;
         }else if (niveauDemander == 3){
             //niveau difficile;
-            casesRestantesMax = 100;
+            casesRestantesMax = 155;
 
-            casesRestantesMin = 80;
+            casesRestantesMin = 145;
         } else if (niveauDemander == 4){
             //niveau extreme;
-            casesRestantesMax = 90;
+            casesRestantesMax = 150;
             //casesRestantesMin = 70;
-            casesRestantesMin = 0;
+            casesRestantesMin = 140;
         } else {
-             niveauDemander = 2;
-            casesRestantesMax = 110;
-            casesRestantesMin = 90;
+            niveauDemander = 2;
+            casesRestantesMax = 160;
+            casesRestantesMin = 150;
         }
     } else if (taille == 25){
         if (niveauDemander == 3){
@@ -85,7 +85,7 @@ uint8_t **genererGrilleSudokuValide(size_t taille, size_t niveauDemander)
             //niveau extreme;
             casesRestantesMax = 430;
             //casesRestantesMin = 400;
-            casesRestantesMin = 0;
+            casesRestantesMin = 420;
         } else {
             niveauDemander = 3;
             casesRestantesMax = 470;
@@ -94,31 +94,30 @@ uint8_t **genererGrilleSudokuValide(size_t taille, size_t niveauDemander)
     } else if (taille == 49){
         if (niveauDemander == 3 || niveauDemander == 4){
             casesRestantesMax = 800;
-            casesRestantesMin = 0;
+            casesRestantesMin = 700;
         } else {
             niveauDemander = 3;
             casesRestantesMax = 840;
+            casesRestantesMin = 740;
         }
     } else if (taille == 64){
         if (niveauDemander == 3 || niveauDemander == 4){
             casesRestantesMax = 1300;
-            casesRestantesMin = 0;
+            casesRestantesMin = 1200;
         } else {
             niveauDemander = 3;
             casesRestantesMax = 1300;
+            casesRestantesMin = 1200;
         }
     }
     uint8_t **grilleTemp = NULL;
-    printf("DIFFICULTE DEMANDER : %i\n", niveauDemander);
     do
     {
         grilleTemp = grilleCloner(grille,taille); // faire une de la grille copie;
 
         int retrait = retirerCaseSymetrie(grilleTemp, taille);
         casesRestantes -= retrait;
-
         difficulte = validiterEtDifficulter(grilleCloner(grilleTemp,taille), taille, niveauDemander);
-        printf("DIFFICULTE : %i\n", difficulte);
         if(difficulte < 5 && difficulte > difficulteMaxAtteint){
             difficulteMaxAtteint = difficulte;
         }
@@ -127,11 +126,11 @@ uint8_t **genererGrilleSudokuValide(size_t taille, size_t niveauDemander)
         if (difficulte != 5 && difficulte != 0)
         {
             // libere la mémoire de la grille, et la remplace par la grille temporaire.
-            free(grille);
+            detruire2D(grille, taille);
             grille = grilleTemp;
             compteurEchec = 0;
         } else if(difficulte == 0){
-            free(grilleTemp);
+            detruire2D(grilleTemp, taille);
             casesRestantes += retrait;
             if(casesRestantes <= casesRestantesMax && (difficulteMaxAtteint == niveauDemander || niveauDemander == 4)){
                 difficulte = 5;
@@ -140,23 +139,18 @@ uint8_t **genererGrilleSudokuValide(size_t taille, size_t niveauDemander)
         	if(casesRestantes > casesRestantesMax){
         		difficulte = 0;
         	}
-            free(grilleTemp);
+            detruire2D(grilleTemp, taille);
             compteurEchec++;
         }
-
         if(compteurEchec >= 64){
             difficulte == 5;
         }
-        printf("casesRestantes : %i | casesRestantesMin : %i\n",casesRestantes, casesRestantesMin );
-
         //si le nombre de cases restante est inferieur au nombre de casesRestantesMin, termine la boucle.
         if (casesRestantes <= casesRestantesMin)
         {
             difficulte = 5;
         }
     } while (difficulte != 5);
-    printf("NIVEAU MAX ATTEINT : %i\n", difficulteMaxAtteint);
-    printf("COMPTEUR ECHEC : %i\n", compteurEchec);
     return grille;
 }
 
@@ -349,7 +343,6 @@ uint8_t** grilleCloner(uint8_t ** grille, size_t taille){
     {
         retour[i] = malloc(taille*sizeof(uint8_t));
     }
-
     for(int i = 0; i < taille; i++){
         for(int j = 0; j < taille; j++){
             retour[i][j] = grille[i][j];

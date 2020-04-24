@@ -22,13 +22,12 @@ size_t heuristiqueMoyenne(uint8_t **grille, size_t n, Liste *liste , uint8_t ** 
         modifier = 0;
         modifier += heuristiqueJumeauANVisible(grille, n, liste, map);
         modifier += heuristiqueSingletonCacher(grille, n, liste, map);
-        //modifier += heuristiqueCandidatsIdentique(grille, n, bbL, bbC, bbB, liste);
     }
 
     return heuristiqueFacile(grille, n, liste, map);
 }
 
-size_t heuristiqueDifficile(uint8_t **grille, size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, Liste *liste, uint8_t ** map)
+size_t heuristiqueDifficile(uint8_t **grille, size_t n, Liste *liste, uint8_t ** map)
 {
     return 0;
     uint8_t modifier = 1;
@@ -37,8 +36,8 @@ size_t heuristiqueDifficile(uint8_t **grille, size_t n, uint64_t *bbL, uint64_t 
     while (modifier > 0)
     {
         modifier = 0;
-        modifier += heuristiqueGroupesIsoler(grille, n, bbL, bbC, bbB, liste);
-        modifier += heuristiqueGroupesMelanger(grille, n, bbL, bbC, bbB, liste);
+        modifier += heuristiqueGroupesIsoler(grille, n, liste);
+        modifier += heuristiqueGroupesMelanger(grille, n, liste);
     }
 
     if (heuristiqueFacile(grille, n, liste , map) > 0)
@@ -262,7 +261,7 @@ uint8_t heuristiqueJumeauANVisible(uint8_t **grille, size_t n, Liste *liste, uin
 }
 
 
-uint8_t heuristiqueGroupesIsoler(uint8_t **grille, size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, Liste *liste)
+uint8_t heuristiqueGroupesIsoler(uint8_t **grille, size_t n, Liste *liste)
 {
     size_t retour = 0;
     size_t taille = n * n;
@@ -301,7 +300,7 @@ uint8_t heuristiqueGroupesIsoler(uint8_t **grille, size_t n, uint64_t *bbL, uint
     return retour;
 }
 
-uint8_t heuristiqueGroupesMelanger(uint8_t **grille, size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, Liste *liste)
+uint8_t heuristiqueGroupesMelanger(uint8_t **grille, size_t n, Liste *liste)
 {
     size_t retour = 0;
     size_t taille = n * n;
@@ -406,7 +405,6 @@ uint8_t ligneColonneCandidatsSupprimer(uint8_t taille, uint64_t **pourSuppressio
             }
         }
     }
-	
-	return retour;
+    return retour;
 }
 

@@ -34,7 +34,7 @@ size_t heuristiqueMoyenne(uint8_t **grille, size_t n, Liste *liste, uint8_t ** m
  * @param Liste * liste : Liste des candidats par cases.
  * @return nombre de cases restantes à remplir.
  */
-size_t heuristiqueDifficile(uint8_t **grille, size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, Liste *liste, uint8_t ** map);
+size_t heuristiqueDifficile(uint8_t **grille, size_t n, Liste *liste, uint8_t ** map);
 
 //Niveau Facile
 //void heuristiqueSingleton(uint8_t **grille, size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, uint8_t **map);
@@ -72,7 +72,7 @@ uint8_t heuristiqueJumeauANVisible(uint8_t **grille, size_t n, Liste *liste, uin
  * @param Liste * liste : Liste des candidats par cases.
  * @return uint8_t : retourne 0 si aucune modification n'as été faite, 1 sinon.
  */
-uint8_t heuristiqueCandidatsIdentique(uint8_t **grille, size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, Liste *liste);
+uint8_t heuristiqueCandidatsIdentique(uint8_t **grille, size_t n, Liste *liste);
 
 //Niveau Difficile
 
@@ -84,13 +84,11 @@ uint8_t heuristiqueCandidatsIdentique(uint8_t **grille, size_t n, uint64_t *bbL,
  * https://www.mots-croises.ch/Manuels/Sudoku/groupes_isoles.htm
  * 
  * @param uint8_t** grille : pointeur sur la grille
- * @param uint64_t* bbL : tableau de bits ligne
- * @param uint64_t* bbC : tableau de bits colonne
- * @param uint64_t* bbB : tableau de bits block
  * @param Liste * liste : Liste des candidats par cases.
  * @return uint8_t : retourne 0 si aucune modification n'as été faite, 1 sinon.
  */
-uint8_t heuristiqueGroupesIsoler(uint8_t **grille, size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, Liste *liste);
+uint8_t heuristiqueGroupesIsoler(uint8_t **grille, size_t n, Liste *liste);
+
 
 /**
  * @brief fonction heuristique permettant d'effectuer la technique de Groupes Mélangés
@@ -100,13 +98,10 @@ uint8_t heuristiqueGroupesIsoler(uint8_t **grille, size_t n, uint64_t *bbL, uint
  * https://www.mots-croises.ch/Manuels/Sudoku/groupes_melanges.htm
  * 
  * @param uint8_t** grille : pointeur sur la grille
- * @param uint64_t* bbL : tableau de bits ligne
- * @param uint64_t* bbC : tableau de bits colonne
- * @param uint64_t* bbB : tableau de bits block
  * @param Liste * liste : Liste des candidats par cases.
  * @return uint8_t : retourne 0 si aucune modification n'as été faite, 1 sinon.
  */
-uint8_t heuristiqueGroupesMelanger(uint8_t **grille, size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, Liste *liste);
+uint8_t heuristiqueGroupesMelanger(uint8_t **grille, size_t n, Liste *liste);
 
 /**
  * @brief Méthode de suppression de candidats de lignes et colonnes avec case selectionner, dans la liste, selon un mode. 

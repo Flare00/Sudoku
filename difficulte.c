@@ -1,32 +1,36 @@
 #include "difficulte.h"
 int validiterEtDifficulter(uint8_t **grille, size_t taille, int level)
 {
-    int n = sqrt(taille);
-    uint8_t **map = mapCreer(n);
     int retour = 0;
-    if (!map){
-        return 0;
-    }
-    uint64_t *bbL = bitboard64Creer(taille);
-    uint64_t *bbC = bitboard64Creer(taille);
-    uint64_t *bbB = bitboard64Creer(taille);
+    
+    if(taille <= 16){
+        int n = sqrt(taille);
+        uint8_t **map = mapCreer(n);
+        if (!map){
+            return 0;
+        }
+        uint32_t *bbL = bitboard32Creer(taille);
+        uint32_t *bbC = bitboard32Creer(taille);
+        uint32_t *bbB = bitboard32Creer(taille);
 
-    bitBoardInitialiser(grille, sqrt(taille), bbL, bbC, bbB);
-    Liste *liste = listeGenerer(n, bbL, bbC, bbB, grille);
-    Liste *temp = liste->suivante;
-    temp->precedente = NULL;
+        bitBoardInitialiser32(grille, n, bbL, bbC, bbB);
+        Liste32 *liste = listeGenerer32(n, bbL, bbC, bbB, grille, map);
 
-    //if (resolu_64(grille, temp, bbL, bbC, bbB,map, 0, temp->i, temp->j) == 1)
-    //{
+        if (resolu_32(grille, liste, bbL, bbC, bbB,map, 0, liste->i, liste->j) == 1)
+        {
+            retour = difficulter(grille, taille, level);
+        }
+        
+        listeDetruire(liste);
+        bitBoardDetruire(bbL);
+        bitBoardDetruire(bbC);
+        bitBoardDetruire(bbB);
+        detruire2D(map, taille);
+    } else {
         retour = difficulter(grille, taille, level);
-    //}
 
-    grilleDetruire(grille, taille);
-    listeDetruire(liste);
-    bitBoardDetruire(bbL);
-    bitBoardDetruire(bbC);
-    bitBoardDetruire(bbB);
-    mapDetruire(map, taille);
+    }
+    detruire2D(grille, taille);
     return retour;
 }
 
@@ -34,13 +38,10 @@ int difficulter(uint8_t **grille, size_t taille, int level)
 {
     int retour = 0;
     size_t n = sqrt(taille);
-    uint64_t *bbL = bitboard64Creer(taille);
-    uint64_t *bbC = bitboard64Creer(taille);
-    uint64_t *bbB = bitboard64Creer(taille);
 
-    bitBoardInitialiser(grille, sqrt(taille), bbL, bbC, bbB);
     uint8_t ** map = mapCreer(n);
-    Liste *liste = listeGenerer(n, bbL, bbC, bbB, grille);
+
+    Liste *liste = listeGenerer(n, grille, map);
 
     if (heuristiqueFacile(grille, n, liste, map) == 0)
     {
@@ -50,6 +51,7 @@ int difficulter(uint8_t **grille, size_t taille, int level)
     {
         if (level == 1)
         {
+
             retour = 5;
         }
         else
@@ -66,7 +68,7 @@ int difficulter(uint8_t **grille, size_t taille, int level)
                 }
                 else
                 {
-                    if (heuristiqueDifficile(grille, n, bbL, bbC, bbB, liste,map) == 0)
+                    if (heuristiqueDifficile(grille, n, liste,map) == 0)
                     {
                         retour = 3;
                     }
@@ -86,34 +88,81 @@ int difficulter(uint8_t **grille, size_t taille, int level)
         }
     }
 
-    listeDetruire(liste);
-    bitBoardDetruire(bbL);
-    bitBoardDetruire(bbC);
-    bitBoardDetruire(bbB);
+    while(liste != NULL){
+        Liste * temp = liste;
+        liste = liste->suivante;
+        free(temp);
+    }
+
+    detruire2D(map,taille);
+
     return retour;
 }
 
-Liste* listeGenerer(size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, uint8_t **grille)
+Liste* listeGenerer(size_t n,uint8_t **grille,uint8_t ** map)
 {
     size_t taille = n * n;
 
     Liste * retour = NULL;
-    Liste * liste = NULL;
-    Liste * temp = NULL;
 
-    uint64_t mask = (1<<taille) - 1;
 
-    liste = malloc(sizeof(Liste));
-    liste->c = 0;
-    liste->candidats = 0;
-    liste->i = 0;
-    liste->j = 0;
-    liste->population = 0;
-    liste->precedente = NULL;
-    liste->suivante = NULL;
+    uint64_t *bbL = bitboard64Creer(taille);
+    uint64_t *bbC = bitboard64Creer(taille);
+    uint64_t *bbB = bitboard64Creer(taille);
+    if(bitBoardInitialiser(grille, n, bbL, bbC, bbB) == true){
+        Liste * liste = NULL;
+        Liste * temp = NULL;
+        uint64_t mask = (1<<taille) - 1;
 
-    retour = liste;
+        liste = malloc(sizeof(Liste));
+        liste->c = NULL;
+        liste->candidats = 0;
+        liste->i = 0;
+        liste->j = 0;
+        liste->population = 0;
+        liste->precedente = NULL;
+        liste->suivante = NULL;
+        retour = liste;
 
+        for (size_t i = 0; i < taille; i++)
+        {
+            size_t tmp = (i / n) * n;
+            for (size_t j = 0; j < taille; j++)
+            {
+                if (grille[i][j] == 0)
+                {
+
+                	temp = malloc(sizeof(Liste));
+                    temp->c = NULL;
+                    temp->candidats = mask & (~(bbL[i] | bbC[j] | bbB[map[i][j]]));
+                    temp->i = i;
+                    temp->j = j;
+                    temp->suivante = NULL;
+                    temp->population = __builtin_popcount(temp->candidats);
+                    temp->precedente = liste;
+                    liste->suivante = temp;
+                    liste = liste->suivante;
+                }
+            }
+        }
+        free(bbL);
+        free(bbC);
+        free(bbB);
+    }
+    return retour;
+}
+
+Liste32* listeGenerer32(size_t n, uint32_t *bbL, uint32_t *bbC, uint32_t *bbB, uint8_t **grille, uint8_t ** map)
+{
+    size_t taille = n * n;
+
+    Liste32 * liste = NULL;
+    Liste32 * temp = NULL;
+
+    uint32_t mask = (1<<taille) - 1;
+
+    liste = malloc(sizeof(Liste32*));
+    temp = liste;
     for (size_t i = 0; i < taille; i++)
     {
         size_t tmp = (i / n) * n;
@@ -121,22 +170,21 @@ Liste* listeGenerer(size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, uint8
         {
             if (grille[i][j] == 0)
             {
-            	temp = malloc(sizeof(Liste));
+                if(temp == NULL){
+                    temp = malloc(sizeof(Liste32*));
+                }
+                
                 temp->c = NULL;
-                temp->candidats = mask&(~(bbL[i] | bbC[j] | bbB[tmp+j/n]));
+                temp->candidats = mask&(~(bbL[i] | bbC[j] | bbB[map[i][j]]));
                 temp->i = i;
                 temp->j = j;
-                temp->suivante = NULL;
                 temp->population = __builtin_popcount(temp->candidats);
-
-                temp->precedente = liste;
-
-                liste->suivante = temp;
-
-                liste = liste->suivante;
+                temp->suivante = malloc(sizeof(Liste32*));
+                temp->suivante->precedente = temp;
+                temp = temp->suivante;
             }
         }
     }
 
-    return retour;
+    return liste;
 }
