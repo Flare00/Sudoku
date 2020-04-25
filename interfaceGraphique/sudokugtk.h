@@ -3,6 +3,7 @@
 
 #include <gtk/gtk.h>
 #include <math.h>
+#include "listeGtk.h"
 #include "../generation.h"
 #include "../grille.h"
 #include "../bitBoard.h"
@@ -17,6 +18,13 @@ G_BEGIN_DECLS
  * Création du tableau maximum du Sudoku.
  */
 GtkWidget *caseSudoku[64][64];
+
+
+/**
+ * Création d'une liste contenant toutes les allocations,
+ * pour pouvoir les supprimer à la sortie du programme.
+ */
+ListeGtk* liste;
 
 
 /**

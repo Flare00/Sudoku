@@ -1,11 +1,6 @@
 #include "interfacegtk.h"
 #include "sudokugtk.h"
-#include "listeGtk.h"
 
-
-
-/**  **/
-ListeGtk* liste;
 
 
 /** Fonction envoi du tableau des coordonnées et taille du Sudoku **/
@@ -19,7 +14,7 @@ int* envoiCoords(int t, int x, int y){
 }
 
 
-/**  **/
+/** Fonction libération de la mémoire **/
 void destrcution(){
   listeGtkDetruire(liste);
 }
