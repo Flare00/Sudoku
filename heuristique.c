@@ -21,7 +21,7 @@ size_t heuristiqueMoyenne(uint8_t **grille, size_t n, Liste *liste , uint8_t ** 
     while (modifier > 0)
     {
         modifier = 0;
-        modifier += heuristiqueJumeauANVisible(grille, n, liste, map);
+        modifier += heuristiqueJumeauANVisible( n, liste, map);
         modifier += heuristiqueSingletonCacher(grille, n, liste, map);
         //modifier += heuristiqueCandidatsIdentique(grille, n, bbL, bbC, bbB, liste);
     }
