@@ -91,16 +91,16 @@ uint8_t **genererGrilleSudokuValide(size_t taille, size_t niveauDemander)
             casesRestantesMin = 440;
         }
     } else if (taille == 49){
-        if (niveauDemander == 3 || niveauDemander == 4){
+        if ( niveauDemander == 4){
             casesRestantesMax = 800;
             casesRestantesMin = 700;
         } else {
             niveauDemander = 3;
-            casesRestantesMax = 840;
-            casesRestantesMin = 740;
+            casesRestantesMax = 800;
+            casesRestantesMin = 700;
         }
     } else if (taille == 64){
-        if (niveauDemander == 3 || niveauDemander == 4){
+        if (niveauDemander == 4){
             casesRestantesMax = 1300;
             casesRestantesMin = 1200;
         } else {
@@ -113,9 +113,16 @@ uint8_t **genererGrilleSudokuValide(size_t taille, size_t niveauDemander)
     do
     {
         grilleTemp = grilleCloner(grille,taille); // faire une de la grille copie;
-
         int retrait = retirerCaseSymetrie(grilleTemp, taille);
         casesRestantes -= retrait;
+
+        if(taille == 64 || taille == 49){
+        	while(casesRestantes > casesRestantesMax + 4){
+        		retrait = retirerCaseSymetrie(grilleTemp, taille);
+        		casesRestantes -= retrait;
+        	}
+        } 
+
         difficulte = validiterEtDifficulter(grilleCloner(grilleTemp,taille), taille, niveauDemander);
         if(difficulte < 5 && difficulte > difficulteMaxAtteint){
             difficulteMaxAtteint = difficulte;
