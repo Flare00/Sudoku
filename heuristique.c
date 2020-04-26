@@ -337,7 +337,7 @@ uint8_t heuristiqueGroupesIsoler(size_t n, Liste *liste)
 				groupeColonne[j][1] = 0;
 			}
 			//si temp se trouve dans la ligne ou dans la colonne (ou les deux) a analyser, et qu'il a plus d'un candidats
-			if(temp->i == i || temp->j == i && __builtin_popcountll(temp->candidats) > 1)
+			if((temp->i == i || temp->j == i) && __builtin_popcountll(temp->candidats) > 1)
 			{
 				temp2 = liste->suivante;
 				while(temp2 != NULL)
