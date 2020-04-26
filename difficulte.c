@@ -1,9 +1,13 @@
 #include "difficulte.h"
+#include "aff_verif.h"
 int validiterEtDifficulter(uint8_t **grille, size_t taille, int level)
 {
     int retour = 0;
+
+    affichage(grille, taille);
+    affichage2(grille,taille);
     
-    if(taille <= 16){
+    if(taille <= 0){ //Bug
         int n = sqrt(taille);
         uint8_t **map = mapCreer(n);
         if (!map){
@@ -20,7 +24,7 @@ int validiterEtDifficulter(uint8_t **grille, size_t taille, int level)
         {
             retour = difficulter(grille, taille, level);
         }
-        
+
         listeDetruire(liste);
         bitBoardDetruire(bbL);
         bitBoardDetruire(bbC);
@@ -28,8 +32,8 @@ int validiterEtDifficulter(uint8_t **grille, size_t taille, int level)
         detruire2D(map, taille);
     } else {
         retour = difficulter(grille, taille, level);
-
     }
+
     detruire2D(grille, taille);
     return retour;
 }
@@ -105,6 +109,7 @@ Liste* listeGenerer(size_t n,uint8_t **grille,uint8_t ** map)
 
     Liste * retour = NULL;
 
+    printf("taille : %i\n", taille);
 
     uint64_t *bbL = bitboard64Creer(taille);
     uint64_t *bbC = bitboard64Creer(taille);
@@ -161,7 +166,7 @@ Liste32* listeGenerer32(size_t n, uint32_t *bbL, uint32_t *bbC, uint32_t *bbB, u
 
     uint32_t mask = (1<<taille) - 1;
 
-    liste = malloc(sizeof(Liste32*));
+    liste = malloc(sizeof(Liste32));
     temp = liste;
     for (size_t i = 0; i < taille; i++)
     {
@@ -170,17 +175,26 @@ Liste32* listeGenerer32(size_t n, uint32_t *bbL, uint32_t *bbC, uint32_t *bbB, u
         {
             if (grille[i][j] == 0)
             {
-                if(temp == NULL){
-                    temp = malloc(sizeof(Liste32*));
-                }
-                
-                temp->c = NULL;
-                temp->candidats = mask&(~(bbL[i] | bbC[j] | bbB[map[i][j]]));
                 temp->i = i;
                 temp->j = j;
                 temp->population = __builtin_popcount(temp->candidats);
-                temp->suivante = malloc(sizeof(Liste32*));
+                temp->c = malloc(temp->population*sizeof(size_t));
+
+                uint32_t candidat=temp->candidats;
+                size_t indice=0;
+                size_t p = 0;
+
+                while(candidat)
+                {
+                    indice = __builtin_ctz(candidat); //Cette méthode intégrée de GCC détermine le nombre de zéros de fin dans la représentation binaire d'un nombre.
+                    temp->c[p]= indice;
+                    candidat ^= (uint32_t)(1<<indice);
+                    p++;
+                }       
+
+                temp->suivante = malloc(sizeof(Liste32));
                 temp->suivante->precedente = temp;
+                
                 temp = temp->suivante;
             }
         }
