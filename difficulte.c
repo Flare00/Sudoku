@@ -1,11 +1,8 @@
 #include "difficulte.h"
-#include "aff_verif.h"
 int validiterEtDifficulter(uint8_t **grille, size_t taille, int level)
 {
     int retour = 0;
 
-    affichage(grille, taille);
-    affichage2(grille,taille);
     //si la taille est <= 16 alors 
     if(taille <= 0){
         int n = sqrt(taille);

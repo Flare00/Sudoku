@@ -55,7 +55,6 @@ uint8_t heuristiqueSingletonVisible(uint8_t **grille, size_t n, Liste *liste, ui
     uint8_t retour = 0;
     Liste * temp = NULL;
     Liste * first = liste->suivante;
-    int t = 0;
 
     while(first != NULL){
     	//pour tout element de la liste
@@ -97,7 +96,6 @@ uint8_t heuristiqueSingletonCacher(uint8_t **grille, size_t n, Liste *liste, uin
     uint8_t retour = 0;
     Liste * temp = NULL;
     Liste * first = liste->suivante;
-    int t = 0;
 
     while(first != NULL){
     	//pour tout element de la liste
@@ -154,7 +152,6 @@ uint8_t heuristiqueSingleton(uint8_t **grille, size_t n, Liste *liste, uint8_t *
     uint8_t aUpdate = 0;
     Liste * temp = NULL;
     Liste * first = liste->suivante;
-    int t = 0;
 
     while(first != NULL){
     	//pour tout elements de la liste
