@@ -45,6 +45,44 @@ void heuristiquePaireCachee(size_t taille, Liste *dl, uint64_t *bbL, uint64_t *b
   */
 void heuristiquePaireCachee32(size_t taille, Liste32 *dl, uint32_t *bbL, uint32_t *bbC, uint32_t *bbB, uint8_t**map);
 
+/** @brief Placer les éléments de la liste à 1 candidat dans la grille
+  * @param Liste **liste : pointeur sur l'adresse de la liste
+  * @param uint64_t* bbL : tableau de bits ligne
+  * @param uint64_t* bbC : tableau de bits colonne
+  * @param uint64_t* bbB : tableau de bits block
+  * @param uint8_t** map : tableau contenant les indices de block pour le tableau de bits block (bbB)
+  * @param uint8_t **grille : pointeur sur la grille
+  * @return bool : true si l'heuristique a pu être appliquer, false sinon.
+  */
+bool heuristiqueSolo(Liste **liste, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, uint8_t **map, uint8_t **grille);
+
+/** @brief Placer les éléments de la liste à 1 candidat dans la grille
+  * @param Liste32 **liste : pointeur sur l'adresse de la liste
+  * @param uint32_t* bbL : tableau de bits ligne
+  * @param uint32_t* bbC : tableau de bits colonne
+  * @param uint32_t* bbB : tableau de bits block
+  * @param uint8_t** map : tableau contenant les indices de block pour le tableau de bits block (bbB)
+  * @param uint8_t **grille : pointeur sur la grille
+  * @return bool : true si l'heuristique a pu être appliquer, false sinon.
+  */
+bool heuristiqueSolo32(Liste32 **liste, uint32_t *bbL, uint32_t *bbC, uint32_t *bbB, uint8_t **map, uint8_t **grille);
+
+/** @brief Pour deux éléments de la liste de population 2 et de même candidats, on supprime de la liste les autres éléments
+  de même ligne, colonne ou bloc chacun des candidats s'ils y sont.
+  * @param Liste **liste : pointeur sur l'adresse de la liste
+  * @param uint8_t** map : tableau contenant les indices de block savoir si deux cases partagent le même bloc
+  * @return bool : true si l'heuristique a pu être appliquer, false sinon.
+  */
+bool heuristiquePaireNue(Liste **liste, uint8_t **map);
+
+/** @brief Pour deux éléments de la liste de population 2 et de même candidats, on supprime de la liste les autres éléments
+  de même ligne, colonne ou bloc chacun des candidats s'ils y sont.
+  * @param Liste32 **liste : pointeur sur l'adresse de la liste
+  * @param uint8_t** map : tableau contenant les indices de block pour le tableau de bits block (bbB)
+  * @return bool : true si l'heuristique a pu être appliquer, false sinon.
+  */
+bool heuristiquePaireNue32(Liste32 **liste, uint8_t **map);
+
 /** @brief Application du backtracking
   * @param uint8_t** grille : pointeur sur la grille
   * @param Liste *dl : pointeur sur une liste de candidats
