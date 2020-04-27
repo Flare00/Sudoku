@@ -119,7 +119,7 @@ size_t listeNbCandidat(Liste *l1);
 /** @brief Renvoyer le nombre total de candidats de la grille
   * @param Liste32 *l1 : un pointeur sur la liste à partir de laquelle compter
   * @return size_t : le nombre candidat compté à partir de l1*/
-size_t listeNbCandida32(Liste32 *l1);
+size_t listeNbCandidat32(Liste32 *l1);
 
 /** @brief Supprimer la liste à partir de dl
   * @param Liste *dl : liste à partir de laquelle réaliser la suppression
@@ -172,5 +172,47 @@ void listeAfficher(Liste* l);
   * @param Liste32 *dl : pointeur sur le début de la liste à afficher
   */
 void listeAfficher32(Liste32* l);
+
+/** @brief Déplacer un élément de la liste avant un autre
+  * @param Liste **nouvelleVoisine : pointeur sur l'adresse de l'élément avant lequel placer l'autre
+  * @param Liste **aDeplacer : pointeur sur l'adresse de l'élément à déplacer*/
+void listeDeplacerAvant(Liste **nouvelleVoisine, Liste **aDeplacer);
+
+/** @brief Déplacer un élément de la liste avant un autre
+  * @param Liste32 **nouvelleVoisine : pointeur sur l'adresse de l'élément avant lequel placer l'autre
+  * @param Liste32 **aDeplacer : pointeur sur l'adresse de l'élément à déplacer*/
+void listeDeplacerAvant32(Liste32 **nouvelleVoisine, Liste32 **aDeplacer);
+
+/** @brief Rechercher la première liste de population X
+  * @param Liste **liste : pointeur sur l'adresse de la liste à parcourir
+  * @param size_t X : population recherchée
+  * @return Liste* : retourner la première liste de population X si elle existe ; NULL sinon*/
+Liste* listeRechercherDebutXPopulation(Liste **liste, size_t X);
+
+/** @brief Rechercher la première liste de population X
+  * @param Liste32 **liste : pointeur sur l'adresse de la liste à parcourir
+  * @param size_t X : population recherchée
+  * @return Liste32* : retourner la première liste de population X si elle existe ; NULL sinon*/
+Liste32* listeRechercherDebutXPopulation32(Liste32 **liste, size_t X);
+
+/** @brief Rechercher la première liste de population supérieur ou égale à X
+  * @param Liste **liste : pointeur sur l'adresse de la liste
+  * @param size_t X : population minimale recherchée
+  * @return Liste* : retourner la première liste de population supérieur ou égale à X si elle existe ; NULL sinon*/
+Liste* listeRechercherMinXPopulation(Liste **liste, size_t X);
+
+/** @brief Rechercher la première liste de population supérieur ou égale à X
+  * @param Liste32 **liste : pointeur sur l'adresse de la liste
+  * @param size_t X : population minimale recherchée
+  * @return Liste32* : retourner la première liste de population supérieur ou égale à X si elle existe ; NULL sinon*/
+Liste32* listeRechercherMinXPopulation32(Liste32 **liste, size_t X);
+
+/** @brief Redéfinir le pointeur sur c de la liste actuelle en cas de modification de ses candidats et donc de sa population.
+  * @param Liste **liste : pointeur sur l'adresse de la liste*/
+void listeRedefinirC(Liste **liste);
+
+/** @brief Redéfinir le pointeur sur c de la liste actuelle en cas de modification de ses candidats et donc de sa population.
+  * @param Liste32 **liste : pointeur sur l'adresse de la liste*/
+void listeRedefinirC32(Liste32 **liste);
 
 #endif
