@@ -214,7 +214,7 @@ int resolu_64(uint8_t** grille, Liste *dl, uint64_t *bbL, uint64_t *bbC, uint64_
 
     size_t k, i = dl->i, j= dl->j, b = map[i][j];
     uint8_t val, indice1;
-    uint32_t bitVal;
+    uint64_t bitVal;
 
         for(k = 0 ; k < dl->population ; k++)
         {
@@ -244,7 +244,7 @@ int resolu_64(uint8_t** grille, Liste *dl, uint64_t *bbL, uint64_t *bbC, uint64_
 
     size_t bi =dl->precedente->i , bj = dl->precedente->j;
     uint8_t indice2 = grille[bi][bj]-1;
-    uint32_t bitVal2 = (uint64_t)(1<<indice2);
+    uint64_t bitVal2 = (uint64_t)(1<<indice2);
     bbL[bi] ^= bitVal2;
     bbC[bj] ^= bitVal2;
     bbB[map[bi][bj]] ^= bitVal2;
