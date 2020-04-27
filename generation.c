@@ -26,35 +26,35 @@ uint8_t **genererGrilleSudokuValide(size_t taille, size_t niveauDemander)
     } else if (taille == 9){
         if(niveauDemander == 1){
             //niveau facile;
-            casesRestantesMax = 35;
-            casesRestantesMin = 25;
+            casesRestantesMax = 40;
+            casesRestantesMin = 30;
         } else if(niveauDemander == 2){
             //niveau moyen;
-            casesRestantesMax = 25;
-            casesRestantesMin = 20;
+            casesRestantesMax = 30;
+            casesRestantesMin = 25;
         }else if (niveauDemander == 3){
             //niveau difficile;
-            casesRestantesMax = 20;
+            casesRestantesMax = 25;
             casesRestantesMin = 18;
         } else if (niveauDemander == 4){
             //niveau extreme;
-            casesRestantesMax = 25;
+            casesRestantesMax = 20;
             casesRestantesMin = 18;
         }
     } else if (taille == 16){
         if(niveauDemander == 2){
             //niveau moyen;
             casesRestantesMax = 160;
-            casesRestantesMin = 90;
+            casesRestantesMin = 150;
         }else if (niveauDemander == 3){
             //niveau difficile;
-            casesRestantesMax = 155;
-            casesRestantesMin = 145;
+            casesRestantesMax = 150;
+            casesRestantesMin = 140;
         } else if (niveauDemander == 4){
             //niveau extreme;
-            casesRestantesMax = 150;
+            casesRestantesMax = 140;
             //casesRestantesMin = 70;
-            casesRestantesMin = 140;
+            casesRestantesMin = 135;
         } else {
             niveauDemander = 2;
             casesRestantesMax = 160;
