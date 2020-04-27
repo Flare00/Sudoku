@@ -4,7 +4,7 @@ int validiterEtDifficulter(uint8_t **grille, size_t taille, int level)
     int retour = 0;
 
     //si la taille est <= 16 alors 
-    if(taille <= 0){
+    if(taille <= 16){
         int n = sqrt(taille);
         uint8_t **map = mapCreer(n);
         if (!map){
