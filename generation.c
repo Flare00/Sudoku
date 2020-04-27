@@ -26,35 +26,35 @@ uint8_t **genererGrilleSudokuValide(size_t taille, size_t niveauDemander)
     } else if (taille == 9){
         if(niveauDemander == 1){
             //niveau facile;
-            casesRestantesMax = 35;
-            casesRestantesMin = 25;
+            casesRestantesMax = 40;
+            casesRestantesMin = 30;
         } else if(niveauDemander == 2){
             //niveau moyen;
-            casesRestantesMax = 25;
-            casesRestantesMin = 20;
+            casesRestantesMax = 30;
+            casesRestantesMin = 25;
         }else if (niveauDemander == 3){
             //niveau difficile;
-            casesRestantesMax = 20;
+            casesRestantesMax = 25;
             casesRestantesMin = 18;
         } else if (niveauDemander == 4){
             //niveau extreme;
-            casesRestantesMax = 25;
+            casesRestantesMax = 20;
             casesRestantesMin = 18;
         }
     } else if (taille == 16){
         if(niveauDemander == 2){
             //niveau moyen;
             casesRestantesMax = 160;
-            casesRestantesMin = 90;
+            casesRestantesMin = 150;
         }else if (niveauDemander == 3){
             //niveau difficile;
-            casesRestantesMax = 155;
-            casesRestantesMin = 145;
+            casesRestantesMax = 150;
+            casesRestantesMin = 140;
         } else if (niveauDemander == 4){
             //niveau extreme;
-            casesRestantesMax = 150;
+            casesRestantesMax = 140;
             //casesRestantesMin = 70;
-            casesRestantesMin = 140;
+            casesRestantesMin = 135;
         } else {
             niveauDemander = 2;
             casesRestantesMax = 160;
@@ -63,50 +63,50 @@ uint8_t **genererGrilleSudokuValide(size_t taille, size_t niveauDemander)
     } else if (taille == 25){
         if (niveauDemander == 3){
             //niveau difficile;
-            casesRestantesMax = 230;
-            casesRestantesMin = 200;
+            casesRestantesMax = 400;
+            casesRestantesMin = 380;
         } else if (niveauDemander == 4){
             //niveau extreme;
-            casesRestantesMax = 210;
+            casesRestantesMax = 380;
             //casesRestantesMin = 180;
-            casesRestantesMin = 180;
+            casesRestantesMin = 370;
         } else {
             niveauDemander = 3;
-            casesRestantesMax = 230;
-            casesRestantesMin = 200;
+            casesRestantesMax = 400;
+            casesRestantesMin = 380;
         }
     } else if (taille == 36){
         if (niveauDemander == 3){
             //niveau difficile;
-            casesRestantesMax = 470;
-            casesRestantesMin = 440;
+            casesRestantesMax = 680;
+            casesRestantesMin = 660;
         } else if (niveauDemander == 4){
             //niveau extreme;
-            casesRestantesMax = 430;
+            casesRestantesMax = 660;
             //casesRestantesMin = 400;
-            casesRestantesMin = 420;
+            casesRestantesMin = 640;
         } else {
             niveauDemander = 3;
-            casesRestantesMax = 470;
-            casesRestantesMin = 440;
+            casesRestantesMax = 680;
+            casesRestantesMin = 660;
         }
     } else if (taille == 49){
         if ( niveauDemander == 4){
-            casesRestantesMax = 800;
-            casesRestantesMin = 700;
+            casesRestantesMax = 1300;
+            casesRestantesMin = 1250;
         } else {
             niveauDemander = 3;
-            casesRestantesMax = 800;
-            casesRestantesMin = 700;
+            casesRestantesMax = 1350;
+            casesRestantesMin = 1300;
         }
     } else if (taille == 64){
         if (niveauDemander == 4){
-            casesRestantesMax = 1300;
-            casesRestantesMin = 1200;
+            casesRestantesMax = 2200;
+            casesRestantesMin = 2100;
         } else {
             niveauDemander = 3;
-            casesRestantesMax = 1300;
-            casesRestantesMin = 1200;
+            casesRestantesMax = 2250;
+            casesRestantesMin = 2200;
         }
     }
     uint8_t **grilleTemp = NULL;
