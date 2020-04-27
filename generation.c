@@ -63,50 +63,50 @@ uint8_t **genererGrilleSudokuValide(size_t taille, size_t niveauDemander)
     } else if (taille == 25){
         if (niveauDemander == 3){
             //niveau difficile;
-            casesRestantesMax = 230;
-            casesRestantesMin = 200;
+            casesRestantesMax = 400;
+            casesRestantesMin = 380;
         } else if (niveauDemander == 4){
             //niveau extreme;
-            casesRestantesMax = 210;
+            casesRestantesMax = 380;
             //casesRestantesMin = 180;
-            casesRestantesMin = 180;
+            casesRestantesMin = 370;
         } else {
             niveauDemander = 3;
-            casesRestantesMax = 230;
-            casesRestantesMin = 200;
+            casesRestantesMax = 400;
+            casesRestantesMin = 380;
         }
     } else if (taille == 36){
         if (niveauDemander == 3){
             //niveau difficile;
-            casesRestantesMax = 470;
-            casesRestantesMin = 440;
+            casesRestantesMax = 680;
+            casesRestantesMin = 660;
         } else if (niveauDemander == 4){
             //niveau extreme;
-            casesRestantesMax = 430;
+            casesRestantesMax = 660;
             //casesRestantesMin = 400;
-            casesRestantesMin = 420;
+            casesRestantesMin = 640;
         } else {
             niveauDemander = 3;
-            casesRestantesMax = 470;
-            casesRestantesMin = 440;
+            casesRestantesMax = 680;
+            casesRestantesMin = 660;
         }
     } else if (taille == 49){
         if ( niveauDemander == 4){
-            casesRestantesMax = 800;
-            casesRestantesMin = 700;
+            casesRestantesMax = 1300;
+            casesRestantesMin = 1250;
         } else {
             niveauDemander = 3;
-            casesRestantesMax = 800;
-            casesRestantesMin = 700;
+            casesRestantesMax = 1350;
+            casesRestantesMin = 1300;
         }
     } else if (taille == 64){
         if (niveauDemander == 4){
-            casesRestantesMax = 1300;
-            casesRestantesMin = 1200;
+            casesRestantesMax = 2200;
+            casesRestantesMin = 2100;
         } else {
             niveauDemander = 3;
-            casesRestantesMax = 1300;
-            casesRestantesMin = 1200;
+            casesRestantesMax = 2250;
+            casesRestantesMin = 2200;
         }
     }
     uint8_t **grilleTemp = NULL;
