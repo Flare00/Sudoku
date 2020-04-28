@@ -20,8 +20,8 @@ uint8_t **genererGrilleSudokuValide(size_t taille, size_t niveauDemander)
         niveauDemander = 1;
         if (niveauDemander == 1){
             //niveau facile;
-            casesRestantesMax = 8;
-            casesRestantesMin = 8;
+            casesRestantesMax = 6;
+            casesRestantesMin = 6;
         } 
     } else if (taille == 9){
         if(niveauDemander == 1){
