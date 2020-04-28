@@ -3,16 +3,16 @@
 void heuristiqueUniqueCandidat(size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, uint8_t** grille, uint8_t** map)
 {
     Liste* liste = listeCreerUniqueCandidat(n, bbL, bbC, bbB, grille, map);
-
+uint64_t un = 1;
     if(liste == NULL) return;
     size_t indice;
     while(liste)
     {
         indice = __builtin_ctz(liste->candidats);
         grille[liste->i][liste->j]=1+indice;
-        bbL[liste->i] |= (uint64_t)(1<<indice);
-        bbC[liste->j] |= (uint64_t)(1<<indice);
-        bbB[map[liste->i][liste->j]] |= (uint64_t)(1<<indice);
+        bbL[liste->i] |= un<<indice;
+        bbC[liste->j] |= un<<indice;
+        bbB[map[liste->i][liste->j]] |= un<<indice;
         listeDetruireTete(&liste);
     }
     heuristiqueUniqueCandidat(n, bbL, bbC, bbB, grille, map);
@@ -50,7 +50,8 @@ void heuristiquePaireCachee(size_t taille,Liste *dl,uint64_t *bbL, uint64_t *bbC
         int pop = sl->population;
         uint64_t candidats = sl->candidats;
 
-        uint64_t mask = (1<<taille)-1;
+         uint64_t un = 1;
+        uint64_t mask = (un << taille) - 1;
 
 
         while(al!=NULL)
@@ -136,17 +137,19 @@ void heuristiquePaireCachee32(size_t taille,Liste32 *dl,uint32_t *bbL, uint32_t 
 
 bool resoudreRecursivement(uint8_t** grille, Liste *dl, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB,uint8_t **map)
 {
+
     if(!dl)
         return true;
+    uint64_t un = 1;
     size_t k, i = dl->i, j= dl->j, b = map[i][j];
     for(k = 0 ; k < dl->population ; k++)
     {
 
         size_t indice1 = dl->c[k];
-        uint8_t val = indice1+1;
-        uint64_t bitVal = (uint64_t)1<<indice1;
+        uint64_t val = indice1+1;
+        uint64_t bitVal = un<<indice1;
 
-       if(!(( (bbL[i] | bbC[j] | bbB[b])>>indice1)&1))
+       if(val && !(( (bbL[i] | bbC[j] | bbB[b])>>indice1)&1))
         {
             grille[i][j] = val;
             bbL[i] |= bitVal;
@@ -158,14 +161,16 @@ bool resoudreRecursivement(uint8_t** grille, Liste *dl, uint64_t *bbL, uint64_t 
 			}
         }
     }
+
     if(dl->precedente)
     {
         size_t bi =dl->precedente->i , bj = dl->precedente->j;
-        uint64_t bitVal2 = (uint64_t)(1<<(grille[bi][bj]-1));
+        uint64_t bitVal2 = un<<(grille[bi][bj]-1);
         bbL[bi] ^= bitVal2;
         bbC[bj] ^= bitVal2;
         bbB[map[bi][bj]] ^= bitVal2;
     }
+
     grille[i][j] = 0;
     return false;
 }
@@ -213,38 +218,36 @@ int resolu_64(uint8_t** grille, Liste *dl, uint64_t *bbL, uint64_t *bbC, uint64_
     }
 
     size_t k, i = dl->i, j= dl->j, b = map[i][j];
-    uint8_t val, indice1;
+    uint64_t val, indice1;
     uint64_t bitVal;
+    uint64_t un = 1;
 
-        for(k = 0 ; k < dl->population ; k++)
+    for(k = 0 ; k < dl->population ; k++)
+    {
+        indice1 = dl->c[k];
+        val = indice1+1;
+        bitVal = (un<<indice1);
+
+       if((val && !(( (bbL[i] | bbC[j] | bbB[b])>>indice1)&1) ) )
         {
 
-            indice1 = dl->c[k];
-            val = indice1+1;
-            bitVal = (uint64_t)(1<<indice1);
-
-           if((val && !(( (bbL[i] | bbC[j] | bbB[b])>>indice1)&1) ) )
+            grille[i][j] = val;
+            bbL[i] |= bitVal;
+            bbC[j] |= bitVal;
+            bbB[b] |= bitVal;
+            if(resolu_64(grille, dl->suivante, bbL, bbC, bbB,map,count, pi,pj))
             {
-                grille[i][j] = val;
-                bbL[i] |= bitVal;
-                bbC[j] |= bitVal;
-                bbB[b] |= bitVal;
 
-                if(resolu_64(grille, dl->suivante, bbL, bbC, bbB,map,count, pi,pj))
-                {
-
-                   count++;
-                   if(k == dl->population-1 && i==pi &&j==pj)
-                        return count;
-                }
-
+               count++;
+               if(k == dl->population-1 && i==pi &&j==pj)
+                    return count;
             }
-
         }
+    }
 
     size_t bi =dl->precedente->i , bj = dl->precedente->j;
     uint8_t indice2 = grille[bi][bj]-1;
-    uint64_t bitVal2 = (uint64_t)(1<<indice2);
+    uint64_t bitVal2 = un<<indice2;
     bbL[bi] ^= bitVal2;
     bbC[bj] ^= bitVal2;
     bbB[map[bi][bj]] ^= bitVal2;
@@ -300,6 +303,7 @@ int resolu_32(uint8_t** grille, Liste *dl, uint32_t *bbL, uint32_t *bbC, uint32_
 
 bool resoudre(uint8_t *entree, size_t n)
 {
+
     size_t taille = n*n;
     uint8_t **map = mapCreer(n);
     if(!map) return false;
@@ -348,13 +352,12 @@ bool resoudre(uint8_t *entree, size_t n)
             resultat = false;
         }
         else{
-            heuristiqueUniqueCandidat(n, bbL, bbC, bbB, grille, map);
+        	Liste *liste = liste64Generer(n,grille, bbL, bbC, bbB, map);
 
-            Liste *liste = listeRechercherCandidat(n, bbL, bbC, bbB, grille, map);
+            if(!resoudreRecursivement(grille, liste, bbL, bbC, bbB, map)){
 
-            if(!resoudreRecursivement(grille, liste, bbL, bbC, bbB, map))
                 resultat = false;
-            else
+            }else{
                 for (size_t i = 0; i < taille; i++)
                 {
                     size_t tmpI = i*taille;
@@ -363,14 +366,14 @@ bool resoudre(uint8_t *entree, size_t n)
                         entree[tmpI+j] = grille[i][j];
                     }
                 }
-
+            }
             bitBoardDetruire(bbL);
             bitBoardDetruire(bbC);
             bitBoardDetruire(bbB);
             listeDetruire(liste);
         }
-    }
 
+    }
     detruire2D(grille, taille);
     detruire2D(map, taille);
     return resultat;

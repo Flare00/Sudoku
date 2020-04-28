@@ -25,7 +25,6 @@ size_t heuristiqueMoyenne(uint8_t **grille, size_t n, Liste *liste , uint8_t ** 
         modifier += heuristiqueSingletonCacher(grille, n, liste, map);
         //modifier += heuristiqueCandidatsIdentique(grille, n, bbL, bbC, bbB, liste);
     }
-
     return heuristiqueFacile(grille, n, liste, map);
 }
 
@@ -40,7 +39,6 @@ size_t heuristiqueDifficile(uint8_t **grille, size_t n, Liste *liste, uint8_t **
         modifier = 0;
         modifier += heuristiqueGroupesIsoler(n,liste);
     }
-
     if (heuristiqueFacile(grille, n, liste , map) > 0)
     {
         return heuristiqueMoyenne(grille, n, liste, map);
@@ -65,7 +63,7 @@ uint8_t heuristiqueSingletonVisible(uint8_t **grille, size_t n, Liste *liste, ui
 
             Liste * seconde = liste->suivante;
             //met la valeur du candidats dans la grille correspondante
-            grille[first->i][first->j] = 1+__builtin_ctz(c);
+            grille[first->i][first->j] = 1 + (__builtin_ctzll(c));
             seconde = liste->suivante;
             while(seconde != NULL){
             	//pour toutes les autre elements de la liste, dans la même ligne, colonne ou bloc, retire le candidats
@@ -119,7 +117,7 @@ uint8_t heuristiqueSingletonCacher(uint8_t **grille, size_t n, Liste *liste, uin
 
             Liste * seconde = liste->suivante;
             //ecrit dans la grille a l'endroit de l'element, la valeur du candidat
-            grille[first->i][first->j] = 1+__builtin_ctz(c);
+            grille[first->i][first->j] = 1+(__builtin_ctzll(c));
             seconde = liste->suivante;
             while(seconde != NULL){
             	//pour tout element de la liste non identique
@@ -189,7 +187,7 @@ uint8_t heuristiqueSingleton(uint8_t **grille, size_t n, Liste *liste, uint8_t *
 
             Liste * seconde = liste->suivante;
             //met dans la grille la valeur du candidat
-            grille[first->i][first->j] = 1+__builtin_ctz(c);
+            grille[first->i][first->j] = 1+__builtin_ctzll(c);
             seconde = liste->suivante;
             while(seconde != NULL){
             	//pour tout elements de la liste non identique
@@ -221,7 +219,8 @@ uint8_t heuristiqueSingleton(uint8_t **grille, size_t n, Liste *liste, uint8_t *
 uint8_t heuristiqueJumeauANVisible(size_t n, Liste *liste, uint8_t ** map){
     uint8_t retour = 0;
     size_t taille = n*n;
-    uint64_t mask = (uint64_t)(1 << taille) - 1;
+    uint64_t un = 1;
+    uint64_t mask = (un << taille) - 1;
     Liste * temp;
 
     for(int bloc = 0; bloc < taille; bloc++){
@@ -297,7 +296,7 @@ uint8_t heuristiqueJumeauANVisible(size_t n, Liste *liste, uint8_t ** map){
 uint8_t heuristiqueGroupesIsoler(size_t n, Liste *liste)
 {
 	uint8_t retour = 0;
-
+uint64_t un = 1;
 	size_t taille = n*n;
 	Liste * temp, * temp2;
 
@@ -361,7 +360,7 @@ uint8_t heuristiqueGroupesIsoler(size_t n, Liste *liste)
 									if(groupeLigne[indice][0] == groupe)
 									{
 										//si déjà trouvé, alors rajoute la position de la case sur la ligne.
-										groupeLigne[indice][1] = groupeLigne[indice][1] | ((uint64_t)1 << temp2->j);
+										groupeLigne[indice][1] = groupeLigne[indice][1] | (un << temp2->j);
 										groupeRetrouve = 1;
 									}
 									indice++;
@@ -370,7 +369,7 @@ uint8_t heuristiqueGroupesIsoler(size_t n, Liste *liste)
 								{
 									//si non trouvé alors creer l'element au premier indice vide et rajoute la position de l'element primaire et secondaire
 									groupeLigne[indice][0] = groupe;
-									groupeLigne[indice][1] = ((uint64_t)1 << temp->j) | ((uint64_t)1 << temp2->j);
+									groupeLigne[indice][1] = (un << temp->j) | (un << temp2->j);
 								}
 							}
 						}
@@ -388,7 +387,7 @@ uint8_t heuristiqueGroupesIsoler(size_t n, Liste *liste)
 									if(groupeColonne[indice][0] == groupe)
 									{
 										//si déjà trouvé, alors rajoute la position de la case sur la colonne.
-										groupeColonne[indice][1] = groupeColonne[indice][1] | ((uint64_t)1 << temp2->i);
+										groupeColonne[indice][1] = groupeColonne[indice][1] | (un << temp2->i);
 										groupeRetrouve = 1;
 									}
 									indice++;
@@ -397,7 +396,7 @@ uint8_t heuristiqueGroupesIsoler(size_t n, Liste *liste)
 								{
 									//si non trouvé alors creer l'element au premier indice vide et rajoute la position de l'element primaire et secondaire
 									groupeColonne[indice][0] = groupe;
-									groupeColonne[indice][1] = ((uint64_t)1 << temp->i) | ((uint64_t)1 << temp2->i);
+									groupeColonne[indice][1] = (un << temp->i) | (un << temp2->i);
 								}
 							}
 						}
@@ -447,7 +446,7 @@ uint8_t heuristiqueGroupesIsoler(size_t n, Liste *liste)
 				if(finiL == 1 && groupeLigneSauv != NULL )
 				{
 					//si il s'agit de la ligne alors 
-					if(temp->i == i && ((1 << temp->j) & groupeLigneSauv[1]) == 0)
+					if(temp->i == i && ((un << temp->j) & groupeLigneSauv[1]) == 0)
 					{
 						//si l'element est dans la ligne et qu'il ne s'agit pas d'une des cases du groupe alors
 						if((temp->candidats & ~groupeLigneSauv[0]) != temp->candidats)
@@ -462,7 +461,7 @@ uint8_t heuristiqueGroupesIsoler(size_t n, Liste *liste)
 				if(finiC == 1 && groupeColonneSauv != NULL )
 				{
 					//si il s'agit de la colonne alors 
-					if(temp->j == i && ((1 << temp->i) & groupeColonneSauv[1]) == 0)
+					if(temp->j == i && ((un << temp->i) & groupeColonneSauv[1]) == 0)
 					{
 						//si l'element est dans la ligne et qu'il ne s'agit pas d'une des cases du groupe alors
 						if((temp->candidats & ~groupeColonneSauv[0]) != temp->candidats)

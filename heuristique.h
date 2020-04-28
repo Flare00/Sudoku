@@ -12,7 +12,6 @@
  * @return nombre de cases restantes à remplir.
  */
 size_t heuristiqueFacile(uint8_t **grille, size_t n, Liste *liste, uint8_t ** map);
-
 /**
  * @brief execute toutes les heuristique de niveau Moyen, plus les heuristique de niveau Facile.
  * @param uint8_t** grille : pointeur sur la grille

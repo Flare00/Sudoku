@@ -76,85 +76,82 @@ uint8_t **genererGrilleSudokuValide(size_t taille, size_t niveauDemander)
             casesRestantesMin = 380;
         }
     } else if (taille == 36){
-        if (niveauDemander == 3){
-            //niveau difficile;
-            casesRestantesMax = 680;
-            casesRestantesMin = 660;
-        } else if (niveauDemander == 4){
+        if (niveauDemander == 4){
             //niveau extreme;
             casesRestantesMax = 660;
             //casesRestantesMin = 400;
-            casesRestantesMin = 640;
+            casesRestantesMin = 660;
         } else {
             niveauDemander = 3;
-            casesRestantesMax = 680;
-            casesRestantesMin = 660;
+            casesRestantesMax = 880;
+            casesRestantesMin = 880;
         }
     } else if (taille == 49){
-        if ( niveauDemander == 4){
-            casesRestantesMax = 1300;
-            casesRestantesMin = 1250;
-        } else {
-            niveauDemander = 3;
-            casesRestantesMax = 1350;
-            casesRestantesMin = 1300;
-        }
+            casesRestantesMax = 1750;
+            casesRestantesMin = 1750;
     } else if (taille == 64){
-        if (niveauDemander == 4){
-            casesRestantesMax = 2200;
-            casesRestantesMin = 2100;
-        } else {
-            niveauDemander = 3;
-            casesRestantesMax = 2250;
-            casesRestantesMin = 2200;
-        }
+            casesRestantesMax = 3100;
+            casesRestantesMin = 3100;
     }
     uint8_t **grilleTemp = NULL;
+    size_t retraitTot = 0;
     do
     {
         grilleTemp = grilleCloner(grille,taille); // faire une de la grille copie;
         int retrait = retirerCaseSymetrie(grilleTemp, taille);
         casesRestantes -= retrait;
 
-        if(taille == 64 || taille == 49){
-        	while(casesRestantes > casesRestantesMax + 4){
+        if(taille == 64 || taille == 49 || taille == 36){
+        	while(casesRestantes > casesRestantesMax){
         		retrait = retirerCaseSymetrie(grilleTemp, taille);
         		casesRestantes -= retrait;
+                retraitTot+= retrait;
         	}
         } 
 
         difficulte = validiterEtDifficulter(grilleCloner(grilleTemp,taille), taille, niveauDemander);
-        if(difficulte < 5 && difficulte > difficulteMaxAtteint){
-            difficulteMaxAtteint = difficulte;
-        }
-        //La difficulté 5 permet a l'algorithme de renvoyer la derniere grille, car la nouvelle ne correspond plus au niveau souhaiter.
-        //La difficulté 0 (erreur) ne remplace pas grille par grille_temp et permet donc de changer la case retirer aléatoirement.
-        if (difficulte != 5 && difficulte != 0)
-        {
-            // libere la mémoire de la grille, et la remplace par la grille temporaire.
+        if(difficulte == 6){
             detruire2D(grille, taille);
             grille = grilleTemp;
-            compteurEchec = 0;
-        } else if(difficulte == 0){
-            detruire2D(grilleTemp, taille);
-            casesRestantes += retrait;
-            if(casesRestantes <= casesRestantesMax && (difficulteMaxAtteint == niveauDemander || niveauDemander == 4)){
+            difficulte = 5;
+        }else{
+            if(difficulte < 5 && difficulte > difficulteMaxAtteint){
+                difficulteMaxAtteint = difficulte;
+            }
+            //La difficulté 5 permet a l'algorithme de renvoyer la derniere grille, car la nouvelle ne correspond plus au niveau souhaiter.
+            //La difficulté 0 (erreur) ne remplace pas grille par grille_temp et permet donc de changer la case retirer aléatoirement.
+            if (difficulte != 5 && difficulte != 0)
+            {
+                // libere la mémoire de la grille, et la remplace par la grille temporaire.
+                detruire2D(grille, taille);
+                grille = grilleTemp;
+                compteurEchec = 0;
+            } else if(difficulte == 0){
+                detruire2D(grilleTemp, taille);
+                if(taille == 64 || taille == 49 || taille == 36){
+                    casesRestantes += retraitTot;
+                    retraitTot = 0;
+                } else {
+                    casesRestantes += retrait;
+                }
+                if(casesRestantes <= casesRestantesMax && (difficulteMaxAtteint == niveauDemander || niveauDemander == 4)){
+                    difficulte = 5;
+                }
+            } else {
+            	if(casesRestantes > casesRestantesMax){
+            		difficulte = 0;
+            	}
+                detruire2D(grilleTemp, taille);
+                compteurEchec++;
+            }
+            if(compteurEchec >= 64){
+                difficulte == 5;
+            }
+            //si le nombre de cases restante est inferieur au nombre de casesRestantesMin, termine la boucle.
+            if (casesRestantes <= casesRestantesMin)
+            {
                 difficulte = 5;
             }
-        } else {
-        	if(casesRestantes > casesRestantesMax){
-        		difficulte = 0;
-        	}
-            detruire2D(grilleTemp, taille);
-            compteurEchec++;
-        }
-        if(compteurEchec >= 64){
-            difficulte == 5;
-        }
-        //si le nombre de cases restante est inferieur au nombre de casesRestantesMin, termine la boucle.
-        if (casesRestantes <= casesRestantesMin)
-        {
-            difficulte = 5;
         }
     } while (difficulte != 5);
     return grille;

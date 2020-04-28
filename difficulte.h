@@ -67,6 +67,17 @@ Liste* listeGenerer(size_t n, uint8_t** grille,uint8_t ** map);
  * @return Liste32* : liste generer.
  */
 Liste32* liste32Generer(size_t n, uint8_t** grille,uint32_t *bbL, uint32_t *bbC, uint32_t *bbB,uint8_t ** map);
+/**
+ * @brief fonction qui genere une liste 64 bits.
+ * @param size_t n : taille d'un bloc.
+ * @param uint8_t** grille : grille du sudoku.
+ * @param uint32_t *bbL : bitboard des lignes.
+ * @param uint32_t *bbC : bitboard des colonnes.
+ * @param uint32_t *bbB : bitboard des bloc.
+ * @param uint8_t ** map : map des bloc du sudoku.
+ * @return Liste32* : liste generer.
+ */
+Liste * liste64Generer(size_t n,uint8_t **grille, uint64_t* bbL, uint64_t* bbC, uint64_t* bbB,uint8_t ** map);
 
 
 #endif

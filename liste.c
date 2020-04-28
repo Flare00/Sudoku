@@ -2,6 +2,7 @@
 
 Liste *listeInsertionOrdonnee(Liste *dl, uint64_t candidats, size_t i, size_t j)// on passe la liste par référence
 {
+    uint64_t un = 1;
     Liste *elem = malloc(sizeof(Liste));
     if(!elem)
     {
@@ -14,14 +15,14 @@ Liste *listeInsertionOrdonnee(Liste *dl, uint64_t candidats, size_t i, size_t j)
     elem->c = malloc(elem->population*sizeof(size_t));
 
     uint64_t candidat=elem->candidats;
-    size_t indice=0;
+    uint64_t indice=0;
 
     size_t p = 0;
     while(candidat)
     {
-        indice = __builtin_ctz(candidat);
+        indice = __builtin_ctzll(candidat);
         elem->c[p]= indice;
-        candidat ^= (uint64_t)(1<<indice);
+        candidat ^= (un<<indice);
         p++;
     }
 
@@ -43,6 +44,7 @@ Liste *listeInsertionOrdonnee(Liste *dl, uint64_t candidats, size_t i, size_t j)
 
     if(cdl->population < elem->population)
     {
+
         Liste *cdlNext = cdl->suivante;
         cdl->suivante = elem;
         elem->precedente = cdl;
@@ -54,6 +56,7 @@ Liste *listeInsertionOrdonnee(Liste *dl, uint64_t candidats, size_t i, size_t j)
     }
     else
     {
+
         Liste *cslBack = cdl->precedente;
         cdl->precedente = elem;
         elem->suivante = cdl;
@@ -64,6 +67,7 @@ Liste *listeInsertionOrdonnee(Liste *dl, uint64_t candidats, size_t i, size_t j)
         }
         else return elem;
     }
+
     return dl;
 }
 
@@ -272,12 +276,15 @@ Liste* listeCreerUniqueCandidat(size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t
 {
     size_t taille = n*n;
     Liste *liste = NULL;
-    uint64_t mask = (uint64_t)(1<<taille)-1, cdt;
+    uint64_t un = 1;
+    uint64_t mask = (un<<taille) - 1;
+    uint64_t cdt;
+
     for(size_t i = 0; i < taille; i++)
     {
         for(size_t j = 0; j < taille; j++)
         {
-            if(!grille[i][j] && __builtin_popcountll((cdt=mask&(~(bbL[i] | bbC[j] | bbB[map[i][j]])))) == 1)
+            if(!grille[i][j] && __builtin_popcountll((cdt=(~(bbL[i] | bbC[j] | bbB[map[i][j]])))) == 1)
             {
                 liste = listeAjouterEnTete(liste, cdt, i, j);
             }
@@ -306,9 +313,12 @@ Liste32* listeCreerUniqueCandidat32(size_t n, uint32_t *bbL, uint32_t *bbC, uint
 
 Liste* listeRechercherCandidat(size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB, uint8_t** grille, uint8_t** map)
 {
+
     size_t taille = n*n;
     Liste *liste = NULL;
-    uint64_t mask = (uint64_t)(1<<taille)-1, cdt = 0;
+    uint64_t un = 1;
+    uint64_t mask = (un << taille) - 1;
+    uint64_t cdt = 0;
     for(size_t i = 0; i < taille; i++)
     {
         for(size_t j = 0; j < taille; j++)
@@ -319,6 +329,7 @@ Liste* listeRechercherCandidat(size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t 
             {
                 if((cdt=mask&(~(bbL[i] | bbC[j] | bbB[map[i][j]])))){
                     liste = listeInsertionOrdonnee(liste, cdt, i, j);
+
                 }
             }
         }

@@ -2,7 +2,7 @@
 #define RESOLUTION_H
 
 #include "bitBoard.h"
-
+#include "difficulte.h"
 /** @brief Placer chaque candidats de la liste dans la grille
   * @param size_t n : le nombre de cases par ligne ou colonne de block
   * @param uint64_t* bbL : tableau de bits ligne

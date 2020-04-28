@@ -26,6 +26,7 @@ void bitBoardDetruire32(uint32_t *bb)
 
 bool bitBoardInitialiser(uint8_t **grille, size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t *bbB)
 {
+    uint64_t un = 1;
     size_t a=0, taille = n*n;
     for(size_t i = 0; i < taille; i++)
     {
@@ -38,25 +39,25 @@ bool bitBoardInitialiser(uint8_t **grille, size_t n, uint64_t *bbL, uint64_t *bb
             if(grille[i][j]){
                 /* On ajoute toutes les valeurs de la grille à la ligne i != 0 dans le
                 bitBoard ligne (bbL) */
-                if((bbL[i]>>(grille[i][j]-1))&1){ //si l'élément existe déjà (pour éviter les répétitions)
+                if((bbL[i]>>(grille[i][j]-un))&un){ //si l'élément existe déjà (pour éviter les répétitions)
                     bitBoardDetruire(bbL);
                     bitBoardDetruire(bbC);
                     bitBoardDetruire(bbB);
                     return false;
                 }
-                bbL[i] |= (uint64_t)1<<(grille[i][j]-1);
+                bbL[i] |= un<<(grille[i][j]-1);
               }
 
             if(grille[j][i]){
                 /* On ajoute toutes les valeurs de la grille à la colonne j != 0 dans le
                 bitBoard colonne (bbC) */
-                if((bbC[i]>>(grille[j][i]-1))&1){
+                if((bbC[i]>>(grille[j][i]-un))&un){
                     bitBoardDetruire(bbL);
                     bitBoardDetruire(bbC);
                     bitBoardDetruire(bbB);
                     return false;
                 }
-                bbC[i] |= (uint64_t)1<<(grille[j][i]-1);
+                bbC[i] |= un<<(grille[j][i]-1);
               }
 
 
@@ -70,14 +71,14 @@ bool bitBoardInitialiser(uint8_t **grille, size_t n, uint64_t *bbL, uint64_t *bb
                         if(grille[k][l]){
                             /* On ajoute toutes les valeurs de la grille du block encadré
                             dans le bitBoard block (bbB) */
-                            if((bbB[a]>>(grille[k][l]-1))&1){
+                            if((bbB[a]>>(grille[k][l]-un))&un){
 
                                 bitBoardDetruire(bbL);
                                 bitBoardDetruire(bbC);
                                 bitBoardDetruire(bbB);
                                 return false;
                             }
-                            bbB[a] |= (uint64_t)1<<(grille[k][l]-1);
+                            bbB[a] |= un<<(grille[k][l]-1);
                           }
                     }
                 }
