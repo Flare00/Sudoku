@@ -76,16 +76,8 @@ uint8_t **genererGrilleSudokuValide(size_t taille, size_t niveauDemander)
             casesRestantesMin = 380;
         }
     } else if (taille == 36){
-        if (niveauDemander == 4){
-            //niveau extreme;
-            casesRestantesMax = 660;
-            //casesRestantesMin = 400;
-            casesRestantesMin = 660;
-        } else {
-            niveauDemander = 3;
             casesRestantesMax = 880;
             casesRestantesMin = 880;
-        }
     } else if (taille == 49){
             casesRestantesMax = 1750;
             casesRestantesMin = 1750;
