@@ -1,34 +1,40 @@
 #include "difficulte.h"
+#include "generation.h"
 int validiterEtDifficulter(uint8_t **grille, size_t taille, int level)
 {
     int retour = 0;
 
-    //si la taille est <= 16 alors 
-    if(taille <= 25){
+    //si la taille est <= 25 alors 
+    if(taille <= 25 || (taille <=25 && level < 4)){
         int n = sqrt(taille);
         uint8_t **map = mapCreer(n);
         if (!map){
             return 0;
         }
+
         uint32_t *bbL = bitboard32Creer(taille);
         uint32_t *bbC = bitboard32Creer(taille);
         uint32_t *bbB = bitboard32Creer(taille);
         //initialise les bitboard
         bitBoardInitialiser32(grille, n, bbL, bbC, bbB);
         //initialise la liste
+
         Liste32 *liste = liste32Generer(n,grille, bbL, bbC, bbB, map);
+
         //si le nombre de resolution est de 1 alors
-        if (resolu_32(grille, liste, bbL, bbC, bbB,map, 0, liste->i, liste->j) == 1)
+        if (resolu_32(grilleCloner(grille,taille), liste, bbL, bbC, bbB,map, 0, liste->i, liste->j) == 1)
         {
             //determine la difficulté.
             retour = difficulter(grille, taille, level);
         }
+
         //detruit les elements alloué
         listeDetruire32(liste);
         bitBoardDetruire32(bbL);
         bitBoardDetruire32(bbC);
         bitBoardDetruire32(bbB);
         detruire2D(map, taille);
+
     } else {
 		int n = sqrt(taille);
         uint8_t **map = mapCreer(n);
@@ -67,7 +73,9 @@ int difficulter(uint8_t **grille, size_t taille, int level)
     //genere la liste
     Liste *liste = listeGenerer(n, grille, map);
     //execute les heurisitque facile
-
+    if(liste == NULL){
+    	retour = 5;
+    } else 
     if (heuristiqueFacile(grille, n, liste, map) == 0)
     {
         //si le niveau eneleve toutes les case retourne le niveau
@@ -75,6 +83,7 @@ int difficulter(uint8_t **grille, size_t taille, int level)
     }
     else
     {
+
         if (level == 1)
         {
             //sinon si le level choisi est celui la retourne que le niveau est dépassé
@@ -120,15 +129,12 @@ int difficulter(uint8_t **grille, size_t taille, int level)
             }
         }
     }
-
     while(liste != NULL){
         Liste * temp = liste;
         liste = liste->suivante;
         free(temp);
     }
-
     detruire2D(map,taille);
-
     return retour;
 }
 
@@ -137,7 +143,6 @@ Liste* listeGenerer(size_t n,uint8_t **grille,uint8_t ** map)
     size_t taille = n * n;
 
     Liste * retour = NULL;
-
     uint64_t *bbL = bitboard64Creer(taille);
     uint64_t *bbC = bitboard64Creer(taille);
     uint64_t *bbB = bitboard64Creer(taille);
@@ -192,7 +197,8 @@ Liste32 * liste32Generer(size_t n,uint8_t **grille, uint32_t* bbL, uint32_t* bbC
     Liste32 *retour = NULL;
     Liste32 *prec = NULL;
     Liste32 *liste = NULL;
-    uint32_t mask = (uint32_t)(1<<taille) - 1;
+    uint32_t un = 1;
+    uint32_t mask = (un<<taille) - un;
     for (size_t i = 0; i < taille; i++)
     {
         for (size_t j = 0; j < taille; j++)
@@ -218,7 +224,7 @@ Liste32 * liste32Generer(size_t n,uint8_t **grille, uint32_t* bbL, uint32_t* bbC
                 {
                     indice = __builtin_ctz(candidat); //Cette méthode intégrée de GCC détermine le nombre de zéros de fin dans la représentation binaire d'un nombre.
                     liste->c[p]= indice;
-                    candidat ^= (uint32_t)(1<<indice);
+                    candidat ^=(un<<indice);
                     p++;
                 }       
                 //attribut precedente et suivante.

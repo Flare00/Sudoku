@@ -284,7 +284,7 @@ Liste* listeCreerUniqueCandidat(size_t n, uint64_t *bbL, uint64_t *bbC, uint64_t
     {
         for(size_t j = 0; j < taille; j++)
         {
-            if(!grille[i][j] && __builtin_popcountll((cdt=(~(bbL[i] | bbC[j] | bbB[map[i][j]])))) == 1)
+            if(!grille[i][j] && __builtin_popcountll((cdt=mask&(~(bbL[i] | bbC[j] | bbB[map[i][j]])))) == 1)
             {
                 liste = listeAjouterEnTete(liste, cdt, i, j);
             }
@@ -297,7 +297,8 @@ Liste32* listeCreerUniqueCandidat32(size_t n, uint32_t *bbL, uint32_t *bbC, uint
 {
     size_t taille = n*n;
     Liste32 *liste = NULL;
-    uint32_t mask = (uint32_t)(1<<taille)-1, cdt;
+    uint32_t un = 1;
+    uint32_t mask = (un<<taille)-un, cdt;
     for(size_t i = 0; i < taille; i++)
     {
         for(size_t j = 0; j < taille; j++)
@@ -341,7 +342,8 @@ Liste32* listeRechercherCandidat32(size_t n, uint32_t *bbL, uint32_t *bbC, uint3
 {
     size_t taille = n*n;
     Liste32 *liste = NULL;
-    uint32_t mask = (uint32_t)(1<<taille)-1, cdt = 0;
+    uint32_t un = 1;
+    uint32_t mask = (un<<taille)-un, cdt = 0;
     for(size_t i = 0; i < taille; i++)
     {
         for(size_t j = 0; j < taille; j++)
