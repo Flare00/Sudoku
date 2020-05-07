@@ -137,7 +137,7 @@ uint8_t **genererGrilleSudokuValide(size_t taille, size_t niveauDemander)
                 compteurEchec++;
             }
             if(compteurEchec >= 64){
-                difficulte == 5;
+                difficulte = 5;
             }
             //si le nombre de cases restante est inferieur au nombre de casesRestantesMin, termine la boucle.
             if (casesRestantes <= casesRestantesMin)

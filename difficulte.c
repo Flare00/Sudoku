@@ -24,10 +24,10 @@ int validiterEtDifficulter(uint8_t **grille, size_t taille, int level)
             retour = difficulter(grille, taille, level);
         }
         //detruit les elements alloué
-        listeDetruire(liste);
-        bitBoardDetruire(bbL);
-        bitBoardDetruire(bbC);
-        bitBoardDetruire(bbB);
+        listeDetruire32(liste);
+        bitBoardDetruire32(bbL);
+        bitBoardDetruire32(bbC);
+        bitBoardDetruire32(bbB);
         detruire2D(map, taille);
     } else {
 		int n = sqrt(taille);
@@ -161,7 +161,6 @@ Liste* listeGenerer(size_t n,uint8_t **grille,uint8_t ** map)
 
         for (size_t i = 0; i < taille; i++)
         {
-            size_t tmp = (i / n) * n;
             for (size_t j = 0; j < taille; j++)
             {
                 if (grille[i][j] == 0)
@@ -196,7 +195,6 @@ Liste32 * liste32Generer(size_t n,uint8_t **grille, uint32_t* bbL, uint32_t* bbC
     uint32_t mask = (uint32_t)(1<<taille) - 1;
     for (size_t i = 0; i < taille; i++)
     {
-        size_t tmp = (i / n) * n;
         for (size_t j = 0; j < taille; j++)
         {
             if (grille[i][j] == 0)
@@ -255,7 +253,6 @@ Liste * liste64Generer(size_t n,uint8_t **grille, uint64_t* bbL, uint64_t* bbC, 
     }
     for (size_t i = 0; i < taille; i++)
     {
-        size_t tmp = (i / n) * n;
         for (size_t j = 0; j < taille; j++)
         {
             if (grille[i][j] == 0)
