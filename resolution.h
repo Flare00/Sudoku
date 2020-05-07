@@ -91,7 +91,7 @@ int resolu_64(uint8_t** grille, Liste *dl, uint64_t *bbL, uint64_t *bbC, uint64_
   * @param int count : compteur du nombre de solutions
   * @return int: nombre de solution 0, 1 ou 2
   */
-int resolu_32(uint8_t** grille, Liste *dl, uint32_t *bbL, uint32_t *bbC, uint32_t *bbB,uint8_t **map, int count, int pi, int pj);
+int resolu_32(uint8_t** grille, Liste32 *dl, uint32_t *bbL, uint32_t *bbC, uint32_t *bbB,uint8_t **map, int count, int pi, int pj);
 
 /** @brief Fonction liée à l'interface graphique qui permet de résoudre la grille sur 32/64 bits selon de sa dimension (n*n)
   * @param uint8_t* entree : les informations de la grille ligne par ligne
